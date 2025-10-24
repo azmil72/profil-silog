@@ -1,0 +1,1909 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaringan - SILOG - Semen Indonesia Logistik</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root {
+            --bright-white: #FFFFFF;
+            --total-black: #000000;
+            --light-grey: #DFDEDE;
+            --dark-grey: #5E5E5F;
+            --red-primary: #F5333F;
+            --gradient-primary: linear-gradient(135deg, #F5333F 0%, #FF6B6B 100%);
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--bright-white);
+            color: var(--total-black);
+            overflow-x: hidden;
+        }
+
+        /* Custom Fonts */
+        .primary-font {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .secondary-font {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--total-black);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--red-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bright-white);
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--total-black);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            margin: 0.25rem;
+        }
+
+        .dropdown a:hover {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--total-black);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 60vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+            padding: 120px 0 4rem;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+
+        .breadcrumb a {
+            color: var(--dark-grey);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--red-primary);
+        }
+
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: var(--total-black);
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--dark-grey);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--bright-white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .stat-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--bright-white);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--red-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--dark-grey);
+            font-weight: 600;
+        }
+
+        /* Network Section */
+        .network-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--red-primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--dark-grey);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Network Tabs */
+        .network-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            gap: 1rem;
+        }
+
+        .network-tab {
+            background: var(--bright-white);
+            border: 2px solid var(--light-grey);
+            padding: 0.8rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--dark-grey);
+            font-size: 1rem;
+        }
+
+        .network-tab.active {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            border-color: var(--red-primary);
+        }
+
+        .network-tab:hover:not(.active) {
+            border-color: var(--red-primary);
+            color: var(--red-primary);
+        }
+
+        .network-content {
+            display: none;
+        }
+
+        .network-content.active {
+            display: block;
+        }
+
+        /* Portfolio Section */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .portfolio-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .portfolio-image {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .portfolio-card:hover .portfolio-image img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(245, 51, 63, 0.9);
+            color: var(--bright-white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .portfolio-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--bright-white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .portfolio-content {
+            padding: 2rem;
+        }
+
+        .portfolio-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+
+        .portfolio-card:hover .portfolio-title {
+            color: var(--red-primary);
+        }
+
+        .portfolio-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .portfolio-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+
+        .portfolio-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .portfolio-year {
+            font-weight: 600;
+            color: var(--red-primary);
+        }
+
+        .view-details {
+            display: inline-flex;
+            align-items: center;
+            color: var(--red-primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .view-details:hover {
+            gap: 8px;
+        }
+
+        .view-details::after {
+            content: '→';
+            margin-left: 5px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Warehouse Section */
+        .warehouse-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .map-container {
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-heavy);
+            position: relative;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .warehouse-list {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .warehouse-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .warehouse-list::-webkit-scrollbar-track {
+            background: var(--light-grey);
+            border-radius: 10px;
+        }
+
+        .warehouse-list::-webkit-scrollbar-thumb {
+            background: var(--red-primary);
+            border-radius: 10px;
+        }
+
+        .warehouse-item {
+            background: var(--bright-white);
+            border: 1px solid var(--light-grey);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .warehouse-item:hover {
+            border-color: var(--red-primary);
+            box-shadow: var(--shadow-light);
+            transform: translateX(5px);
+        }
+
+        .warehouse-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .warehouse-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--total-black);
+        }
+
+        .warehouse-code {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .warehouse-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--dark-grey);
+        }
+
+        .warehouse-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .warehouse-info i {
+            color: var(--red-primary);
+            width: 20px;
+        }
+
+        .warehouse-capacity {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-grey);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .capacity-label {
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+
+        .capacity-value {
+            font-weight: 700;
+            color: var(--red-primary);
+        }
+
+        /* Sub Navigation Cards Section */
+        .subnav-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .content-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(245, 51, 63, 0.1);
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--red-primary), #d42834);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .content-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .content-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(245, 51, 63, 0.15);
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.03), rgba(255, 255, 255, 0.9));
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--red-primary), #d42834);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(245, 51, 63, 0.3);
+        }
+
+        .card-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: iconShine 3s ease-in-out infinite;
+        }
+
+        @keyframes iconShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+        }
+
+        .card-icon i {
+            font-size: 2rem;
+            color: var(--bright-white);
+            z-index: 2;
+            position: relative;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover .card-title {
+            color: var(--red-primary);
+        }
+
+        .card-description {
+            color: var(--dark-grey);
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--red-primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .card-link:hover {
+            gap: 8px;
+            color: var(--red-primary);
+        }
+
+        .card-link::after {
+            content: '→';
+            margin-left: 5px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: var(--gradient-primary);
+            margin-top: 4rem;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--bright-white);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--bright-white);
+            color: var(--red-primary);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--bright-white);
+            border: 2px solid var(--bright-white);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--bright-white);
+            color: var(--red-primary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--total-black);
+            color: var(--bright-white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
+
+        .footer-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .footer-description {
+            color: var(--light-grey);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--dark-grey);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bright-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--red-primary);
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.4);
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--bright-white);
+            position: relative;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--red-primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-grey);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--red-primary);
+            padding-left: 10px;
+        }
+
+        .footer-links a::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--light-grey);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info li:hover {
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        .contact-info i {
+            color: var(--red-primary);
+            font-size: 1.1rem;
+            width: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info li:hover i {
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--dark-grey);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: var(--light-grey);
+            font-size: 0.9rem;
+        }
+
+        .footer-links-bottom {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links-bottom a {
+            color: var(--light-grey);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links-bottom a:hover {
+            color: var(--red-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .warehouse-content {
+                grid-template-columns: 1fr;
+            }
+
+            .map-container {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .network-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bright-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--light-grey);
+            border-top: 3px solid var(--red-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation */
+        .stagger-1 {
+            transition-delay: 0.1s;
+        }
+
+        .stagger-2 {
+            transition-delay: 0.2s;
+        }
+
+        .stagger-3 {
+            transition-delay: 0.3s;
+        }
+
+        .stagger-4 {
+            transition-delay: 0.4s;
+        }
+
+        /* Interactive cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1999;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            mix-blend-mode: multiply;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div style="text-align: center;">
+            <img src="logo.png" alt="SILOG" style="height: 80px; margin-bottom: 2rem; animation: pulse 2s infinite;">
+            <div class="loader"></div>
+            <p style="margin-top: 1rem; color: var(--dark-grey); font-size: 0.9rem;">Memuat pengalaman SILOG...</p>
+        </div>
+    </div>
+
+    <!-- Interactive Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html"><img src="logo.png" alt="SILOG Logo" class="logo"></a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Tentang <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="history.html">History</a>
+                        <a href="profil.html">Profil</a>
+                        <a href="visi-misi.html">Visi & Misi</a>
+                        <a href="kebijakan-perusahaan.html">Kebijakan Perusahaan</a>
+                        <a href="tata-kelola-perusahaan.html">Tata Kelola Perusahaan</a>
+                        <a href="sumber-daya-manusia.html">Sumber Daya Manusia</a>
+                        <a href="direksi-komisaris.html">Direksi & Komisaris</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Bisnis <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#">Logistik</a>
+                        <a href="#">Konstruksi</a>
+                        <a href="#">Distribusi</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="info.html" class="nav-link">Info<i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#berita">Berita</a>
+                        <a href="#galeri">Galeri</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="jaringan.html" class="nav-link">Jaringan <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#portofolio">Portofolio</a>
+                        <a href="#gudang">Gudang</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Grub</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Karir</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Kontak</a>
+                </li>
+            </ul>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Beranda</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Jaringan</span>
+                </div>
+                <h1 class="hero-title primary-font">Jaringan SILOG</h1>
+                <p class="hero-subtitle secondary-font">Jangkauan luas dengan infrastruktur modern di seluruh Indonesia</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">
+                        <i class="fas fa-warehouse"></i>
+                    </div>
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Gudang Modern</div>
+                </div>
+                <div class="stat-card fade-in stagger-1">
+                    <div class="stat-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="stat-number">2,500+</div>
+                    <div class="stat-label">Armada Kendaraan</div>
+                </div>
+                <div class="stat-card fade-in stagger-2">
+                    <div class="stat-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="stat-number">34</div>
+                    <div class="stat-label">Provinsi</div>
+                </div>
+                <div class="stat-card fade-in stagger-3">
+                    <div class="stat-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Proyek Selesai</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Network Section -->
+    <section class="network-section" id="network">
+        <div class="container">
+            <h2 class="section-title fade-in">Jelajahi Jaringan Kami</h2>
+            <p class="section-subtitle fade-in">Portofolio proyek dan lokasi gudang SILOG di seluruh Indonesia</p>
+            
+            <div class="network-tabs">
+                <div class="network-tab active" onclick="switchTab('portofolio')">Portofolio</div>
+                <div class="network-tab" onclick="switchTab('gudang')">Gudang</div>
+            </div>
+            
+            <!-- Portofolio Content -->
+            <div id="portofolio" class="network-content active">
+                <div class="portfolio-grid">
+                    <div class="portfolio-card fade-in stagger-1">
+                        <div class="portfolio-image">
+                            <img src="https://images.unsplash.com/photo-1503376780353-7b66b6a1c8c2?w=600&h=400&fit=crop" alt="Proyek 1">
+                            <div class="portfolio-status">Selesai</div>
+                            <div class="portfolio-category">Konstruksi</div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title">Pembangunan Gudang Otomatis Cikarang</h3>
+                            <p class="portfolio-description">Pembangunan gudang otomatis seluas 50,000 m² dengan sistem robotik terintegrasi untuk meningkatkan efisiensi operasional.</p>
+                            <div class="portfolio-details">
+                                <div class="portfolio-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Cikarang, Jawa Barat
+                                </div>
+                                <div class="portfolio-year">2024</div>
+                            </div>
+                            <a href="#" class="view-details">Lihat Detail</a>
+                        </div>
+                    </div>
+                    
+                    <div class="portfolio-card fade-in stagger-2">
+                        <div class="portfolio-image">
+                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop" alt="Proyek 2">
+                            <div class="portfolio-status">Berlangsung</div>
+                            <div class="portfolio-category">Logistik</div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title">Modernisasi Pelabuhan Tanjung Priok</h3>
+                            <p class="portfolio-description">Proyek modernisasi fasilitas pelabuhan dengan implementasi sistem logistik pintar untuk meningkatkan kapasitas bongkar muat.</p>
+                            <div class="portfolio-details">
+                                <div class="portfolio-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Jakarta Utara
+                                </div>
+                                <div class="portfolio-year">2023-2025</div>
+                            </div>
+                            <a href="#" class="view-details">Lihat Detail</a>
+                        </div>
+                    </div>
+                    
+                    <div class="portfolio-card fade-in stagger-3">
+                        <div class="portfolio-image">
+                            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop" alt="Proyek 3">
+                            <div class="portfolio-status">Selesai</div>
+                            <div class="portfolio-category">Distribusi</div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title">Jaringan Distribusi Eastern Indonesia</h3>
+                            <p class="portfolio-description">Pengembangan jaringan distribusi di kawasan Indonesia Timur dengan 5 pusat distribusi modern dan 20 titik layanan.</p>
+                            <div class="portfolio-details">
+                                <div class="portfolio-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Makassar, Sulawesi Selatan
+                                </div>
+                                <div class="portfolio-year">2023</div>
+                            </div>
+                            <a href="#" class="view-details">Lihat Detail</a>
+                        </div>
+                    </div>
+                    
+                    <div class="portfolio-card fade-in stagger-4">
+                        <div class="portfolio-image">
+                            <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&h=400&fit=crop" alt="Proyek 4">
+                            <div class="portfolio-status">Perencanaan</div>
+                            <div class="portfolio-category">Teknologi</div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title">SILOG Digital Platform</h3>
+                            <p class="portfolio-description">Pengembangan platform digital terintegrasi untuk menghubungkan seluruh jaringan logistik SILOG di Indonesia.</p>
+                            <div class="portfolio-details">
+                                <div class="portfolio-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Nasional
+                                </div>
+                                <div class="portfolio-year">2024-2026</div>
+                            </div>
+                            <a href="#" class="view-details">Lihat Detail</a>
+                        </div>
+                    </div>
+                    
+                    <div class="portfolio-card fade-in">
+                        <div class="portfolio-image">
+                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&h=400&fit=crop" alt="Proyek 5">
+                            <div class="portfolio-status">Selesai</div>
+                            <div class="portfolio-category">Konstruksi</div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title">Pusat Logistik Terpadu Surabaya</h3>
+                            <p class="portfolio-description">Pembangunan pusat logistik terpadu seluas 75,000 m² dengan fasilitas gudang, kantor, dan area distribusi.</p>
+                            <div class="portfolio-details">
+                                <div class="portfolio-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Surabaya, Jawa Timur
+                                </div>
+                                <div class="portfolio-year">2022</div>
+                            </div>
+                            <a href="#" class="view-details">Lihat Detail</a>
+                        </div>
+                    </div>
+                    
+                    <div class="portfolio-card fade-in">
+                        <div class="portfolio-image">
+                            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop" alt="Proyek 6">
+                            <div class="portfolio-status">Berlangsung</div>
+                            <div class="portfolio-category">Logistik</div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title">Armada Listrik SILOG</h3>
+                            <p class="portfolio-description">Pengembangan armada kendaraan listrik untuk mendukung logistik ramah lingkungan di kota-kota besar Indonesia.</p>
+                            <div class="portfolio-details">
+                                <div class="portfolio-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Jakarta, Surabaya, Medan
+                                </div>
+                                <div class="portfolio-year">2023-2025</div>
+                            </div>
+                            <a href="#" class="view-details">Lihat Detail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gudang Content -->
+            <div id="gudang" class="network-content">
+                <div class="warehouse-content">
+                    <div class="map-container fade-in">
+                        <div id="map"></div>
+                    </div>
+                    <div class="warehouse-list fade-in">
+                        <div class="warehouse-item" onclick="focusMap(-6.2088, 106.8456)">
+                            <div class="warehouse-header">
+                                <h3 class="warehouse-name">Gudang Pusat Jakarta</h3>
+                                <span class="warehouse-code">GUD-JKT-001</span>
+                            </div>
+                            <div class="warehouse-info">
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Jakarta Utara, DKI Jakarta
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-phone"></i>
+                                    (021) 1234-5678
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-envelope"></i>
+                                    jkt@silog.co.id
+                                </div>
+                            </div>
+                            <div class="warehouse-capacity">
+                                <span class="capacity-label">Kapasitas</span>
+                                <span class="capacity-value">100,000 m²</span>
+                            </div>
+                        </div>
+                        
+                        <div class="warehouse-item" onclick="focusMap(-6.9175, 107.6191)">
+                            <div class="warehouse-header">
+                                <h3 class="warehouse-name">Gudang Cikarang</h3>
+                                <span class="warehouse-code">GUD-CKR-002</span>
+                            </div>
+                            <div class="warehouse-info">
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Cikarang, Jawa Barat
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-phone"></i>
+                                    (021) 8765-4321
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-envelope"></i>
+                                    cikarang@silog.co.id
+                                </div>
+                            </div>
+                            <div class="warehouse-capacity">
+                                <span class="capacity-label">Kapasitas</span>
+                                <span class="capacity-value">50,000 m²</span>
+                            </div>
+                        </div>
+                        
+                        <div class="warehouse-item" onclick="focusMap(-7.2575, 112.7521)">
+                            <div class="warehouse-header">
+                                <h3 class="warehouse-name">Gudang Surabaya</h3>
+                                <span class="warehouse-code">GUD-SBY-003</span>
+                            </div>
+                            <div class="warehouse-info">
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Surabaya, Jawa Timur
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-phone"></i>
+                                    (031) 9876-5432
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-envelope"></i>
+                                    surabaya@silog.co.id
+                                </div>
+                            </div>
+                            <div class="warehouse-capacity">
+                                <span class="capacity-label">Kapasitas</span>
+                                <span class="capacity-value">75,000 m²</span>
+                            </div>
+                        </div>
+                        
+                        <div class="warehouse-item" onclick="focusMap(-5.1477, 119.4327)">
+                            <div class="warehouse-header">
+                                <h3 class="warehouse-name">Gudang Makassar</h3>
+                                <span class="warehouse-code">GUD-MKS-004</span>
+                            </div>
+                            <div class="warehouse-info">
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Makassar, Sulawesi Selatan
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-phone"></i>
+                                    (0411) 1234-5678
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-envelope"></i>
+                                    makassar@silog.co.id
+                                </div>
+                            </div>
+                            <div class="warehouse-capacity">
+                                <span class="capacity-label">Kapasitas</span>
+                                <span class="capacity-value">30,000 m²</span>
+                            </div>
+                        </div>
+                        
+                        <div class="warehouse-item" onclick="focusMap(3.5952, 98.6722)">
+                            <div class="warehouse-header">
+                                <h3 class="warehouse-name">Gudang Medan</h3>
+                                <span class="warehouse-code">GUD-MDN-005</span>
+                            </div>
+                            <div class="warehouse-info">
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Medan, Sumatera Utara
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-phone"></i>
+                                    (061) 8765-4321
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-envelope"></i>
+                                    medan@silog.co.id
+                                </div>
+                            </div>
+                            <div class="warehouse-capacity">
+                                <span class="capacity-label">Kapasitas</span>
+                                <span class="capacity-value">25,000 m²</span>
+                            </div>
+                        </div>
+                        
+                        <div class="warehouse-item" onclick="focusMap(-0.7893, 113.9213)">
+                            <div class="warehouse-header">
+                                <h3 class="warehouse-name">Gudang Pontianak</h3>
+                                <span class="warehouse-code">GUD-PTK-006</span>
+                            </div>
+                            <div class="warehouse-info">
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Pontianak, Kalimantan Barat
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-phone"></i>
+                                    (0561) 1234-5678
+                                </div>
+                                <div class="warehouse-info-item">
+                                    <i class="fas fa-envelope"></i>
+                                    pontianak@silog.co.id
+                                </div>
+                            </div>
+                            <div class="warehouse-capacity">
+                                <span class="capacity-label">Kapasitas</span>
+                                <span class="capacity-value">20,000 m²</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sub Navigation Cards Section -->
+    <section class="subnav-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Jelajahi Informasi Perusahaan</h2>
+            <p class="section-subtitle fade-in">Pelajari lebih lanjut tentang berbagai aspek SILOG</p>
+            
+            <div class="cards-grid">
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3 class="card-title">History</h3>
+                    <p class="card-description">Perjalanan panjang SILOG dari masa ke masa dalam menjadi solusi logistik terdepan di Indonesia sejak tahun 1957.</p>
+                    <a href="history.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="card-title">Profil</h3>
+                    <p class="card-description">Mengenal lebih dekat identitas, struktur organisasi, dan bisnis SILOG sebagai bagian dari Semen Indonesia Group.</p>
+                    <a href="profil.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="card-title">Visi & Misi</h3>
+                    <p class="card-description">Visi dan misi yang menjadi arah strategis SILOG dalam memberikan solusi logistik terbaik untuk Indonesia.</p>
+                    <a href="visi-misi.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h3 class="card-title">Kebijakan Perusahaan</h3>
+                    <p class="card-description">Kebijakan-kebijakan perusahaan yang menjadi pedoman dalam operasional bisnis dan pengambilan keputusan.</p>
+                    <a href="kebijakan-perusahaan.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3 class="card-title">Tata Kelola Perusahaan</h3>
+                    <p class="card-description">Implementasi prinsip tata kelola perusahaan yang baik untuk menciptakan transparansi dan akuntabilitas.</p>
+                    <a href="tata-kelola-perusahaan.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="card-title">Sumber Daya Manusia</h3>
+                    <p class="card-description">Program pengembangan sumber daya manusia untuk menciptakan tim yang kompeten dan berintegritas.</p>
+                    <a href="sumber-daya-manusia.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="card-title">Direksi & Komisaris</h3>
+                    <p class="card-description">Tim pemimpin SILOG yang berpengalaman dan berkomitmen untuk mewujudkan visi perusahaan.</p>
+                    <a href="direksi-komisaris.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title primary-font">Bergabung dengan Jaringan Kami</h2>
+            <p class="cta-description secondary-font">Jadilah bagian dari ekosistem logistik terbesar di Indonesia</p>
+            <div class="cta-buttons">
+                <a href="#" class="cta-button">Mulai Kerjasama</a>
+                <a href="#" class="cta-button secondary">Kontak Kami</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="SILOG Logo" class="footer-logo">
+                    <p class="footer-description secondary-font">
+                        Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia. Berpengalaman lebih dari 6 dekade dalam melayani industri nasional.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Bisnis</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Logistik</a></li>
+                        <li><a href="#">Konstruksi</a></li>
+                        <li><a href="#">Distribusi</a></li>
+                        <li><a href="#">Semua Bisnis</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Informasi</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Grup</a></li>
+                        <li><a href="#">Berita</a></li>
+                        <li><a href="#">Galeri</a></li>
+                        <li><a href="#">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Jaringan</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Portofolio</a></li>
+                        <li><a href="#">Gudang</a></li>
+                        <li><a href="#">Semua Jaringan</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Kontak</h4>
+                    <ul class="contact-info secondary-font">
+                        <li><i class="fas fa-phone"></i> +62 21 1234 5678</li>
+                        <li><i class="fas fa-envelope"></i> info@silog.co.id</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright secondary-font">
+                    © 2025 SILOG - Semen Indonesia Logistik. All rights reserved.
+                </div>
+                <div class="footer-links-bottom secondary-font">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Interactive cursor
+        const cursor = document.getElementById('cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.opacity = '0.8';
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        // Add hover effects for interactive elements
+        document.querySelectorAll('a, button, .portfolio-card, .warehouse-item, .social-link, .content-card, .network-tab, .stat-card').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.opacity = '0.6';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.opacity = '0.8';
+            });
+        });
+
+        // Tab switching function
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.network-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.network-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Initialize map when gudang tab is shown
+            if (tabName === 'gudang' && !window.mapInitialized) {
+                setTimeout(initMap, 100);
+                window.mapInitialized = true;
+            }
+        }
+
+        // Initialize map
+        function initMap() {
+            // Initialize the map
+            const map = L.map('map').setView([-2.5, 118], 5);
+
+            // Add tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Warehouse locations
+            const warehouses = [
+                { name: 'Gudang Pusat Jakarta', lat: -6.2088, lng: 106.8456, code: 'GUD-JKT-001', capacity: '100,000 m²' },
+                { name: 'Gudang Cikarang', lat: -6.9175, lng: 107.6191, code: 'GUD-CKR-002', capacity: '50,000 m²' },
+                { name: 'Gudang Surabaya', lat: -7.2575, lng: 112.7521, code: 'GUD-SBY-003', capacity: '75,000 m²' },
+                { name: 'Gudang Makassar', lat: -5.1477, lng: 119.4327, code: 'GUD-MKS-004', capacity: '30,000 m²' },
+                { name: 'Gudang Medan', lat: 3.5952, lng: 98.6722, code: 'GUD-MDN-005', capacity: '25,000 m²' },
+                { name: 'Gudang Pontianak', lat: -0.7893, lng: 113.9213, code: 'GUD-PTK-006', capacity: '20,000 m²' }
+            ];
+
+            // Custom icon
+            const warehouseIcon = L.divIcon({
+                html: '<i class="fas fa-warehouse" style="color: #F5333F; font-size: 24px;"></i>',
+                iconSize: [24, 24],
+                className: 'custom-div-icon'
+            });
+
+            // Add markers
+            warehouses.forEach(warehouse => {
+                const marker = L.marker([warehouse.lat, warehouse.lng], { icon: warehouseIcon })
+                    .addTo(map)
+                    .bindPopup(`
+                        <div style="text-align: center;">
+                            <h3 style="margin: 0 0 10px 0; color: #F5333F;">${warehouse.name}</h3>
+                            <p style="margin: 5px 0;"><strong>Kode:</strong> ${warehouse.code}</p>
+                            <p style="margin: 5px 0;"><strong>Kapasitas:</strong> ${warehouse.capacity}</p>
+                        </div>
+                    `);
+            });
+
+            // Store map reference globally
+            window.map = map;
+        }
+
+        // Focus map on specific location
+        function focusMap(lat, lng) {
+            if (window.map) {
+                window.map.setView([lat, lng], 12);
+            }
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animation elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

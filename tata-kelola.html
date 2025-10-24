@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tata Kelola Perusahaan - SILOG - Semen Indonesia Logistik</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bright-white: #FFFFFF;
+            --total-black: #000000;
+            --light-grey: #DFDEDE;
+            --dark-grey: #5E5E5F;
+            --red-primary: #F5333F;
+            --gradient-primary: linear-gradient(135deg, #F5333F 0%, #FF6B6B 100%);
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--bright-white);
+            color: var(--total-black);
+            overflow-x: hidden;
+        }
+
+        /* Custom Fonts */
+        .primary-font {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .secondary-font {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--total-black);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--red-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bright-white);
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--total-black);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            margin: 0.25rem;
+        }
+
+        .dropdown a:hover {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--total-black);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 60vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+            padding: 120px 0 4rem;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+
+        .breadcrumb a {
+            color: var(--dark-grey);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--red-primary);
+        }
+
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: var(--total-black);
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--dark-grey);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Governance Section */
+        .governance-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--red-primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--dark-grey);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .governance-content {
+            background: var(--bright-white);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            border: 1px solid var(--light-grey);
+            margin-bottom: 4rem;
+        }
+
+        .governance-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark-grey);
+            margin-bottom: 2rem;
+        }
+
+        .governance-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .governance-text strong {
+            color: var(--total-black);
+        }
+
+        /* Sub Navigation Cards */
+        .subnav-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .content-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(245, 51, 63, 0.1);
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--red-primary), #d42834);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .content-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .content-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(245, 51, 63, 0.15);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--red-primary), #d42834);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: iconShine 3s ease-in-out infinite;
+        }
+
+        @keyframes iconShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+        }
+
+        .card-icon i {
+            font-size: 2rem;
+            color: var(--bright-white);
+            z-index: 2;
+            position: relative;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .content-card:hover .card-title {
+            color: var(--red-primary);
+        }
+
+        .card-description {
+            color: var(--dark-grey);
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--red-primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .card-link:hover {
+            gap: 8px;
+        }
+
+        .card-link::after {
+            content: '→';
+            margin-left: 5px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Principles Section */
+        .principles-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .principle-card {
+            background: var(--bright-white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid var(--light-grey);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .principle-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(245, 51, 63, 0.15);
+        }
+
+        .principle-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--red-primary), #d42834);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .principle-icon i {
+            font-size: 1.8rem;
+            color: var(--bright-white);
+        }
+
+        .principle-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+        }
+
+        .principle-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Structure Section */
+        .structure-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+        }
+
+        .structure-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .structure-image {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .structure-caption {
+            text-align: center;
+            color: var(--dark-grey);
+            font-size: 1rem;
+            max-width: 800px;
+        }
+
+        /* Committees Section */
+        .committees-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .committees-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .committee-card {
+            background: var(--bright-white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid var(--light-grey);
+            transition: all 0.3s ease;
+        }
+
+        .committee-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(245, 51, 63, 0.15);
+        }
+
+        .committee-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--red-primary), #d42834);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .committee-icon i {
+            font-size: 1.5rem;
+            color: var(--bright-white);
+        }
+
+        .committee-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+        }
+
+        .committee-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: var(--gradient-primary);
+            margin-top: 4rem;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--bright-white);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--bright-white);
+            color: var(--red-primary);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--total-black);
+            color: var(--bright-white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-description {
+            color: var(--light-grey);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--dark-grey);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bright-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--red-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.4);
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--bright-white);
+            position: relative;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--red-primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-grey);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--red-primary);
+            padding-left: 10px;
+        }
+
+        .footer-links a::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--light-grey);
+            font-size: 0.95rem;
+        }
+
+        .contact-info i {
+            color: var(--red-primary);
+            font-size: 1.1rem;
+            width: 20px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--dark-grey);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: var(--light-grey);
+            font-size: 0.9rem;
+        }
+
+        .footer-links-bottom {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links-bottom a {
+            color: var(--light-grey);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links-bottom a:hover {
+            color: var(--red-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .principles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .committees-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .governance-content {
+                padding: 2rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bright-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--light-grey);
+            border-top: 3px solid var(--red-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Interactive cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            mix-blend-mode: multiply;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div style="text-align: center;">
+            <img src="logo.png" alt="SILOG" style="height: 80px; margin-bottom: 2rem; animation: pulse 2s infinite;">
+            <div class="loader"></div>
+            <p style="margin-top: 1rem; color: var(--dark-grey); font-size: 0.9rem;">Memuat pengalaman SILOG...</p>
+        </div>
+    </div>
+
+    <!-- Interactive Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html"><img src="logo.png" alt="SILOG Logo" class="logo"></a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Tentang <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="history.html">History</a>
+                        <a href="profil.html">Profil</a>
+                        <a href="visi-misi.html">Visi & Misi</a>
+                        <a href="kebijakan-perusahaan.html">Kebijakan Perusahaan</a>
+                        <a href="tata-kelola-perusahaan.html">Tata Kelola Perusahaan</a>
+                        <a href="sumber-daya-manusia.html">Sumber Daya Manusia</a>
+                        <a href="direksi-komisaris.html">Direksi & Komisaris</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Bisnis <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#">Logistik</a>
+                        <a href="#">Konstruksi</a>
+                        <a href="#">Distribusi</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Info<i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#">Berita</a>
+                        <a href="#">Galeri</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Jaringan <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#">Portofolio</a>
+                        <a href="#">Gudang</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Grub</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Karir</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Kontak</a>
+                </li>
+            </ul>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Beranda</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <a href="#">Tentang</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Tata Kelola Perusahaan</span>
+                </div>
+                <h1 class="hero-title primary-font">Tata Kelola Perusahaan</h1>
+                <p class="hero-subtitle secondary-font">Komitmen SILOG dalam menerapkan prinsip tata kelola perusahaan yang baik untuk menciptakan nilai berkelanjutan</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Governance Section -->
+    <section class="governance-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Tentang Tata Kelola Perusahaan</h2>
+            <p class="section-subtitle fade-in">Implementasi prinsip tata kelola perusahaan yang baik di SILOG</p>
+            
+            <div class="governance-content fade-in">
+                <div class="governance-text">
+                    <p>SILOG menerapkan prinsip <strong>Tata Kelola Perusahaan yang Baik (Good Corporate Governance)</strong> sebagai landasan dalam menjalankan operasional bisnis. Prinsip ini menjadi komitmen kami untuk menciptakan transparansi, akuntabilitas, responsibilitas, independensi, dan keadilan dalam setiap aspek kegiatan perusahaan.</p>
+                    
+                    <p>Penerapan tata kelola perusahaan yang baik bertujuan untuk meningkatkan kinerja perusahaan, menciptakan nilai tambah bagi pemangku kepentingan, serta membangun kepercayaan publik terhadap SILOG sebagai perusahaan logistik terdepan di Indonesia.</p>
+                    
+                    <p>SILOG senantiasa mematuhi seluruh peraturan perundang-undangan yang berlaku serta mengimplementasikan praktik terbaik tata kelola perusahaan sejalan dengan standar nasional dan internasional.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sub Navigation Cards Section -->
+    <section class="subnav-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Jelajahi Informasi Perusahaan</h2>
+            <p class="section-subtitle fade-in">Pelajari lebih lanjut tentang berbagai aspek SILOG</p>
+            
+            <div class="cards-grid">
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3 class="card-title">History</h3>
+                    <p class="card-description">Perjalanan panjang SILOG dari masa ke masa dalam menjadi solusi logistik terdepan di Indonesia sejak tahun 1957.</p>
+                    <a href="history.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="card-title">Profil</h3>
+                    <p class="card-description">Mengenal lebih dekat identitas, struktur organisasi, dan bisnis SILOG sebagai bagian dari Semen Indonesia Group.</p>
+                    <a href="profil.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="card-title">Visi & Misi</h3>
+                    <p class="card-description">Visi dan misi yang menjadi arah strategis SILOG dalam memberikan solusi logistik terbaik untuk Indonesia.</p>
+                    <a href="visi-misi.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h3 class="card-title">Kebijakan Perusahaan</h3>
+                    <p class="card-description">Kebijakan-kebijakan perusahaan yang menjadi pedoman dalam operasional bisnis dan pengambilan keputusan.</p>
+                    <a href="kebijakan-perusahaan.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3 class="card-title">Tata Kelola Perusahaan</h3>
+                    <p class="card-description">Implementasi prinsip tata kelola perusahaan yang baik untuk menciptakan transparansi dan akuntabilitas.</p>
+                    <a href="tata-kelola-perusahaan.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="card-title">Sumber Daya Manusia</h3>
+                    <p class="card-description">Program pengembangan sumber daya manusia untuk menciptakan tim yang kompeten dan berintegritas.</p>
+                    <a href="sumber-daya-manusia.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="card-title">Direksi & Komisaris</h3>
+                    <p class="card-description">Tim pemimpin SILOG yang berpengalaman dan berkomitmen untuk mewujudkan visi perusahaan.</p>
+                    <a href="direksi-komisaris.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Principles Section -->
+    <section class="principles-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Prinsip Tata Kelola Perusahaan</h2>
+            <p class="section-subtitle fade-in">Lima pilar utama dalam implementasi tata kelola perusahaan di SILOG</p>
+            
+            <div class="principles-grid">
+                <div class="principle-card fade-in">
+                    <div class="principle-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="principle-title">Transparansi</h3>
+                    <p class="principle-description">Keterbukaan dalam menyampaikan informasi material dan relevan mengenai kinerja perusahaan.</p>
+                </div>
+                
+                <div class="principle-card fade-in">
+                    <div class="principle-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3 class="principle-title">Akuntabilitas</h3>
+                    <p class="principle-description">Kejelasan fungsi, struktur, sistem, dan pertanggungjawaban organ perusahaan.</p>
+                </div>
+                
+                <div class="principle-card fade-in">
+                    <div class="principle-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3 class="principle-title">Responsibilitas</h3>
+                    <p class="principle-description">Kepatuhan terhadap peraturan dan tanggung jawab sosial perusahaan.</p>
+                </div>
+                
+                <div class="principle-card fade-in">
+                    <div class="principle-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="principle-title">Independensi</h3>
+                    <p class="principle-description">Profesionalisme tanpa pengaruh dan tekanan dari pihak yang tidak sesuai etika.</p>
+                </div>
+                
+                <div class="principle-card fade-in">
+                    <div class="principle-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="principle-title">Keadilan</h3>
+                    <p class="principle-description">Kesetaraan dalam memenuhi hak pemangku kepentingan sesuai peraturan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Structure Section -->
+    <section class="structure-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Struktur Organisasi Tata Kelola</h2>
+            <p class="section-subtitle fade-in">Struktur organisasi yang mendukung implementasi tata kelola perusahaan yang baik</p>
+            
+            <div class="structure-container fade-in">
+                <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Struktur Organisasi SILOG" class="structure-image">
+                <p class="structure-caption">Struktur organisasi SILOG dirancang untuk memastikan pemisahan fungsi yang jelas antara organ pengawas dan pelaksana, serta menciptakan sistem checks and balances yang efektif dalam pengambilan keputusan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Committees Section -->
+    <section class="committees-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Komite Pendukung Tata Kelola</h2>
+            <p class="section-subtitle fade-in">Komite-komite yang dibentuk untuk mendukung implementasi tata kelola perusahaan</p>
+            
+            <div class="committees-grid">
+                <div class="committee-card fade-in">
+                    <div class="committee-icon">
+                        <i class="fas fa-users-cog"></i>
+                    </div>
+                    <h3 class="committee-title">Komite Audit</h3>
+                    <p class="committee-description">Membantu Dewan Komisaris dalam melaksanakan fungsi pengawasan terhadap pelaksanaan tata kelola perusahaan dan efektivitas pengendalian internal.</p>
+                </div>
+                
+                <div class="committee-card fade-in">
+                    <div class="committee-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="committee-title">Komite Nominasi & Remunerasi</h3>
+                    <p class="committee-description">Membantu Dewan Komisaris dalam melakukan penilaian dan rekomendasi terkait nominasi dan remunerasi Dewan Komisaris dan Direksi.</p>
+                </div>
+                
+                <div class="committee-card fade-in">
+                    <div class="committee-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 class="committee-title">Komite Risiko</h3>
+                    <p class="committee-description">Membantu Direksi dalam mengidentifikasi, mengukur, memantau, dan mengendalikan risiko-risiko yang dihadapi perusahaan.</p>
+                </div>
+                
+                <div class="committee-card fade-in">
+                    <div class="committee-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="committee-title">Komite Tanggung Jawab Sosial</h3>
+                    <p class="committee-description">Membantu Direksi dalam merumuskan dan mengimplementasikan program tanggung jawab sosial dan lingkungan perusahaan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title primary-font">Pelajari Lebih Lanjut</h2>
+            <p class="cta-description secondary-font">Dapatkan informasi lengkap mengenai tata kelola perusahaan SILOG dalam laporan tahunan kami</p>
+            <a href="#" class="cta-button">Unduh Laporan Tata Kelola</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="SILOG Logo" class="footer-logo">
+                    <p class="footer-description secondary-font">
+                        Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia. Berpengalaman lebih dari 6 dekade dalam melayani industri nasional.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Bisnis</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Logistik</a></li>
+                        <li><a href="#">Konstruksi</a></li>
+                        <li><a href="#">Distribusi</a></li>
+                        <li><a href="#">Semua Bisnis</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Informasi</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Grup</a></li>
+                        <li><a href="#">Berita</a></li>
+                        <li><a href="#">Galeri</a></li>
+                        <li><a href="#">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Jaringan</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Portofolio</a></li>
+                        <li><a href="#">Gudang</a></li>
+                        <li><a href="#">Semua Jaringan</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Kontak</h4>
+                    <ul class="contact-info secondary-font">
+                        <li><i class="fas fa-phone"></i> +62 21 1234 5678</li>
+                        <li><i class="fas fa-envelope"></i> info@silog.co.id</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright secondary-font">
+                    © 2025 SILOG - Semen Indonesia Logistik. All rights reserved.
+                </div>
+                <div class="footer-links-bottom secondary-font">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Interactive cursor
+        const cursor = document.getElementById('cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.opacity = '0.8';
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        // Add hover effects for interactive elements
+        document.querySelectorAll('a, button, .content-card, .committee-card, .principle-card').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.opacity = '0.6';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.opacity = '0.8';
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animation elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

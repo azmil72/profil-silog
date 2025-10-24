@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grub - SILOG - Semen Indonesia Logistik</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <style>
+        :root {
+            --bright-white: #FFFFFF;
+            --total-black: #000000;
+            --light-grey: #DFDEDE;
+            --dark-grey: #5E5E5F;
+            --red-primary: #F5333F;
+            --gradient-primary: linear-gradient(135deg, #F5333F 0%, #FF6B6B 100%);
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--bright-white);
+            color: var(--total-black);
+            overflow-x: hidden;
+        }
+
+        /* Custom Fonts */
+        .primary-font {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .secondary-font {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--total-black);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--red-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bright-white);
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--total-black);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            margin: 0.25rem;
+        }
+
+        .dropdown a:hover {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--total-black);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 60vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+            padding: 120px 0 4rem;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+
+        .breadcrumb a {
+            color: var(--dark-grey);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--red-primary);
+        }
+
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: var(--total-black);
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--dark-grey);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Group Overview Section */
+        .group-overview {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--red-primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--dark-grey);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .overview-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .overview-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark-grey);
+        }
+
+        .overview-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .overview-text strong {
+            color: var(--total-black);
+        }
+
+        .overview-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .overview-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: all 0.5s ease;
+        }
+
+        .overview-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2.5rem;
+            background: var(--bright-white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .stat-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--bright-white);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--red-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--dark-grey);
+            font-weight: 600;
+        }
+
+        /* Companies Section */
+        .companies-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .company-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .company-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .company-logo {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bright-white);
+            padding: 2rem;
+            border-bottom: 1px solid var(--light-grey);
+        }
+
+        .company-logo img {
+            max-width: 100%;
+            max-height: 100px;
+            object-fit: contain;
+            filter: grayscale(100%);
+            transition: all 0.3s ease;
+        }
+
+        .company-card:hover .company-logo img {
+            filter: grayscale(0%);
+        }
+
+        .company-content {
+            padding: 2rem;
+        }
+
+        .company-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .company-card:hover .company-name {
+            color: var(--red-primary);
+        }
+
+        .company-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .company-sectors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sector-tag {
+            background: rgba(245, 51, 63, 0.1);
+            color: var(--red-primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .company-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--red-primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .company-link:hover {
+            gap: 8px;
+        }
+
+        .company-link::after {
+            content: '→';
+            margin-left: 5px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Company Details Section */
+        .company-details-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+        }
+
+        .company-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .company-detail-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .company-detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--bright-white);
+        }
+
+        .detail-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--total-black);
+        }
+
+        .detail-content {
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        .detail-content ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .detail-content li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .detail-content li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--red-primary);
+            font-weight: bold;
+        }
+
+        /* Synergy Section */
+        .synergy-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .synergy-content {
+            max-width: 1000px;
+            margin: 3rem auto;
+            text-align: center;
+        }
+
+        .synergy-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark-grey);
+            margin-bottom: 3rem;
+        }
+
+        .synergy-diagram {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--light-grey);
+        }
+
+        .synergy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .synergy-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(245, 51, 63, 0.05);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .synergy-item:hover {
+            background: rgba(245, 51, 63, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .synergy-icon {
+            font-size: 2rem;
+            color: var(--red-primary);
+            margin-bottom: 1rem;
+        }
+
+        .synergy-label {
+            font-weight: 600;
+            color: var(--total-black);
+            margin-bottom: 0.5rem;
+        }
+
+        .synergy-desc {
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--bright-white);
+        }
+
+        .value-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+        }
+
+        .value-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Sub Navigation Cards Section */
+        .subnav-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .content-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(245, 51, 63, 0.1);
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--red-primary), #d42834);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .content-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .content-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(245, 51, 63, 0.15);
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.03), rgba(255, 255, 255, 0.9));
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--red-primary), #d42834);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(245, 51, 63, 0.3);
+        }
+
+        .card-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: iconShine 3s ease-in-out infinite;
+        }
+
+        @keyframes iconShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+        }
+
+        .card-icon i {
+            font-size: 2rem;
+            color: var(--bright-white);
+            z-index: 2;
+            position: relative;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover .card-title {
+            color: var(--red-primary);
+        }
+
+        .card-description {
+            color: var(--dark-grey);
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--red-primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .card-link:hover {
+            gap: 8px;
+            color: var(--red-primary);
+        }
+
+        .card-link::after {
+            content: '→';
+            margin-left: 5px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: var(--gradient-primary);
+            margin-top: 4rem;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--bright-white);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--bright-white);
+            color: var(--red-primary);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--bright-white);
+            border: 2px solid var(--bright-white);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--bright-white);
+            color: var(--red-primary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--total-black);
+            color: var(--bright-white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
+
+        .footer-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .footer-description {
+            color: var(--light-grey);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--dark-grey);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bright-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--red-primary);
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.4);
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--bright-white);
+            position: relative;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--red-primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-grey);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--red-primary);
+            padding-left: 10px;
+        }
+
+        .footer-links a::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--light-grey);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info li:hover {
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        .contact-info i {
+            color: var(--red-primary);
+            font-size: 1.1rem;
+            width: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info li:hover i {
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--dark-grey);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: var(--light-grey);
+            font-size: 0.9rem;
+        }
+
+        .footer-links-bottom {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links-bottom a {
+            color: var(--light-grey);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links-bottom a:hover {
+            color: var(--red-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .overview-content {
+                grid-template-columns: 1fr;
+            }
+
+            .synergy-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .companies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .company-details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bright-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--light-grey);
+            border-top: 3px solid var(--red-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation */
+        .stagger-1 {
+            transition-delay: 0.1s;
+        }
+
+        .stagger-2 {
+            transition-delay: 0.2s;
+        }
+
+        .stagger-3 {
+            transition-delay: 0.3s;
+        }
+
+        .stagger-4 {
+            transition-delay: 0.4s;
+        }
+
+        /* Interactive cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1999;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            mix-blend-mode: multiply;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div style="text-align: center;">
+            <img src="logo.png" alt="SILOG" style="height: 80px; margin-bottom: 2rem; animation: pulse 2s infinite;">
+            <div class="loader"></div>
+            <p style="margin-top: 1rem; color: var(--dark-grey); font-size: 0.9rem;">Memuat pengalaman SILOG...</p>
+        </div>
+    </div>
+
+    <!-- Interactive Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html"><img src="logo.png" alt="SILOG Logo" class="logo"></a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Tentang <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="history.html">History</a>
+                        <a href="profil.html">Profil</a>
+                        <a href="visi-misi.html">Visi & Misi</a>
+                        <a href="kebijakan-perusahaan.html">Kebijakan Perusahaan</a>
+                        <a href="tata-kelola-perusahaan.html">Tata Kelola Perusahaan</a>
+                        <a href="sumber-daya-manusia.html">Sumber Daya Manusia</a>
+                        <a href="direksi-komisaris.html">Direksi & Komisaris</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Bisnis <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#">Logistik</a>
+                        <a href="#">Konstruksi</a>
+                        <a href="#">Distribusi</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="info.html" class="nav-link">Info<i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#berita">Berita</a>
+                        <a href="#galeri">Galeri</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="jaringan.html" class="nav-link">Jaringan <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#portofolio">Portofolio</a>
+                        <a href="#gudang">Gudang</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="grub.html" class="nav-link">Grub</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Karir</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Kontak</a>
+                </li>
+            </ul>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Beranda</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Grub</span>
+                </div>
+                <h1 class="hero-title primary-font">Semen Indonesia Group</h1>
+                <p class="hero-subtitle secondary-font">Grup usaha terintegrasi yang menjadi kebanggaan bangsa</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Group Overview Section -->
+    <section class="group-overview">
+        <div class="container">
+            <h2 class="section-title fade-in">Tentang Semen Indonesia Group</h2>
+            <p class="section-subtitle fade-in">Mengenal lebih dekat grup usaha terbesar di industri semen dan konstruksi Indonesia</p>
+            
+            <div class="overview-content">
+                <div class="overview-text fade-in">
+                    <p><strong>Semen Indonesia Group</strong> adalah grup usaha terintegrasi yang menjadi pemimpin di industri semen dan konstruksi Indonesia. Sebagai Badan Usaha Milik Negara (BUMN) yang telah berdiri sejak tahun 1957, kami telah berkembang menjadi kekuatan ekonomi yang mendorong pembangunan nasional.</p>
+                    
+                    <p>Dengan visi untuk menjadi <strong>"Global Leading Company in Building Materials & Infrastructure Solutions"</strong>, Semen Indonesia Group terus berinovasi dan bertransformasi untuk memberikan nilai tambah maksimal bagi seluruh stakeholder.</p>
+                    
+                    <p>Grup kami terdiri dari 7 (tujuh) perusahaan anak yang bergerak di berbagai sektor, mulai dari produksi semen, logistik, konstruksi, hingga pengembangan properti. Setiap perusahaan anak memiliki peran strategis dalam menciptakan ekosistem bisnis yang saling mendukung dan berkelanjutan.</p>
+                </div>
+                <div class="overview-image fade-in">
+                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=600&fit=crop" alt="Semen Indonesia Group">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Perusahaan Anak</div>
+                </div>
+                <div class="stat-card fade-in stagger-1">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number">25,000+</div>
+                    <div class="stat-label">Karyawan</div>
+                </div>
+                <div class="stat-card fade-in stagger-2">
+                    <div class="stat-icon">
+                        <i class="fas fa-globe-asia"></i>
+                    </div>
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Negara Ekspor</div>
+                </div>
+                <div class="stat-card fade-in stagger-3">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-number">50T+</div>
+                    <div class="stat-label">Kapasitas Produksi</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Companies Section -->
+    <section class="companies-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Perusahaan Anak</h2>
+            <p class="section-subtitle fade-in">Tujuh perusahaan strategis yang membentuk ekosistem Semen Indonesia Group</p>
+            
+            <div class="companies-grid">
+                <div class="company-card fade-in stagger-1">
+                    <div class="company-logo">
+                        <img src="https://images.unsplash.com/photo-1618220174775-3b804edead9d?w=200&h=100&fit=contain" alt="SILOG">
+                    </div>
+                    <div class="company-content">
+                        <h3 class="company-name">PT Semen Indonesia Logistik (SILOG)</h3>
+                        <p class="company-description">Solusi terpadu untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia.</p>
+                        <div class="company-sectors">
+                            <span class="sector-tag">Logistik</span>
+                            <span class="sector-tag">Konstruksi</span>
+                            <span class="sector-tag">Distribusi</span>
+                        </div>
+                        <a href="#" class="company-link">Kunjungi Website</a>
+                    </div>
+                </div>
+                
+                <div class="company-card fade-in stagger-2">
+                    <div class="company-logo">
+                        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=200&h=100&fit=contain" alt="SGI">
+                    </div>
+                    <div class="company-content">
+                        <h3 class="company-name">PT Solusi Bangun Indonesia (SGI)</h3>
+                        <p class="company-description">Perusahaan konstruksi dan engineering yang fokus pada proyek-proyek infrastruktur besar.</p>
+                        <div class="company-sectors">
+                            <span class="sector-tag">Konstruksi</span>
+                            <span class="sector-tag">Engineering</span>
+                        </div>
+                        <a href="#" class="company-link">Kunjungi Website</a>
+                    </div>
+                </div>
+                
+                <div class="company-card fade-in stagger-3">
+                    <div class="company-logo">
+                        <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=200&h=100&fit=contain" alt="KCC">
+                    </div>
+                    <div class="company-content">
+                        <h3 class="company-name">PT KCC Indonesia</h3>
+                        <p class="company-description">Produsen material bangunan berkualitas tinggi untuk kebutuhan konstruksi modern.</p>
+                        <div class="company-sectors">
+                            <span class="sector-tag">Manufaktur</span>
+                            <span class="sector-tag">Material</span>
+                        </div>
+                        <a href="#" class="company-link">Kunjungi Website</a>
+                    </div>
+                </div>
+                
+                <div class="company-card fade-in stagger-4">
+                    <div class="company-logo">
+                        <img src="https://images.unsplash.com/photo-1596524433410-ad3f7b0d7b8a?w=200&h=100&fit=contain" alt="PPC">
+                    </div>
+                    <div class="company-content">
+                        <h3 class="company-name">PT Perusahaan Perdagangan Indonesia (PPC)</h3>
+                        <p class="company-description">Perusahaan dagang yang mengelola distribusi produk-produk Semen Indonesia Group.</p>
+                        <div class="company-sectors">
+                            <span class="sector-tag">Perdagangan</span>
+                            <span class="sector-tag">Distribusi</span>
+                        </div>
+                        <a href="#" class="company-link">Kunjungi Website</a>
+                    </div>
+                </div>
+                
+                <div class="company-card fade-in">
+                    <div class="company-logo">
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&h=100&fit=contain" alt="SMI">
+                    </div>
+                    <div class="company-content">
+                        <h3 class="company-name">PT Semen Indonesia Industri Bangunan (SMI)</h3>
+                        <p class="company-description">Pengembang properti dan real estate yang fokus pada proyek-proyek residensial dan komersial.</p>
+                        <div class="company-sectors">
+                            <span class="sector-tag">Properti</span>
+                            <span class="sector-tag">Real Estate</span>
+                        </div>
+                        <a href="#" class="company-link">Kunjungi Website</a>
+                    </div>
+                </div>
+                
+                <div class="company-card fade-in">
+                    <div class="company-logo">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=200&h=100&fit=contain" alt="SIG">
+                    </div>
+                    <div class="company-content">
+                        <h3 class="company-name">PT Semen Gresik</h3>
+                        <p class="company-description">Produsen semen terbesar di Indonesia dengan kualitas terbaik dan jaringan luas.</p>
+                        <div class="company-sectors">
+                            <span class="sector-tag">Manufaktur</span>
+                            <span class="sector-tag">Semen</span>
+                        </div>
+                        <a href="#" class="company-link">Kunjungi Website</a>
+                    </div>
+                </div>
+                
+                <div class="company-card fade-in">
+                    <div class="company-logo">
+                        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=200&h=100&fit=contain" alt="SP">
+                    </div>
+                    <div class="company-content">
+                        <h3 class="company-name">PT Semen Padang</h3>
+                        <p class="company-description">Produsen semen berkualitas tinggi dengan pabrik modern di Sumatera Barat.</p>
+                        <div class="company-sectors">
+                            <span class="sector-tag">Manufaktur</span>
+                            <span class="sector-tag">Semen</span>
+                        </div>
+                        <a href="#" class="company-link">Kunjungi Website</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Details Section -->
+    <section class="company-details-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Kontribusi Perusahaan Anak</h2>
+            <p class="section-subtitle fade-in">Peran strategis setiap perusahaan dalam ekosistem Semen Indonesia Group</p>
+            
+            <div class="company-details-grid">
+                <div class="company-detail-card fade-in">
+                    <div class="detail-header">
+                        <div class="detail-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h3 class="detail-title">SILOG</h3>
+                    </div>
+                    <div class="detail-content">
+                        <p>Mengelola rantai pasok dan distribusi produk semen secara efisien dan terintegrasi.</p>
+                        <ul>
+                            <li>Jaringan logistik nasional</li>
+                            <li>150+ gudang modern</li>
+                            <li>2,500+ armada kendaraan</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="company-detail-card fade-in stagger-1">
+                    <div class="detail-header">
+                        <div class="detail-icon">
+                            <i class="fas fa-hard-hat"></i>
+                        </div>
+                        <h3 class="detail-title">SGI</h3>
+                    </div>
+                    <div class="detail-content">
+                        <p>Menangani proyek-proyek konstruksi infrastruktur skala besar dan kompleks.</p>
+                        <ul>
+                            <li>Proyek jembatan dan jalan tol</li>
+                            <li>Bangunan industri dan komersial</li>
+                            <li>Konstruksi sipil</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="company-detail-card fade-in stagger-2">
+                    <div class="detail-header">
+                        <div class="detail-icon">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <h3 class="detail-title">KCC Indonesia</h3>
+                    </div>
+                    <div class="detail-content">
+                        <p>Memproduksi material bangunan inovatif dan ramah lingkungan.</p>
+                        <ul>
+                            <li>Beton pracetak</li>
+                            <li>Material komposit</li>
+                            <li>Solusi konstruksi modern</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="company-detail-card fade-in stagger-3">
+                    <div class="detail-header">
+                        <div class="detail-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3 class="detail-title">PPC</h3>
+                    </div>
+                    <div class="detail-content">
+                        <p>Mengelola jaringan distribusi dan pemasaran produk grup secara nasional.</p>
+                        <ul>
+                            <li>500+ titik distribusi</li>
+                            <li>Jaringan retailer</li>
+                            <li>Pemasaran digital</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="company-detail-card fade-in">
+                    <div class="detail-header">
+                        <div class="detail-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <h3 class="detail-title">SMI</h3>
+                    </div>
+                    <div class="detail-content">
+                        <p>Mengembangkan properti dan real estate dengan konsep berkelanjutan.</p>
+                        <ul>
+                            <li>Perumahan subsidi</li>
+                            <li>Komersial dan industri</li>
+                            <li>Kawasan terpadu</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="company-detail-card fade-in">
+                    <div class="detail-header">
+                        <div class="detail-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <h3 class="detail-title">Semen Gresik</h3>
+                    </div>
+                    <div class="detail-content">
+                        <p>Produsen semen terbesar dengan teknologi produksi terkini.</p>
+                        <ul>
+                            <li>4 pabrik modern</li>
+                            <li>Kapasitas 30+ juta ton/tahun</li>
+                            <li>Produk ramah lingkungan</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="company-detail-card fade-in">
+                    <div class="detail-header">
+                        <div class="detail-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <h3 class="detail-title">Semen Padang</h3>
+                    </div>
+                    <div class="detail-content">
+                        <p>Produsen semen berkualitas dengan pabrik di lokasi strategis Sumatera.</p>
+                        <ul>
+                            <li>Pabrik Indarung</li>
+                            <li>Kapasitas 6+ juta ton/tahun</li>
+                            <li>Ekspor ke Asia Tenggara</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Synergy Section -->
+    <section class="synergy-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Sinergi Antar Perusahaan</h2>
+            <p class="section-subtitle fade-in">Kolaborasi strategis untuk menciptakan nilai maksimal</p>
+            
+            <div class="synergy-content">
+                <p class="synergy-text fade-in">
+                    Ketujuh perusahaan anak Semen Indonesia Group bekerja sama dalam sinergi yang harmonis untuk menciptakan ekosistem bisnis yang terintegrasi dan berkelanjutan. Setiap perusahaan saling melengkapi dan mendukung untuk mencapai tujuan bersama.
+                </p>
+                
+                <div class="synergy-diagram fade-in">
+                    <div class="synergy-grid">
+                        <div class="synergy-item">
+                            <div class="synergy-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <div class="synergy-label">Integrasi Supply Chain</div>
+                            <div class="synergy-desc">Dari produksi hingga distribusi</div>
+                        </div>
+                        
+                        <div class="synergy-item">
+                            <div class="synergy-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="synergy-label">Kolaborasi Proyek</div>
+                            <div class="synergy-desc">Konstruksi terpadu end-to-end</div>
+                        </div>
+                        
+                        <div class="synergy-item">
+                            <div class="synergy-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="synergy-label">Keberlanjutan</div>
+                            <div class="synergy-desc">Inovasi ramah lingkungan</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Nilai-Nilai Perusahaan</h2>
+            <p class="section-subtitle fade-in">Pilar-pilar yang menjadi fondasi Semen Indonesia Group</p>
+            
+            <div class="values-grid">
+                <div class="value-card fade-in stagger-1">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="value-title">Integritas</h3>
+                    <p class="value-description">Menjunjung tinggi kejujuran, transparansi, dan tanggung jawab dalam setiap tindakan dan keputusan.</p>
+                </div>
+                
+                <div class="value-card fade-in stagger-2">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="value-title">Inovasi</h3>
+                    <p class="value-description">Terus berinovasi dan mengembangkan solusi kreatif untuk menghadapi tantangan bisnis.</p>
+                </div>
+                
+                <div class="value-card fade-in stagger-3">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="value-title">Kolaborasi</h3>
+                    <p class="value-description">Bekerja sama dalam tim dan membangun kemitraan yang saling menguntungkan dengan semua stakeholder.</p>
+                </div>
+                
+                <div class="value-card fade-in stagger-4">
+                    <div class="value-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="value-title">Keberlanjutan</h3>
+                    <p class="value-description">Berkomitmen pada pembangunan yang berkelanjutan dan pelestarian lingkungan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sub Navigation Cards Section -->
+    <section class="subnav-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Jelajahi Informasi Perusahaan</h2>
+            <p class="section-subtitle fade-in">Pelajari lebih lanjut tentang berbagai aspek SILOG</p>
+            
+            <div class="cards-grid">
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3 class="card-title">History</h3>
+                    <p class="card-description">Perjalanan panjang SILOG dari masa ke masa dalam menjadi solusi logistik terdepan di Indonesia sejak tahun 1957.</p>
+                    <a href="history.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="card-title">Profil</h3>
+                    <p class="card-description">Mengenal lebih dekat identitas, struktur organisasi, dan bisnis SILOG sebagai bagian dari Semen Indonesia Group.</p>
+                    <a href="profil.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="card-title">Visi & Misi</h3>
+                    <p class="card-description">Visi dan misi yang menjadi arah strategis SILOG dalam memberikan solusi logistik terbaik untuk Indonesia.</p>
+                    <a href="visi-misi.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h3 class="card-title">Kebijakan Perusahaan</h3>
+                    <p class="card-description">Kebijakan-kebijakan perusahaan yang menjadi pedoman dalam operasional bisnis dan pengambilan keputusan.</p>
+                    <a href="kebijakan-perusahaan.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3 class="card-title">Tata Kelola Perusahaan</h3>
+                    <p class="card-description">Implementasi prinsip tata kelola perusahaan yang baik untuk menciptakan transparansi dan akuntabilitas.</p>
+                    <a href="tata-kelola-perusahaan.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="card-title">Sumber Daya Manusia</h3>
+                    <p class="card-description">Program pengembangan sumber daya manusia untuk menciptakan tim yang kompeten dan berintegritas.</p>
+                    <a href="sumber-daya-manusia.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="card-title">Direksi & Komisaris</h3>
+                    <p class="card-description">Tim pemimpin SILOG yang berpengalaman dan berkomitmen untuk mewujudkan visi perusahaan.</p>
+                    <a href="direksi-komisaris.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title primary-font">Bergabung dengan Keluarga Besar Kami</h2>
+            <p class="cta-description secondary-font">Jadilah bagian dari transformasi Semen Indonesia Group</p>
+            <div class="cta-buttons">
+                <a href="#" class="cta-button">Pelajari Lebih Lanjut</a>
+                <a href="#" class="cta-button secondary">Karir</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="SILOG Logo" class="footer-logo">
+                    <p class="footer-description secondary-font">
+                        Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia. Berpengalaman lebih dari 6 dekade dalam melayani industri nasional.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Bisnis</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Logistik</a></li>
+                        <li><a href="#">Konstruksi</a></li>
+                        <li><a href="#">Distribusi</a></li>
+                        <li><a href="#">Semua Bisnis</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Informasi</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Grup</a></li>
+                        <li><a href="#">Berita</a></li>
+                        <li><a href="#">Galeri</a></li>
+                        <li><a href="#">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Jaringan</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Portofolio</a></li>
+                        <li><a href="#">Gudang</a></li>
+                        <li><a href="#">Semua Jaringan</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Kontak</h4>
+                    <ul class="contact-info secondary-font">
+                        <li><i class="fas fa-phone"></i> +62 21 1234 5678</li>
+                        <li><i class="fas fa-envelope"></i> info@silog.co.id</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright secondary-font">
+                    © 2025 SILOG - Semen Indonesia Logistik. All rights reserved.
+                </div>
+                <div class="footer-links-bottom secondary-font">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Interactive cursor
+        const cursor = document.getElementById('cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.opacity = '0.8';
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        // Add hover effects for interactive elements
+        document.querySelectorAll('a, button, .company-card, .value-card, .stat-card, .social-link, .content-card, .company-detail-card, .synergy-item').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.opacity = '0.6';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.opacity = '0.8';
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animation elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

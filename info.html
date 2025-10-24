@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info - SILOG - Semen Indonesia Logistik</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bright-white: #FFFFFF;
+            --total-black: #000000;
+            --light-grey: #DFDEDE;
+            --dark-grey: #5E5E5F;
+            --red-primary: #F5333F;
+            --gradient-primary: linear-gradient(135deg, #F5333F 0%, #FF6B6B 100%);
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--bright-white);
+            color: var(--total-black);
+            overflow-x: hidden;
+        }
+
+        /* Custom Fonts */
+        .primary-font {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .secondary-font {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--total-black);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--red-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bright-white);
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--total-black);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            margin: 0.25rem;
+        }
+
+        .dropdown a:hover {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--total-black);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 60vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+            padding: 120px 0 4rem;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+
+        .breadcrumb a {
+            color: var(--dark-grey);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--red-primary);
+        }
+
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: var(--total-black);
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--dark-grey);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Info Section */
+        .info-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--red-primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--dark-grey);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Info Tabs */
+        .info-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            gap: 1rem;
+        }
+
+        .info-tab {
+            background: var(--bright-white);
+            border: 2px solid var(--light-grey);
+            padding: 0.8rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--dark-grey);
+            font-size: 1rem;
+        }
+
+        .info-tab.active {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            border-color: var(--red-primary);
+        }
+
+        .info-tab:hover:not(.active) {
+            border-color: var(--red-primary);
+            color: var(--red-primary);
+        }
+
+        .info-content {
+            display: none;
+        }
+
+        .info-content.active {
+            display: block;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--bright-white);
+            border: 1px solid var(--light-grey);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--dark-grey);
+        }
+
+        .filter-btn.active {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            border-color: var(--red-primary);
+        }
+
+        .filter-btn:hover:not(.active) {
+            border-color: var(--red-primary);
+            color: var(--red-primary);
+        }
+
+        .search-box {
+            position: relative;
+            width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border: 1px solid var(--light-grey);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--red-primary);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dark-grey);
+        }
+
+        /* News Section */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .news-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .news-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(245, 51, 63, 0.15);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .news-image {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .news-card:hover .news-image img {
+            transform: scale(1.05);
+        }
+
+        .news-date {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(245, 51, 63, 0.9);
+            color: var(--bright-white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .news-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--bright-white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .news-content {
+            padding: 2rem;
+        }
+
+        .news-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+
+        .news-card:hover .news-title {
+            color: var(--red-primary);
+        }
+
+        .news-excerpt {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .news-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            color: var(--red-primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 8px;
+        }
+
+        .read-more::after {
+            content: '→';
+            margin-left: 5px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            color: var(--dark-grey);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            color: var(--red-primary);
+        }
+
+        .download-btn i {
+            margin-right: 5px;
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(245, 51, 63, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-caption {
+            color: var(--bright-white);
+            font-weight: 600;
+            font-size: 1rem;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 3rem;
+            gap: 0.5rem;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bright-white);
+            border: 1px solid var(--light-grey);
+            border-radius: 50%;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-grey);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            border-color: var(--red-primary);
+        }
+
+        .page-btn.active {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            border-color: var(--red-primary);
+        }
+
+        .page-btn.dots {
+            border: none;
+            cursor: default;
+        }
+
+        .page-btn.dots:hover {
+            background: var(--bright-white);
+            color: var(--dark-grey);
+        }
+
+        /* Sub Navigation Cards Section */
+        .subnav-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .content-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(245, 51, 63, 0.1);
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--red-primary), #d42834);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .content-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .content-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(245, 51, 63, 0.15);
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.03), rgba(255, 255, 255, 0.9));
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--red-primary), #d42834);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(245, 51, 63, 0.3);
+        }
+
+        .card-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: iconShine 3s ease-in-out infinite;
+        }
+
+        @keyframes iconShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+        }
+
+        .card-icon i {
+            font-size: 2rem;
+            color: var(--bright-white);
+            z-index: 2;
+            position: relative;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover .card-title {
+            color: var(--red-primary);
+        }
+
+        .card-description {
+            color: var(--dark-grey);
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--red-primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .card-link:hover {
+            gap: 8px;
+            color: var(--red-primary);
+        }
+
+        .card-link::after {
+            content: '→';
+            margin-left: 5px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: var(--gradient-primary);
+            margin-top: 4rem;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--bright-white);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--bright-white);
+            color: var(--red-primary);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--bright-white);
+            border: 2px solid var(--bright-white);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--bright-white);
+            color: var(--red-primary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--total-black);
+            color: var(--bright-white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
+
+        .footer-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .footer-description {
+            color: var(--light-grey);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--dark-grey);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bright-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--red-primary);
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.4);
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--bright-white);
+            position: relative;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--red-primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-grey);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--red-primary);
+            padding-left: 10px;
+        }
+
+        .footer-links a::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--light-grey);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info li:hover {
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        .contact-info i {
+            color: var(--red-primary);
+            font-size: 1.1rem;
+            width: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info li:hover i {
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--dark-grey);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: var(--light-grey);
+            font-size: 0.9rem;
+        }
+
+        .footer-links-bottom {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links-bottom a {
+            color: var(--light-grey);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links-bottom a:hover {
+            color: var(--red-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .info-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bright-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--light-grey);
+            border-top: 3px solid var(--red-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation */
+        .stagger-1 {
+            transition-delay: 0.1s;
+        }
+
+        .stagger-2 {
+            transition-delay: 0.2s;
+        }
+
+        .stagger-3 {
+            transition-delay: 0.3s;
+        }
+
+        .stagger-4 {
+            transition-delay: 0.4s;
+        }
+
+        /* Interactive cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1999;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            mix-blend-mode: multiply;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div style="text-align: center;">
+            <img src="logo.png" alt="SILOG" style="height: 80px; margin-bottom: 2rem; animation: pulse 2s infinite;">
+            <div class="loader"></div>
+            <p style="margin-top: 1rem; color: var(--dark-grey); font-size: 0.9rem;">Memuat pengalaman SILOG...</p>
+        </div>
+    </div>
+
+    <!-- Interactive Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html"><img src="logo.png" alt="SILOG Logo" class="logo"></a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Tentang <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="history.html">History</a>
+                        <a href="profil.html">Profil</a>
+                        <a href="visi-misi.html">Visi & Misi</a>
+                        <a href="kebijakan-perusahaan.html">Kebijakan Perusahaan</a>
+                        <a href="tata-kelola-perusahaan.html">Tata Kelola Perusahaan</a>
+                        <a href="sumber-daya-manusia.html">Sumber Daya Manusia</a>
+                        <a href="direksi-komisaris.html">Direksi & Komisaris</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Bisnis <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#">Logistik</a>
+                        <a href="#">Konstruksi</a>
+                        <a href="#">Distribusi</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="info.html" class="nav-link">Info<i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#berita">Berita</a>
+                        <a href="#galeri">Galeri</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Jaringan <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#">Portofolio</a>
+                        <a href="#">Gudang</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Grub</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Karir</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Kontak</a>
+                </li>
+            </ul>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Beranda</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Info</span>
+                </div>
+                <h1 class="hero-title primary-font">Info Terkini</h1>
+                <p class="hero-subtitle secondary-font">Dapatkan berita terbaru dan dokumentasi aktivitas SILOG</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="info-section" id="info">
+        <div class="container">
+            <h2 class="section-title fade-in">Informasi SILOG</h2>
+            <p class="section-subtitle fade-in">Temukan berita terkini dan dokumentasi aktivitas perusahaan</p>
+            
+            <div class="info-tabs">
+                <div class="info-tab active" onclick="switchTab('berita')">Berita</div>
+                <div class="info-tab" onclick="switchTab('galeri')">Galeri</div>
+            </div>
+            
+            <!-- Berita Content -->
+            <div id="berita" class="info-content active">
+                <div class="filter-section fade-in">
+                    <div class="filter-options">
+                        <div class="filter-btn active" onclick="filterNews('all')">Semua</div>
+                        <div class="filter-btn" onclick="filterNews('penghargaan')">Penghargaan</div>
+                        <div class="filter-btn" onclick="filterNews('kerjasama')">Kerjasama</div>
+                        <div class="filter-btn" onclick="filterNews('inovasi')">Inovasi</div>
+                        <div class="filter-btn" onclick="filterNews('ekspansi')">Ekspansi</div>
+                        <div class="filter-btn" onclick="filterNews('sosial')">Sosial</div>
+                        <div class="filter-btn" onclick="filterNews('teknologi')">Teknologi</div>
+                    </div>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Cari berita...">
+                    </div>
+                </div>
+                
+                <div class="news-grid">
+                    <div class="news-card fade-in stagger-1" data-category="penghargaan">
+                        <div class="news-image">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Berita 1">
+                            <div class="news-date">15 November 2024</div>
+                            <div class="news-category">Penghargaan</div>
+                        </div>
+                        <div class="news-content">
+                            <h3 class="news-title">SILOG Raih Penghargaan Perusahaan Logistik Terbaik 2024</h3>
+                            <p class="news-excerpt">SILOG berhasil meraih penghargaan sebagai Perusahaan Logistik Terbaik tahun 2024 dalam ajang Indonesia Logistics Awards...</p>
+                            <div class="news-actions">
+                                <a href="berita-detail-1.html" class="read-more">Baca Selengkapnya</a>
+                                <a href="#" class="download-btn"><i class="fas fa-download"></i> Unduh</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card fade-in stagger-2" data-category="kerjasama">
+                        <div class="news-image">
+                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop" alt="Berita 2">
+                            <div class="news-date">10 November 2024</div>
+                            <div class="news-category">Kerjasama</div>
+                        </div>
+                        <div class="news-content">
+                            <h3 class="news-title">SILOG Jalin Kerjasama Strategis dengan Pelabuhan Tanjung Priok</h3>
+                            <p class="news-excerpt">SILOG menandatangani perjanjian kerjasama strategis dengan Pelabuhan Tanjung Priok untuk meningkatkan efisiensi...</p>
+                            <div class="news-actions">
+                                <a href="berita-detail-2.html" class="read-more">Baca Selengkapnya</a>
+                                <a href="#" class="download-btn"><i class="fas fa-download"></i> Unduh</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card fade-in stagger-3" data-category="inovasi">
+                        <div class="news-image">
+                            <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&h=400&fit=crop" alt="Berita 3">
+                            <div class="news-date">5 November 2024</div>
+                            <div class="news-category">Inovasi</div>
+                        </div>
+                        <div class="news-content">
+                            <h3 class="news-title">Peluncuran Sistem Tracking SILOG Berbasis AI</h3>
+                            <p class="news-excerpt">SILOG meluncurkan sistem tracking terbaru berbasis kecerdasan buatan untuk memberikan layanan yang lebih...</p>
+                            <div class="news-actions">
+                                <a href="berita-detail-3.html" class="read-more">Baca Selengkapnya</a>
+                                <a href="#" class="download-btn"><i class="fas fa-download"></i> Unduh</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card fade-in stagger-4" data-category="ekspansi">
+                        <div class="news-image">
+                            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop" alt="Berita 4">
+                            <div class="news-date">1 November 2024</div>
+                            <div class="news-category">Ekspansi</div>
+                        </div>
+                        <div class="news-content">
+                            <h3 class="news-title">SILOG Ekspansi ke Kawasan Timur Indonesia</h3>
+                            <p class="news-excerpt">SILOG resmi membuka kantor cabang baru di Makassar sebagai bagian dari strategi ekspansi ke kawasan timur...</p>
+                            <div class="news-actions">
+                                <a href="berita-detail-4.html" class="read-more">Baca Selengkapnya</a>
+                                <a href="#" class="download-btn"><i class="fas fa-download"></i> Unduh</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card fade-in" data-category="sosial">
+                        <div class="news-image">
+                            <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=600&h=400&fit=crop" alt="Berita 5">
+                            <div class="news-date">28 Oktober 2024</div>
+                            <div class="news-category">Sosial</div>
+                        </div>
+                        <div class="news-content">
+                            <h3 class="news-title">Program CSR SILOG: Bantuan Pendidikan untuk Anak Pelosok</h3>
+                            <p class="news-excerpt">SILOG kembali menunjukkan komitmen sosialnya dengan memberikan bantuan pendidikan untuk anak-anak di...</p>
+                            <div class="news-actions">
+                                <a href="berita-detail-5.html" class="read-more">Baca Selengkapnya</a>
+                                <a href="#" class="download-btn"><i class="fas fa-download"></i> Unduh</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card fade-in" data-category="teknologi">
+                        <div class="news-image">
+                            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop" alt="Berita 6">
+                            <div class="news-date">25 Oktober 2024</div>
+                            <div class="news-category">Teknologi</div>
+                        </div>
+                        <div class="news-content">
+                            <h3 class="news-title">Transformasi Digital: SILOG Implementasi IoT di Gudang</h3>
+                            <p class="news-excerpt">SILOG berhasil mengimplementasikan teknologi Internet of Things (IoT) di seluruh gudang untuk meningkatkan...</p>
+                            <div class="news-actions">
+                                <a href="berita-detail-6.html" class="read-more">Baca Selengkapnya</a>
+                                <a href="#" class="download-btn"><i class="fas fa-download"></i> Unduh</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card fade-in" data-category="penghargaan">
+                        <div class="news-image">
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop" alt="Berita 7">
+                            <div class="news-date">20 Oktober 2024</div>
+                            <div class="news-category">Penghargaan</div>
+                        </div>
+                        <div class="news-content">
+                            <h3 class="news-title">SILOG Terpilih sebagai Perusahaan Terpercaya Versi Investor</h3>
+                            <p class="news-excerpt">Dalam survei terbaru yang dilakukan oleh majalah Investor, SILOG berhasil meraih predikat sebagai perusahaan terpercaya...</p>
+                            <div class="news-actions">
+                                <a href="berita-detail-7.html" class="read-more">Baca Selengkapnya</a>
+                                <a href="#" class="download-btn"><i class="fas fa-download"></i> Unduh</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card fade-in" data-category="kerjasama">
+                        <div class="news-image">
+                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&h=400&fit=crop" alt="Berita 8">
+                            <div class="news-date">15 Oktober 2024</div>
+                            <div class="news-category">Kerjasama</div>
+                        </div>
+                        <div class="news-content">
+                            <h3 class="news-title">Kemitraan SILOG dengan Startup Logistik untuk Digitalisasi</h3>
+                            <p class="news-excerpt">SILOG menjalin kemitraan strategis dengan startup logistik terkemuka untuk mempercepat transformasi digital di industri logistik...</p>
+                            <div class="news-actions">
+                                <a href="berita-detail-8.html" class="read-more">Baca Selengkapnya</a>
+                                <a href="#" class="download-btn"><i class="fas fa-download"></i> Unduh</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card fade-in" data-category="inovasi">
+                        <div class="news-image">
+                            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop" alt="Berita 9">
+                            <div class="news-date">10 Oktober 2024</div>
+                            <div class="news-category">Inovasi</div>
+                        </div>
+                        <div class="news-content">
+                            <h3 class="news-title">SILOG Perkenalkan Solusi Logistik Ramah Lingkungan</h3>
+                            <p class="news-excerpt">Sebagai bagian dari komitmen keberlanjutan, SILOG memperkenalkan solusi logistik ramah lingkungan dengan armada listrik...</p>
+                            <div class="news-actions">
+                                <a href="berita-detail-9.html" class="read-more">Baca Selengkapnya</a>
+                                <a href="#" class="download-btn"><i class="fas fa-download"></i> Unduh</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination fade-in">
+                    <div class="page-btn"><i class="fas fa-chevron-left"></i></div>
+                    <div class="page-btn active">1</div>
+                    <div class="page-btn">2</div>
+                    <div class="page-btn">3</div>
+                    <div class="page-btn dots">...</div>
+                    <div class="page-btn">8</div>
+                    <div class="page-btn"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+            
+            <!-- Galeri Content -->
+            <div id="galeri" class="info-content">
+                <div class="gallery-grid">
+                    <div class="gallery-item fade-in stagger-1" onclick="openGalleryModal('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&h=800&fit=crop')">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop" alt="Galeri 1">
+                        <div class="gallery-overlay">
+                            <div class="gallery-caption">Peluncuran Armada Baru SILOG</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item fade-in stagger-2" onclick="openGalleryModal('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=800&fit=crop')">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop" alt="Galeri 2">
+                        <div class="gallery-overlay">
+                            <div class="gallery-caption">Penghargaan Logistics Excellence</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item fade-in stagger-3" onclick="openGalleryModal('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&h=800&fit=crop')">
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=300&fit=crop" alt="Galeri 3">
+                        <div class="gallery-overlay">
+                            <div class="gallery-caption">Kantor Cabang Makassar</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item fade-in stagger-4" onclick="openGalleryModal('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1200&h=800&fit=crop')">
+                        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400&h=300&fit=crop" alt="Galeri 4">
+                        <div class="gallery-overlay">
+                            <div class="gallery-caption">Sistem Tracking AI</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item fade-in" onclick="openGalleryModal('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=1200&h=800&fit=crop')">
+                        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=400&h=300&fit=crop" alt="Galeri 5">
+                        <div class="gallery-overlay">
+                            <div class="gallery-caption">Program CSR Pendidikan</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item fade-in" onclick="openGalleryModal('https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=800&fit=crop')">
+                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400&h=300&fit=crop" alt="Galeri 6">
+                        <div class="gallery-overlay">
+                            <div class="gallery-caption">Implementasi IoT di Gudang</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item fade-in" onclick="openGalleryModal('https://images.unsplash.com/photo-1596238132896-0f45b7b8d8c5?w=1200&h=800&fit=crop')">
+                        <img src="https://images.unsplash.com/photo-1596238132896-0f45b7b8d8c5?w=400&h=300&fit=crop" alt="Galeri 7">
+                        <div class="gallery-overlay">
+                            <div class="gallery-caption">Tim SILOG di Acara Expo</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item fade-in" onclick="openGalleryModal('https://images.unsplash.com/photo-1581093196277-9f6a201a3c5f?w=1200&h=800&fit=crop')">
+                        <img src="https://images.unsplash.com/photo-1581093196277-9f6a201a3c5f?w=400&h=300&fit=crop" alt="Galeri 8">
+                        <div class="gallery-overlay">
+                            <div class="gallery-caption">Workshop Digital Transformation</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item fade-in" onclick="openGalleryModal('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&h=800&fit=crop')">
+                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=300&fit=crop" alt="Galeri 9">
+                        <div class="gallery-overlay">
+                            <div class="gallery-caption">Rapat Direksi SILOG</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sub Navigation Cards Section -->
+    <section class="subnav-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Jelajahi Informasi Perusahaan</h2>
+            <p class="section-subtitle fade-in">Pelajari lebih lanjut tentang berbagai aspek SILOG</p>
+            
+            <div class="cards-grid">
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3 class="card-title">History</h3>
+                    <p class="card-description">Perjalanan panjang SILOG dari masa ke masa dalam menjadi solusi logistik terdepan di Indonesia sejak tahun 1957.</p>
+                    <a href="history.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="card-title">Profil</h3>
+                    <p class="card-description">Mengenal lebih dekat identitas, struktur organisasi, dan bisnis SILOG sebagai bagian dari Semen Indonesia Group.</p>
+                    <a href="profil.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="card-title">Visi & Misi</h3>
+                    <p class="card-description">Visi dan misi yang menjadi arah strategis SILOG dalam memberikan solusi logistik terbaik untuk Indonesia.</p>
+                    <a href="visi-misi.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h3 class="card-title">Kebijakan Perusahaan</h3>
+                    <p class="card-description">Kebijakan-kebijakan perusahaan yang menjadi pedoman dalam operasional bisnis dan pengambilan keputusan.</p>
+                    <a href="kebijakan-perusahaan.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3 class="card-title">Tata Kelola Perusahaan</h3>
+                    <p class="card-description">Implementasi prinsip tata kelola perusahaan yang baik untuk menciptakan transparansi dan akuntabilitas.</p>
+                    <a href="tata-kelola-perusahaan.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="card-title">Sumber Daya Manusia</h3>
+                    <p class="card-description">Program pengembangan sumber daya manusia untuk menciptakan tim yang kompeten dan berintegritas.</p>
+                    <a href="sumber-daya-manusia.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+                
+                <div class="content-card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="card-title">Direksi & Komisaris</h3>
+                    <p class="card-description">Tim pemimpin SILOG yang berpengalaman dan berkomitmen untuk mewujudkan visi perusahaan.</p>
+                    <a href="direksi-komisaris.html" class="card-link">Pelajari Lebih Lanjut</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title primary-font">Tetap Terhubung dengan SILOG</h2>
+            <p class="cta-description secondary-font">Dapatkan berita terkini dan informasi penting langsung di inbox Anda</p>
+            <div class="cta-buttons">
+                <a href="#" class="cta-button">Berlangganan Newsletter</a>
+                <a href="#" class="cta-button secondary">Follow Media Sosial</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Modal -->
+    <div id="galleryModal" class="modal gallery-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img id="galleryImage" src="" alt="Gallery Image">
+                <span class="close" onclick="closeModal('galleryModal')">&times;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="SILOG Logo" class="footer-logo">
+                    <p class="footer-description secondary-font">
+                        Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia. Berpengalaman lebih dari 6 dekade dalam melayani industri nasional.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Bisnis</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Logistik</a></li>
+                        <li><a href="#">Konstruksi</a></li>
+                        <li><a href="#">Distribusi</a></li>
+                        <li><a href="#">Semua Bisnis</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Informasi</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Grup</a></li>
+                        <li><a href="#">Berita</a></li>
+                        <li><a href="#">Galeri</a></li>
+                        <li><a href="#">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Jaringan</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Portofolio</a></li>
+                        <li><a href="#">Gudang</a></li>
+                        <li><a href="#">Semua Jaringan</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Kontak</h4>
+                    <ul class="contact-info secondary-font">
+                        <li><i class="fas fa-phone"></i> +62 21 1234 5678</li>
+                        <li><i class="fas fa-envelope"></i> info@silog.co.id</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright secondary-font">
+                    © 2025 SILOG - Semen Indonesia Logistik. All rights reserved.
+                </div>
+                <div class="footer-links-bottom secondary-font">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Interactive cursor
+        const cursor = document.getElementById('cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.opacity = '0.8';
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        // Add hover effects for interactive elements
+        document.querySelectorAll('a, button, .news-card, .gallery-item, .social-link, .content-card, .filter-btn, .page-btn').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.opacity = '0.6';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.opacity = '0.8';
+            });
+        });
+
+        // Modal functions
+        function openGalleryModal(imageSrc) {
+            document.getElementById('galleryImage').src = imageSrc;
+            document.getElementById('galleryModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Tab switching function
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.info-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.info-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Re-trigger animations for the newly shown content
+            const newContent = document.getElementById(tabName);
+            const items = newContent.querySelectorAll('.news-card, .gallery-item');
+            items.forEach((item, index) => {
+                item.classList.remove('visible');
+                setTimeout(() => {
+                    item.classList.add('visible');
+                }, index * 100);
+            });
+        }
+
+        // Filter news function
+        function filterNews(category) {
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide news cards based on category
+            document.querySelectorAll('.news-card').forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, 100);
+                } else {
+                    card.style.display = 'none';
+                    card.classList.remove('visible');
+                }
+            });
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animation elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add staggered animation to news cards and gallery items
+        const newsCards = document.querySelectorAll('.news-card');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        [...newsCards, ...galleryItems].forEach((item, index) => {
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>

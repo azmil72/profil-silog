@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karir - SILOG - Semen Indonesia Logistik</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <style>
+        :root {
+            --bright-white: #FFFFFF;
+            --total-black: #000000;
+            --light-grey: #DFDEDE;
+            --dark-grey: #5E5E5F;
+            --red-primary: #F5333F;
+            --gradient-primary: linear-gradient(135deg, #F5333F 0%, #FF6B6B 100%);
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--bright-white);
+            color: var(--total-black);
+            overflow-x: hidden;
+        }
+
+        /* Custom Fonts */
+        .primary-font {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .secondary-font {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--total-black);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--red-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bright-white);
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--total-black);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            margin: 0.25rem;
+        }
+
+        .dropdown a:hover {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--total-black);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 70vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.08), rgba(0, 0, 0, 0.02));
+            padding: 120px 0 4rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&h=1080&fit=crop') center/cover;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+
+        .breadcrumb a {
+            color: var(--dark-grey);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--red-primary);
+        }
+
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: var(--total-black);
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--dark-grey);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Why Join Section */
+        .why-join-section {
+            padding: 5rem 0;
+            background: var(--bright-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--red-primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--dark-grey);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--bright-white);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .benefit-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+        }
+
+        .benefit-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Job Openings Section */
+        .jobs-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.7rem 1.5rem;
+            background: var(--bright-white);
+            border: 2px solid var(--light-grey);
+            border-radius: 25px;
+            color: var(--dark-grey);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--red-primary);
+            color: var(--red-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            border-color: var(--red-primary);
+        }
+
+        .jobs-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .job-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+            cursor: pointer;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 0.5rem;
+        }
+
+        .job-department {
+            color: var(--red-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .job-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--dark-grey);
+            font-size: 0.9rem;
+        }
+
+        .job-details {
+            display: flex;
+            gap: 2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .job-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--dark-grey);
+            font-size: 0.9rem;
+        }
+
+        .job-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .job-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .job-tag {
+            background: rgba(245, 51, 63, 0.1);
+            color: var(--red-primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .job-apply-btn {
+            background: var(--gradient-primary);
+            color: var(--bright-white);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .job-apply-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.3);
+        }
+
+        /* Recruitment Process Section */
+        .process-section {
+            padding: 5rem 0;
+            background: var(--bright-white);
+        }
+
+        .process-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 3rem auto;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: var(--light-grey);
+        }
+
+        .process-step {
+            position: relative;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .process-step:nth-child(odd) {
+            justify-content: flex-start;
+            padding-right: 50%;
+        }
+
+        .process-step:nth-child(even) {
+            justify-content: flex-end;
+            padding-left: 50%;
+        }
+
+        .process-content {
+            background: var(--bright-white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            width: 100%;
+            max-width: 350px;
+            border: 1px solid var(--light-grey);
+            transition: all 0.3s ease;
+        }
+
+        .process-content:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .process-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bright-white);
+            font-weight: 700;
+            font-size: 1.2rem;
+            z-index: 2;
+        }
+
+        .process-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 0.5rem;
+        }
+
+        .process-description {
+            color: var(--dark-grey);
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+        }
+
+        .testimonials-swiper {
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--light-grey);
+            text-align: center;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .testimonial-quote {
+            font-size: 1.1rem;
+            color: var(--dark-grey);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-style: italic;
+            position: relative;
+        }
+
+        .testimonial-quote::before {
+            content: '"';
+            font-size: 3rem;
+            color: var(--red-primary);
+            opacity: 0.2;
+            position: absolute;
+            top: -10px;
+            left: -10px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .author-info {
+            text-align: left;
+        }
+
+        .author-name {
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 0.2rem;
+        }
+
+        .author-position {
+            color: var(--red-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 5rem 0;
+            background: var(--bright-white);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bright-white);
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--light-grey);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--total-black);
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--red-primary);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+            color: var(--red-primary);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: var(--gradient-primary);
+            margin-top: 4rem;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--bright-white);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--bright-white);
+            color: var(--red-primary);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--bright-white);
+            border: 2px solid var(--bright-white);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--bright-white);
+            color: var(--red-primary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--total-black);
+            color: var(--bright-white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
+
+        .footer-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .footer-description {
+            color: var(--light-grey);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--dark-grey);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bright-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--red-primary);
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.4);
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--bright-white);
+            position: relative;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--red-primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-grey);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--red-primary);
+            padding-left: 10px;
+        }
+
+        .footer-links a::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--light-grey);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info li:hover {
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        .contact-info i {
+            color: var(--red-primary);
+            font-size: 1.1rem;
+            width: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info li:hover i {
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--dark-grey);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: var(--light-grey);
+            font-size: 0.9rem;
+        }
+
+        .footer-links-bottom {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links-bottom a {
+            color: var(--light-grey);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links-bottom a:hover {
+            color: var(--red-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .process-step:nth-child(odd),
+            .process-step:nth-child(even) {
+                padding: 0;
+                justify-content: center;
+            }
+
+            .process-timeline::before {
+                left: 30px;
+            }
+
+            .process-number {
+                left: 30px;
+            }
+
+            .process-content {
+                max-width: 100%;
+                margin-left: 60px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bright-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--light-grey);
+            border-top: 3px solid var(--red-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation */
+        .stagger-1 {
+            transition-delay: 0.1s;
+        }
+
+        .stagger-2 {
+            transition-delay: 0.2s;
+        }
+
+        .stagger-3 {
+            transition-delay: 0.3s;
+        }
+
+        .stagger-4 {
+            transition-delay: 0.4s;
+        }
+
+        /* Interactive cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1999;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            mix-blend-mode: multiply;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div style="text-align: center;">
+            <img src="logo.png" alt="SILOG" style="height: 80px; margin-bottom: 2rem; animation: pulse 2s infinite;">
+            <div class="loader"></div>
+            <p style="margin-top: 1rem; color: var(--dark-grey); font-size: 0.9rem;">Memuat pengalaman SILOG...</p>
+        </div>
+    </div>
+
+    <!-- Interactive Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html"><img src="logo.png" alt="SILOG Logo" class="logo"></a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Tentang <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="history.html">History</a>
+                        <a href="profil.html">Profil</a>
+                        <a href="visi-misi.html">Visi & Misi</a>
+                        <a href="kebijakan-perusahaan.html">Kebijakan Perusahaan</a>
+                        <a href="tata-kelola-perusahaan.html">Tata Kelola Perusahaan</a>
+                        <a href="sumber-daya-manusia.html">Sumber Daya Manusia</a>
+                        <a href="direksi-komisaris.html">Direksi & Komisaris</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Bisnis <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#">Logistik</a>
+                        <a href="#">Konstruksi</a>
+                        <a href="#">Distribusi</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="info.html" class="nav-link">Info<i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#berita">Berita</a>
+                        <a href="#galeri">Galeri</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="jaringan.html" class="nav-link">Jaringan <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#portofolio">Portofolio</a>
+                        <a href="#gudang">Gudang</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="grub.html" class="nav-link">Grub</a>
+                </li>
+                <li class="nav-item">
+                    <a href="karir.html" class="nav-link">Karir</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Kontak</a>
+                </li>
+            </ul>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Beranda</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Karir</span>
+                </div>
+                <h1 class="hero-title primary-font">Bergabunglah dengan Tim Kami</h1>
+                <p class="hero-subtitle secondary-font">Wujudkan potensi terbaik Anda bersama SILOG - Semen Indonesia Logistik</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Join Section -->
+    <section class="why-join-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Mengapa Bergabung dengan SILOG?</h2>
+            <p class="section-subtitle fade-in">Nikmati pengalaman karir yang memuaskan di lingkungan kerja yang inspiratif</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="benefit-title">Pengembangan Karir</h3>
+                    <p class="benefit-description">Program pelatihan berkelanjutan dan jalur karir yang jelas untuk mendukung pertumbuhan profesional Anda.</p>
+                </div>
+                
+                <div class="benefit-card fade-in stagger-1">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="benefit-title">Tim Kolaboratif</h3>
+                    <p class="benefit-description">Bekerja dengan profesional terbaik di industri logistik dan konstruksi dalam lingkungan yang mendukung.</p>
+                </div>
+                
+                <div class="benefit-card fade-in stagger-2">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="benefit-title">Kesejahteraan Karyawan</h3>
+                    <p class="benefit-description">Program kesehatan, asuransi, dan fasilitas kesejahteraan komprehensif untuk Anda dan keluarga.</p>
+                </div>
+                
+                <div class="benefit-card fade-in stagger-3">
+                    <div class="benefit-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="benefit-title">Inovasi & Kreativitas</h3>
+                    <p class="benefit-description">Lingkungan kerja yang mendorong inovasi dan kreativitas untuk menghadapi tantangan industri.</p>
+                </div>
+                
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3 class="benefit-title">Work-Life Balance</h3>
+                    <p class="benefit-description">Kebijakan kerja fleksibel dan program keseimbangan hidup kerja yang sehat.</p>
+                </div>
+                
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="benefit-title">Pengaruh Nasional</h3>
+                    <p class="benefit-description">Berpartisipasi dalam proyek-proyek yang berdampak signifikan terhadap pembangunan nasional.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Job Openings Section -->
+    <section class="jobs-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Lowongan Tersedia</h2>
+            <p class="section-subtitle fade-in">Temukan kesempatan karir yang sesuai dengan passion dan keahlian Anda</p>
+            
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">Semua</button>
+                <button class="filter-btn" data-filter="logistik">Logistik</button>
+                <button class="filter-btn" data-filter="konstruksi">Konstruksi</button>
+                <button class="filter-btn" data-filter="it">IT</button>
+                <button class="filter-btn" data-filter="hr">HR</button>
+                <button class="filter-btn" data-filter="finance">Finance</button>
+            </div>
+            
+            <div class="jobs-grid">
+                <div class="job-card fade-in" data-category="logistik">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Manager Logistik</h3>
+                            <p class="job-department">Logistik & Supply Chain</p>
+                        </div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jakarta</span>
+                        </div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-detail">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Full Time</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>S1</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-clock"></i>
+                            <span>5+ Tahun</span>
+                        </div>
+                    </div>
+                    <p class="job-description">
+                        Memimpin tim logistik untuk mengoptimalkan rantai pasok dan distribusi produk SILOG secara efisien dan efektif.
+                    </p>
+                    <div class="job-tags">
+                        <span class="job-tag">Leadership</span>
+                        <span class="job-tag">Supply Chain</span>
+                        <span class="job-tag">Management</span>
+                    </div>
+                    <button class="job-apply-btn">
+                        Lamar Sekarang
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div class="job-card fade-in stagger-1" data-category="konstruksi">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Project Engineer</h3>
+                            <p class="job-department">Konstruksi & Engineering</p>
+                        </div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Surabaya</span>
+                        </div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-detail">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Full Time</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>S1 Teknik</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-clock"></i>
+                            <span>3+ Tahun</span>
+                        </div>
+                    </div>
+                    <p class="job-description">
+                        Bertanggung jawab atas perencanaan, eksekusi, dan pengawasan proyek konstruksi sesuai standar SILOG.
+                    </p>
+                    <div class="job-tags">
+                        <span class="job-tag">Engineering</span>
+                        <span class="job-tag">Construction</span>
+                        <span class="job-tag">Project Management</span>
+                    </div>
+                    <button class="job-apply-btn">
+                        Lamar Sekarang
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div class="job-card fade-in stagger-2" data-category="it">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">IT Developer</h3>
+                            <p class="job-department">Teknologi Informasi</p>
+                        </div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jakarta</span>
+                        </div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-detail">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Full Time</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>S1 IT</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-clock"></i>
+                            <span>2+ Tahun</span>
+                        </div>
+                    </div>
+                    <p class="job-description">
+                        Mengembangkan dan memelihara sistem aplikasi untuk mendukung operasional logistik dan distribusi SILOG.
+                    </p>
+                    <div class="job-tags">
+                        <span class="job-tag">Programming</span>
+                        <span class="job-tag">Web Development</span>
+                        <span class="job-tag">Database</span>
+                    </div>
+                    <button class="job-apply-btn">
+                        Lamar Sekarang
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div class="job-card fade-in" data-category="hr">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">HR Business Partner</h3>
+                            <p class="job-department">Sumber Daya Manusia</p>
+                        </div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jakarta</span>
+                        </div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-detail">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Full Time</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>S1 Psikologi/Manajemen</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-clock"></i>
+                            <span>4+ Tahun</span>
+                        </div>
+                    </div>
+                    <p class="job-description">
+                        Menjadi mitra strategis bagi unit bisnis dalam mengelola sumber daya manusia dan budaya organisasi.
+                    </p>
+                    <div class="job-tags">
+                        <span class="job-tag">HR Strategy</span>
+                        <span class="job-tag">Talent Management</span>
+                        <span class="job-tag">Organizational Development</span>
+                    </div>
+                    <button class="job-apply-btn">
+                        Lamar Sekarang
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div class="job-card fade-in" data-category="finance">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Finance Analyst</h3>
+                            <p class="job-department">Keuangan & Akuntansi</p>
+                        </div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jakarta</span>
+                        </div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-detail">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Full Time</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>S1 Akuntansi/Keuangan</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-clock"></i>
+                            <span>3+ Tahun</span>
+                        </div>
+                    </div>
+                    <p class="job-description">
+                        Melakukan analisis keuangan dan penganggaran untuk mendukung pengambilan keputusan strategis perusahaan.
+                    </p>
+                    <div class="job-tags">
+                        <span class="job-tag">Financial Analysis</span>
+                        <span class="job-tag">Budgeting</span>
+                        <span class="job-tag">Reporting</span>
+                    </div>
+                    <button class="job-apply-btn">
+                        Lamar Sekarang
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recruitment Process Section -->
+    <section class="process-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Proses Rekrutmen</h2>
+            <p class="section-subtitle fade-in">Langkah-langkah untuk bergabung dengan keluarga besar SILOG</p>
+            
+            <div class="process-timeline">
+                <div class="process-step fade-in">
+                    <div class="process-content">
+                        <h3 class="process-title">1. Lamaran Online</h3>
+                        <p class="process-description">
+                            Kirimkan CV dan surat lamaran Anda melalui portal karir kami. Pastikan semua dokumen lengkap dan terupdate.
+                        </p>
+                    </div>
+                    <div class="process-number">1</div>
+                </div>
+                
+                <div class="process-step fade-in stagger-1">
+                    <div class="process-content">
+                        <h3 class="process-title">2. Seleksi Administrasi</h3>
+                        <p class="process-description">
+                            Tim HR akan melakukan penilaian awal terhadap kualifikasi dan pengalaman Anda sesuai persyaratan posisi.
+                        </p>
+                    </div>
+                    <div class="process-number">2</div>
+                </div>
+                
+                <div class="process-step fade-in stagger-2">
+                    <div class="process-content">
+                        <h3 class="process-title">3. Tes Psikologi</h3>
+                        <p class="process-description">
+                            Mengikuti serangkaian tes untuk mengukur kemampuan kognitif, kepribadian, dan potensi Anda.
+                        </p>
+                    </div>
+                    <div class="process-number">3</div>
+                </div>
+                
+                <div class="process-step fade-in stagger-3">
+                    <div class="process-content">
+                        <h3 class="process-title">4. Wawancara</h3>
+                        <p class="process-description">
+                            Sesi wawancara dengan HR dan user department untuk mendalami kompetensi dan motivasi Anda.
+                        </p>
+                    </div>
+                    <div class="process-number">4</div>
+                </div>
+                
+                <div class="process-step fade-in">
+                    <div class="process-content">
+                        <h3 class="process-title">5. Medical Check-up</h3>
+                        <p class="process-description">
+                            Pemeriksaan kesehatan lengkap untuk memastikan kondisi fisik Anda sesuai standar perusahaan.
+                        </p>
+                    </div>
+                    <div class="process-number">5</div>
+                </div>
+                
+                <div class="process-step fade-in">
+                    <div class="process-content">
+                        <h3 class="process-title">6. Penawaran Kerja</h3>
+                        <p class="process-description">
+                            Jika lolos semua tahap, Anda akan menerima penawaran kerja resmi dari SILOG.
+                        </p>
+                    </div>
+                    <div class="process-number">6</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Cerita dari Tim Kami</h2>
+            <p class="section-subtitle fade-in">Dengarkan pengalaman langsung dari karyawan SILOG</p>
+            
+            <div class="testimonials-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="testimonial-card fade-in">
+                            <p class="testimonial-quote">
+                                Bergabung dengan SILOG adalah keputusan terbaik dalam karir saya. Lingkungan kerja yang mendukung dan kesempatan untuk terus berkembang membuat saya termotivasi setiap hari.
+                            </p>
+                            <div class="testimonial-author">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=120&h=120&fit=crop" alt="Testimonial" class="author-avatar">
+                                <div class="author-info">
+                                    <div class="author-name">Sarah Wijaya</div>
+                                    <div class="author-position">Manager Logistik</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="testimonial-card fade-in">
+                            <p class="testimonial-quote">
+                                SILOG memberikan saya platform untuk mengimplementasikan inovasi dalam industri logistik. Tim yang solid dan budaya kolaborasi membuat setiap proyek menjadi pengalaman berharga.
+                            </p>
+                            <div class="testimonial-author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop" alt="Testimonial" class="author-avatar">
+                                <div class="author-info">
+                                    <div class="author-name">Budi Santoso</div>
+                                    <div class="author-position">Project Engineer</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="testimonial-card fade-in">
+                            <p class="testimonial-quote">
+                                Program pengembangan karir di SILOG sangat terstruktur. Saya mulai dari posisi staf dan sekarang sudah menjadi supervisor berkat dukungan perusahaan.
+                            </p>
+                            <div class="testimonial-author">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop" alt="Testimonial" class="author-avatar">
+                                <div class="author-info">
+                                    <div class="author-name">Maya Putri</div>
+                                    <div class="author-position">HR Supervisor</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Pertanyaan Umum</h2>
+            <p class="section-subtitle fade-in">Temukan jawaban untuk pertanyaan yang sering ditanyakan tentang karir di SILOG</p>
+            
+            <div class="faq-container">
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Apa saja persyaratan umum untuk melamar kerja di SILOG?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Persyaratan umum meliputi: pendidikan minimal D3/S1 sesuai posisi, IPK minimal 3.00, usia maksimal 35 tahun, serta kemampuan komunikasi dan kerja sama tim yang baik. Setiap posisi mungkin memiliki persyaratan spesifik tambahan.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in stagger-1">
+                    <div class="faq-question">
+                        <span>Bagaimana proses seleksi di SILOG?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Proses seleksi terdiri dari 6 tahap: lamaran online, seleksi administrasi, tes psikologi, wawancara, medical check-up, dan penawaran kerja. Setiap tahap dirancang untuk menilai kompetensi dan kesesuaian kandidat dengan budaya perusahaan.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in stagger-2">
+                    <div class="faq-question">
+                        <span>Apakah SILOG menyediakan program pelatihan untuk karyawan baru?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Ya, SILOG memiliki program onboarding komprehensif untuk karyawan baru. Program ini mencakup orientasi perusahaan, pelatihan teknis, pengenalan sistem, dan mentoring untuk memastikan integrasi yang sukses.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in stagger-3">
+                    <div class="faq-question">
+                        <span>Bagaimana kebijakan work-life balance di SILOG?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            SILOG menerapkan kebijakan kerja fleksibel, jam kerja yang seimbang, dan program kesehatan mental. Kami juga menyediakan fasilitas rekreasi dan kegiatan team building untuk mendukung keseimbangan hidup kerja karyawan.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Apa saja benefit yang ditawarkan SILOG untuk karyawan?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Benefit yang ditawarkan meliputi: gaji kompetitif, tunjangan kesehatan, asuransi jiwa, tunjangan hari raya, program pensiun, fasilitas kendaraan operasional, serta kesempatan pengembangan karir dan pelatihan.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title primary-font">Siap Memulai Karir Anda?</h2>
+            <p class="cta-description secondary-font">Bergabunglah dengan kami dan jadilah bagian dari transformasi industri logistik Indonesia</p>
+            <div class="cta-buttons">
+                <a href="#" class="cta-button">Lihat Semua Lowongan</a>
+                <a href="#" class="cta-button secondary">Daftar Talent Pool</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="SILOG Logo" class="footer-logo">
+                    <p class="footer-description secondary-font">
+                        Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia. Berpengalaman lebih dari 6 dekade dalam melayani industri nasional.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Bisnis</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Logistik</a></li>
+                        <li><a href="#">Konstruksi</a></li>
+                        <li><a href="#">Distribusi</a></li>
+                        <li><a href="#">Semua Bisnis</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Informasi</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Grup</a></li>
+                        <li><a href="#">Berita</a></li>
+                        <li><a href="#">Galeri</a></li>
+                        <li><a href="#">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Jaringan</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Portofolio</a></li>
+                        <li><a href="#">Gudang</a></li>
+                        <li><a href="#">Semua Jaringan</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Kontak</h4>
+                    <ul class="contact-info secondary-font">
+                        <li><i class="fas fa-phone"></i> +62 21 1234 5678</li>
+                        <li><i class="fas fa-envelope"></i> info@silog.co.id</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright secondary-font">
+                    © 2025 SILOG - Semen Indonesia Logistik. All rights reserved.
+                </div>
+                <div class="footer-links-bottom secondary-font">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Interactive cursor
+        const cursor = document.getElementById('cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.opacity = '0.8';
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        // Add hover effects for interactive elements
+        document.querySelectorAll('a, button, .job-card, .benefit-card, .testimonial-card, .faq-item, .social-link').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.opacity = '0.6';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.opacity = '0.8';
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animation elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Job filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const jobCards = document.querySelectorAll('.job-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const filter = btn.getAttribute('data-filter');
+                
+                jobCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // FAQ functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // Close other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+
+        // Initialize Swiper for testimonials
+        const swiper = new Swiper('.testimonials-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+
+        // Apply button functionality
+        const applyBtns = document.querySelectorAll('.job-apply-btn');
+        
+        applyBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // In a real application, this would open an application form
+                alert('Formulir pendaftaran akan segera tersedia. Silakan hubungi HRD kami di info@silog.co.id');
+            });
+        });
+    </script>
+</body>
+</html>

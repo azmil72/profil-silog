@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kebijakan Perusahaan - SILOG</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bright-white: #FFFFFF;
+            --total-black: #000000;
+            --light-grey: #DFDEDE;
+            --dark-grey: #5E5E5F;
+            --merah-sig: #F5333F;
+            --hijau-alam: #92C83E;
+            --emas: #BFA01B;
+            --perak: #AFAFAF;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--total-black);
+            background: var(--bright-white);
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--merah-sig) 0%, var(--total-black) 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+            animation: float 20s linear infinite;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .floating-shape:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.2);
+        }
+
+        .shape-1 { 
+            top: 20%; 
+            left: 10%; 
+            width: 80px; 
+            height: 80px; 
+            animation-delay: 0s;
+            background: rgba(245, 51, 63, 0.1);
+        }
+        .shape-2 { 
+            top: 60%; 
+            right: 15%; 
+            width: 120px; 
+            height: 120px; 
+            animation-delay: -2s;
+            background: rgba(191, 160, 27, 0.1);
+        }
+        .shape-3 { 
+            bottom: 20%; 
+            left: 20%; 
+            width: 60px; 
+            height: 60px; 
+            animation-delay: -4s;
+            background: rgba(175, 175, 175, 0.1);
+        }
+        .shape-4 { 
+            top: 40%; 
+            left: 70%; 
+            width: 100px; 
+            height: 100px; 
+            animation-delay: -1s;
+            background: rgba(146, 200, 62, 0.1);
+        }
+        .shape-5 {
+            top: 80%;
+            right: 30%;
+            width: 90px;
+            height: 90px;
+            animation-delay: -3s;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg) scale(1); 
+                opacity: 0.8;
+            }
+            25% { 
+                transform: translateY(-15px) rotate(90deg) scale(1.1); 
+                opacity: 0.6;
+            }
+            50% { 
+                transform: translateY(-30px) rotate(180deg) scale(0.9); 
+                opacity: 1;
+            }
+            75% { 
+                transform: translateY(-15px) rotate(270deg) scale(1.05); 
+                opacity: 0.7;
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--bright-white);
+            z-index: 10;
+            position: relative;
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .hero-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+            animation: heroTitleEnter 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.5s;
+            text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, var(--bright-white), rgba(245, 51, 63, 0.9));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroSubtitleEnter 1s ease-out forwards 0.8s;
+            text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+            line-height: 1.6;
+        }
+
+        @keyframes heroTitleEnter {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes heroSubtitleEnter {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating Elements Animation */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.1;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatIcon 8s ease-in-out infinite;
+            color: var(--bright-white);
+        }
+
+        .floating-icon:nth-child(1) {
+            top: 15%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        .floating-icon:nth-child(2) {
+            top: 25%;
+            right: 10%;
+            animation-delay: -2s;
+        }
+        .floating-icon:nth-child(3) {
+            bottom: 30%;
+            left: 15%;
+            animation-delay: -4s;
+        }
+        .floating-icon:nth-child(4) {
+            bottom: 20%;
+            right: 20%;
+            animation-delay: -1s;
+        }
+        .floating-icon:nth-child(5) {
+            top: 50%;
+            left: 8%;
+            animation-delay: -3s;
+        }
+        .floating-icon:nth-child(6) {
+            top: 70%;
+            right: 25%;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg) scale(1); 
+            }
+            33% { 
+                transform: translateY(-20px) rotate(120deg) scale(1.2); 
+            }
+            66% { 
+                transform: translateY(10px) rotate(240deg) scale(0.8); 
+            }
+        }
+
+        /* Particle Effect */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: particleFloat 6s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(0vh) scale(0);
+            }
+        }
+
+        /* Pulse Background Effect */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(245, 51, 63, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 4s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        /* Introduction Section */
+        .intro-section {
+            padding: 6rem 2rem;
+            background: var(--bright-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .intro-content {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .intro-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, var(--merah-sig), var(--emas));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 51, 63, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(245, 51, 63, 0); }
+        }
+
+        .intro-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--dark-grey);
+            margin-bottom: 2rem;
+        }
+
+        .intro-text strong {
+            color: var(--total-black);
+            font-weight: 600;
+        }
+
+        /* Policy Cards Section */
+        .policy-section {
+            padding: 6rem 2rem;
+            background: var(--light-grey);
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--total-black);
+        }
+
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .policy-card {
+            background: var(--bright-white);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: cardSlideUp 0.8s ease forwards;
+        }
+
+        .policy-card:nth-child(1) { animation-delay: 0.1s; }
+        .policy-card:nth-child(2) { animation-delay: 0.2s; }
+        .policy-card:nth-child(3) { animation-delay: 0.3s; }
+        .policy-card:nth-child(4) { animation-delay: 0.4s; }
+        .policy-card:nth-child(5) { animation-delay: 0.5s; }
+        .policy-card:nth-child(6) { animation-delay: 0.6s; }
+        .policy-card:nth-child(7) { animation-delay: 0.7s; }
+        .policy-card:nth-child(8) { animation-delay: 0.8s; }
+        .policy-card:nth-child(9) { animation-delay: 0.9s; }
+
+        @keyframes cardSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .policy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--merah-sig), var(--emas));
+            transition: left 0.6s ease;
+        }
+
+        .policy-card:hover::before {
+            left: 0;
+        }
+
+        .policy-card:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 0 20px 50px rgba(245, 51, 63, 0.2);
+        }
+
+        .policy-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--merah-sig), var(--emas));
+            color: var(--bright-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .policy-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+        }
+
+        .policy-text {
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        .policy-text strong {
+            color: var(--total-black);
+        }
+
+        /* ISO Certifications Section */
+        .iso-section {
+            padding: 6rem 2rem;
+            background: var(--dark-grey);
+            color: var(--bright-white);
+        }
+
+        .iso-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .iso-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 4rem;
+        }
+
+        .iso-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .iso-badge {
+            background: var(--bright-white);
+            color: var(--total-black);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .iso-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--perak), var(--emas));
+        }
+
+        .iso-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .iso-code {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--merah-sig);
+            margin-bottom: 0.5rem;
+        }
+
+        .iso-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--total-black);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--total-black);
+            color: var(--bright-white);
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .footer-logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--merah-sig), var(--emas));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .policy-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .policy-card {
+                padding: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .intro-section,
+            .policy-section,
+            .iso-section {
+                padding: 4rem 1rem;
+            }
+        }
+
+        /* Scroll Animation */
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+        <div class="floating-shape shape-5"></div>
+        
+        <!-- Floating Icons -->
+        <div class="floating-elements">
+            <div class="floating-icon">📋</div>
+            <div class="floating-icon">⚖️</div>
+            <div class="floating-icon">🏭</div>
+            <div class="floating-icon">🛡️</div>
+            <div class="floating-icon">🌱</div>
+            <div class="floating-icon">🤝</div>
+        </div>
+        
+        <!-- Particles Container -->
+        <div class="particles" id="particles"></div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title" id="heroTitle">Kebijakan Perusahaan</h1>
+            <p class="hero-subtitle" id="heroSubtitle">Komitmen SILOG dalam governance dan compliance untuk mewujudkan visi perusahaan yang terpercaya, terkemuka dan terluas di Indonesia</p>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="intro-section scroll-fade">
+        <div class="container">
+            <div class="intro-content">
+                <div class="intro-icon">
+                    <svg width="40" height="40" fill="white" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <p class="intro-text">
+                    Dalam rangka mewujudkan visi perusahaan untuk menjadi perusahaan jasa logistik, kedistributoran building materials dan jasa konstruksi terpercaya, terkemuka dan terluas di Indonesia yang didukung <strong>supply chain</strong> terintegrasi dan berdaya saing tinggi dengan komitmen sebagai berikut:
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Policy Cards Section -->
+    <section class="policy-section">
+        <div class="container">
+            <h2 class="section-title scroll-fade">Komitmen Kebijakan</h2>
+            <div class="policy-grid">
+                <!-- Policy Card 1 -->
+                <div class="policy-card">
+                    <div class="policy-number">1</div>
+                    <h3 class="policy-title">Menerapkan Sistem Manajemen Semen Indonesia Logistik (SMSILOG)</h3>
+                    <div class="policy-text">
+                        Implementasi sistem manajemen terpadu yang mencakup 6 sistem manajemen ISO untuk menjamin kualitas, keselamatan, dan efisiensi operasional perusahaan.
+                    </div>
+                </div>
+
+                <!-- Policy Card 2 -->
+                <div class="policy-card">
+                    <div class="policy-number">2</div>
+                    <h3 class="policy-title">Kepatuhan Regulasi dan Manajemen Risiko</h3>
+                    <div class="policy-text">
+                        <strong>Mematuhi persyaratan peraturan dan perundang-undangan</strong> yang relevan dengan bisnis perusahaan dan pelaksanaan sistem kontrol terpadu sesuai yang dipersyaratkan dalam manajemen risiko seluruh kegiatan operasional perusahaan.
+                    </div>
+                </div>
+
+                <!-- Policy Card 3 -->
+                <div class="policy-card">
+                    <div class="policy-number">3</div>
+                    <h3 class="policy-title">Orientasi Kepuasan Pelanggan</h3>
+                    <div class="policy-text">
+                        <strong>Memproduksi, pelayanan dan memperdagangkan produk</strong> yang berorientasikan terhadap kepuasan pelanggan dengan menerapkan sistem manajemen terpadu dan teknologi yang efektif dan efisien.
+                    </div>
+                </div>
+
+                <!-- Policy Card 4 -->
+                <div class="policy-card">
+                    <div class="policy-number">4</div>
+                    <h3 class="policy-title">Perbaikan Berkelanjutan K3 dan Lingkungan</h3>
+                    <div class="policy-text">
+                        <strong>Melakukan perbaikan berkelanjutan</strong> terhadap Sistem Manajemen K3, Lingkungan guna meningkatkan Budaya K3 yang baik di tempat kerja.
+                    </div>
+                </div>
+
+                <!-- Policy Card 5 -->
+                <div class="policy-card">
+                    <div class="policy-number">5</div>
+                    <h3 class="policy-title">Pengelolaan Lingkungan dan Logistik Ramah Lingkungan</h3>
+                    <div class="policy-text">
+                        <strong>Mengelola lingkungan untuk mengantisipasi dampak pemanasan global</strong>, termasuk melakukan upaya pengurangan pencemaran udara dan mengembangkan operasional logistik ramah lingkungan.
+                    </div>
+                </div>
+
+                <!-- Policy Card 6 -->
+                <div class="policy-card">
+                    <div class="policy-number">6</div>
+                    <h3 class="policy-title">Etika Bisnis dan Budaya Perusahaan</h3>
+                    <div class="policy-text">
+                        <strong>Menjunjung tinggi etika bisnis</strong> dengan didasari oleh kapasitas kepemimpinan dan budaya perusahaan yang kuat.
+                    </div>
+                </div>
+
+                <!-- Policy Card 7 -->
+                <div class="policy-card">
+                    <div class="policy-number">7</div>
+                    <h3 class="policy-title">Sinergi Grup dan Optimalisasi Sumber Daya</h3>
+                    <div class="policy-text">
+                        <strong>Memperkuat sinergi grup</strong> dalam upaya peningkatan daya saing dengan mengoptimalkan sumber daya dan jaringan bisnis yang dimiliki perusahaan.
+                    </div>
+                </div>
+
+                <!-- Policy Card 8 -->
+                <div class="policy-card">
+                    <div class="policy-number">8</div>
+                    <h3 class="policy-title">Pengembangan SDM Kompeten dan Profesional</h3>
+                    <div class="policy-text">
+                        <strong>Pengembangan kompetensi sumber daya manusia</strong> yang kompeten dan profesional untuk mendukung pelaksanaan seluruh komitmen perusahaan dengan cara peningkatan kompetensi dan inovasi berkelanjutan.
+                    </div>
+                </div>
+
+                <!-- Policy Card 9 -->
+                <div class="policy-card">
+                    <div class="policy-number">9</div>
+                    <h3 class="policy-title">Hubungan Harmonis dengan Stakeholder</h3>
+                    <div class="policy-text">
+                        <strong>Menjalin hubungan yang harmonis</strong> dengan <strong>Stakeholder</strong> dan pihak-pihak yang berkepentingan.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ISO Certifications Section -->
+    <section class="iso-section scroll-fade">
+        <div class="container">
+            <h2 class="iso-title">Sistem Manajemen ISO</h2>
+            <p class="iso-subtitle">6 Sistem Manajemen Terintegrasi dalam SMSILOG</p>
+            <div class="iso-grid">
+                <div class="iso-badge">
+                    <div class="iso-code">ISO 9001:2015</div>
+                    <div class="iso-name">Sistem Manajemen Mutu</div>
+                </div>
+                <div class="iso-badge">
+                    <div class="iso-code">PP 50/2012</div>
+                    <div class="iso-name">Sistem Manajemen K3</div>
+                </div>
+                <div class="iso-badge">
+                    <div class="iso-code">ISO 37001:2016</div>
+                    <div class="iso-name">Sistem Manajemen Anti Penyuapan</div>
+                </div>
+                <div class="iso-badge">
+                    <div class="iso-code">ISO 45001:2018</div>
+                    <div class="iso-name">Sistem Manajemen Keselamatan Kerja</div>
+                </div>
+                <div class="iso-badge">
+                    <div class="iso-code">ISO 14001:2018</div>
+                    <div class="iso-name">Sistem Manajemen Lingkungan</div>
+                </div>
+                <div class="iso-badge">
+                    <div class="iso-code">ISO 31000:2018</div>
+                    <div class="iso-name">Sistem Manajemen Risiko</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">SILOG</div>
+            <p>Semen Indonesia Logistik - Komitmen untuk Excellence</p>
+        </div>
+    </footer>
+
+    <script>
+        // Hero content rotation data
+        const heroVariations = [
+            {
+                title: "Kebijakan Perusahaan",
+                subtitle: "Komitmen SILOG dalam governance dan compliance untuk mewujudkan visi perusahaan yang terpercaya, terkemuka dan terluas di Indonesia"
+            },
+            {
+                title: "Sistem Manajemen Terpadu", 
+                subtitle: "Implementasi 6 sistem manajemen ISO untuk menjamin kualitas, keselamatan, dan efisiensi operasional yang berkelanjutan"
+            },
+            {
+                title: "Komitmen Berkelanjutan",
+                subtitle: "Menerapkan praktik bisnis yang bertanggung jawab dengan fokus pada keberlanjutan lingkungan dan kesejahteraan stakeholder"
+            },
+            {
+                title: "Tata Kelola Terpercaya",
+                subtitle: "Membangun kepercayaan melalui transparansi, akuntabilitas, dan praktik tata kelola perusahaan yang excellent"
+            }
+        ];
+
+        let currentVariationIndex = 0;
+        let isChangingContent = false;
+
+        // Dynamic content rotation
+        function rotateHeroContent() {
+            if (isChangingContent) return;
+            isChangingContent = true;
+
+            const title = document.getElementById('heroTitle');
+            const subtitle = document.getElementById('heroSubtitle');
+
+            // Fade out animation
+            title.style.opacity = '0';
+            title.style.transform = 'translateY(30px) scale(0.95)';
+            subtitle.style.opacity = '0';
+            subtitle.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                currentVariationIndex = (currentVariationIndex + 1) % heroVariations.length;
+                const variation = heroVariations[currentVariationIndex];
+
+                title.textContent = variation.title;
+                subtitle.textContent = variation.subtitle;
+
+                // Fade in animation
+                setTimeout(() => {
+                    title.style.opacity = '1';
+                    title.style.transform = 'translateY(0) scale(1)';
+                    subtitle.style.opacity = '1';
+                    subtitle.style.transform = 'translateY(0)';
+                    isChangingContent = false;
+                }, 200);
+            }, 600);
+        }
+
+        // Auto-rotate content every 6 seconds
+        setInterval(rotateHeroContent, 6000);
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+                
+                // Different particle colors
+                const colors = [
+                    'rgba(245, 51, 63, 0.6)',
+                    'rgba(255, 255, 255, 0.6)',
+                    'rgba(191, 160, 27, 0.4)',
+                    'rgba(175, 175, 175, 0.5)'
+                ];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Interactive floating shapes
+        function initFloatingShapes() {
+            const shapes = document.querySelectorAll('.floating-shape');
+            
+            shapes.forEach((shape, index) => {
+                // Add click interaction
+                shape.addEventListener('click', () => {
+                    shape.style.animation = 'none';
+                    setTimeout(() => {
+                        shape.style.animation = '';
+                    }, 100);
+                    
+                    // Create ripple effect
+                    const ripple = document.createElement('div');
+                    ripple.style.cssText = `
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        width: 20px;
+                        height: 20px;
+                        background: rgba(255, 255, 255, 0.3);
+                        border-radius: 50%;
+                        transform: translate(-50%, -50%) scale(0);
+                        animation: shapeRipple 0.8s ease-out forwards;
+                        pointer-events: none;
+                    `;
+                    shape.appendChild(ripple);
+                    
+                    setTimeout(() => ripple.remove(), 800);
+                });
+                
+                // Mouse follow effect
+                shape.addEventListener('mouseenter', () => {
+                    shape.style.transform = 'scale(1.3) rotate(180deg)';
+                    shape.style.background = 'rgba(245, 51, 63, 0.2)';
+                });
+                
+                shape.addEventListener('mouseleave', () => {
+                    shape.style.transform = '';
+                    shape.style.background = '';
+                });
+            });
+        }
+
+        // Mouse parallax effect
+        function initMouseParallax() {
+            const heroSection = document.querySelector('.hero-section');
+            const shapes = document.querySelectorAll('.floating-shape');
+            const icons = document.querySelectorAll('.floating-icon');
+            
+            heroSection.addEventListener('mousemove', (e) => {
+                const rect = heroSection.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const deltaX = (x - centerX) / centerX;
+                const deltaY = (y - centerY) / centerY;
+                
+                shapes.forEach((shape, index) => {
+                    const intensity = (index + 1) * 10;
+                    const translateX = deltaX * intensity;
+                    const translateY = deltaY * intensity;
+                    shape.style.transform += ` translate(${translateX}px, ${translateY}px)`;
+                });
+                
+                icons.forEach((icon, index) => {
+                    const intensity = (index + 1) * 5;
+                    const translateX = deltaX * intensity;
+                    const translateY = deltaY * intensity;
+                    icon.style.transform += ` translate(${translateX}px, ${translateY}px)`;
+                });
+            });
+        }
+
+        // Scroll-based animations
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Staggered animation for policy cards
+                        if (entry.target.classList.contains('policy-card')) {
+                            const cards = document.querySelectorAll('.policy-card');
+                            cards.forEach((card, index) => {
+                                setTimeout(() => {
+                                    card.style.transform = 'translateY(0)';
+                                    card.style.opacity = '1';
+                                }, index * 150);
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.scroll-fade, .policy-card').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Ripple animation keyframes
+        const rippleKeyframes = `
+            @keyframes shapeRipple {
+                0% {
+                    transform: translate(-50%, -50%) scale(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(-50%, -50%) scale(10);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes cardSlideUp {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        
+        // Add keyframes to document
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = rippleKeyframes;
+        document.head.appendChild(styleSheet);
+
+        // Enhanced ISO badges interaction
+        function initISOBadgesAnimation() {
+            const badges = document.querySelectorAll('.iso-badge');
+            
+            badges.forEach((badge, index) => {
+                // Staggered entrance animation
+                badge.style.opacity = '0';
+                badge.style.transform = 'translateY(30px) rotateY(90deg)';
+                badge.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                
+                setTimeout(() => {
+                    badge.style.opacity = '1';
+                    badge.style.transform = 'translateY(0) rotateY(0)';
+                }, 200 + (index * 150));
+                
+                // Interactive hover effects
+                badge.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05) rotateY(10deg)';
+                    this.style.boxShadow = '0 20px 50px rgba(245, 51, 63, 0.3)';
+                });
+                
+                badge.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) rotateY(0)';
+                    this.style.boxShadow = '';
+                });
+            });
+        }
+
+        // Enhanced policy cards interaction
+        function initPolicyCardsAnimation() {
+            const cards = document.querySelectorAll('.policy-card');
+            
+            cards.forEach((card, index) => {
+                // Hover sound simulation with visual feedback
+                card.addEventListener('mouseenter', function() {
+                    // Create a subtle pulse effect
+                    const pulse = document.createElement('div');
+                    pulse.style.cssText = `
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: radial-gradient(circle, rgba(245, 51, 63, 0.1) 0%, transparent 70%);
+                        border-radius: 16px;
+                        animation: cardPulse 0.6s ease-out;
+                        pointer-events: none;
+                        z-index: -1;
+                    `;
+                    this.appendChild(pulse);
+                    
+                    setTimeout(() => pulse.remove(), 600);
+                });
+                
+                // Click interaction for policy cards
+                card.addEventListener('click', function() {
+                    // Temporary highlight effect
+                    const originalBg = this.style.background;
+                    this.style.background = 'linear-gradient(135deg, rgba(245, 51, 63, 0.05), var(--bright-white))';
+                    
+                    setTimeout(() => {
+                        this.style.background = originalBg;
+                    }, 300);
+                });
+            });
+        }
+
+        // Add card pulse animation
+        const cardPulseKeyframes = `
+            @keyframes cardPulse {
+                0% {
+                    opacity: 0;
+                    transform: scale(0.8);
+                }
+                50% {
+                    opacity: 0.8;
+                    transform: scale(1.1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(1.3);
+                }
+            }
+        `;
+        
+        const cardStyleSheet = document.createElement('style');
+        cardStyleSheet.textContent = cardPulseKeyframes;
+        document.head.appendChild(cardStyleSheet);
+
+        // Initialize all interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            initFloatingShapes();
+            initMouseParallax();
+            initScrollAnimations();
+            
+            // Delay initialization of complex animations
+            setTimeout(() => {
+                initISOBadgesAnimation();
+                initPolicyCardsAnimation();
+            }, 1000);
+        });
+
+        // Performance optimization: Throttle mouse events
+        function throttle(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Apply throttling to mouse events
+        window.addEventListener('resize', throttle(() => {
+            // Recalculate positions if needed
+            location.reload();
+        }, 500));
+
+        // Smooth scrolling enhancement
+        document.documentElement.style.scrollBehavior = 'smooth';
+        
+        // Add loading completion trigger
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+            
+            // Trigger hero animations after load
+            setTimeout(() => {
+                const heroTitle = document.getElementById('heroTitle');
+                const heroSubtitle = document.getElementById('heroSubtitle');
+                
+                if (heroTitle && heroSubtitle) {
+                    heroTitle.style.opacity = '1';
+                    heroTitle.style.transform = 'translateY(0) scale(1)';
+                    heroSubtitle.style.opacity = '1';
+                    heroSubtitle.style.transform = 'translateY(0)';
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

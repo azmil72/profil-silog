@@ -1,0 +1,2227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SILOG - Semen Indonesia Logistik</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bright-white: #FFFFFF;
+            --total-black: #000000;
+            --light-grey: #DFDEDE;
+            --dark-grey: #5E5E5F;
+            --red-accent: #F5333F;
+            --gradient-primary: linear-gradient(135deg, #F5333F 0%, #FF6B6B 100%);
+            --gradient-secondary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--bright-white);
+            color: var(--total-black);
+            overflow-x: hidden;
+        }
+
+        /* Custom Fonts */
+        .primary-font {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+        }
+
+        .secondary-font {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--total-black);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--red-accent);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bright-white);
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--total-black);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            margin: 0.25rem;
+        }
+
+        .dropdown a:hover {
+            background: var(--red-accent);
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: var(--bright-white);
+            padding: 0;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 4rem;
+            padding: 0 2rem;
+            min-height: 100vh;
+        }
+
+        .hero-content {
+            padding: 2rem 0;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .hero-image {
+            position: relative;
+            height: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            animation: slideInRight 1s ease-out;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 1s ease-in-out;
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(245, 51, 63, 0.1), rgba(0, 0, 0, 0.1));
+            z-index: 1;
+        }
+
+        @keyframes heroFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: var(--total-black);
+            line-height: 1.1;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .hero-title.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: var(--dark-grey);
+            font-weight: 400;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.8s ease 0.3s;
+        }
+
+        .hero-subtitle.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--red-accent);
+            color: var(--bright-white);
+            padding: 1.2rem 3rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(245, 51, 63, 0.3);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .cta-button.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease 0.6s;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(245, 51, 63, 0.4);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--red-accent);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--dark-grey);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .about-card {
+            background: var(--bright-white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--red-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .about-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--red-accent);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .about-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+        }
+
+        .card-text {
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 4rem 0 8rem 0;
+            background: linear-gradient(135deg, var(--light-grey) 0%, var(--bright-white) 100%);
+            margin-top: 2rem;
+            margin-bottom: 9rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(245, 51, 63, 0.2);
+        }
+
+        .service-image {
+            height: 200px;
+            background: linear-gradient(45deg, var(--red-accent), var(--dark-grey));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-image::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Font Awesome 6 Free';
+            font-size: 4rem;
+            color: var(--bright-white);
+            opacity: 0.8;
+        }
+
+        .service-card:nth-child(1) .service-image::before {
+            content: '\f0d1';
+        }
+
+        .service-card:nth-child(2) .service-image::before {
+            content: '\f1ad';
+        }
+
+        .service-card:nth-child(3) .service-image::before {
+            content: '\f48b';
+        }
+
+        .service-content {
+            padding: 2rem;
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+        }
+
+        .service-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-link {
+            color: var(--red-accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-link:hover {
+            gap: 1rem;
+        }
+
+        /* Subsidiaries Section */
+        .subsidiaries-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+            margin-top: 4rem;
+            border-top: 1px solid var(--light-grey);
+        }
+
+        .subsidiaries-section .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--total-black);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .subsidiaries-section .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--red-accent);
+            margin: 1rem auto 0;
+        }
+
+        .subsidiaries-section .section-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: var(--dark-grey);
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .subsidiaries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .subsidiary-card {
+            background: var(--bright-white);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid var(--light-grey);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .subsidiary-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--red-accent);
+            box-shadow: 0 15px 30px rgba(245, 51, 63, 0.15);
+        }
+
+        .subsidiary-logo {
+            width: 80px;
+            height: 80px;
+            background: var(--light-grey);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--red-accent);
+            transition: all 0.3s ease;
+        }
+
+        .subsidiary-card:hover .subsidiary-logo {
+            background: var(--red-accent);
+            color: var(--bright-white);
+            transform: scale(1.1);
+        }
+
+        .subsidiary-card .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--total-black);
+            margin-bottom: 0.8rem;
+        }
+
+        .subsidiary-card .card-text {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-grey);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* Enhanced News Section */
+        .news-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, var(--bright-white) 50%, #f1f3f4 100%);
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .news-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(245,51,63,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>') repeat;
+            pointer-events: none;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .news-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(223, 222, 222, 0.5);
+        }
+
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .news-card:hover::before {
+            opacity: 1;
+        }
+
+        .news-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--red-accent);
+        }
+
+        .news-image {
+            height: 220px;
+            background: linear-gradient(45deg, var(--dark-grey), var(--red-accent));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-image::after {
+            content: '\f1ea';
+            font-family: 'Font Awesome 6 Free';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: var(--bright-white);
+            opacity: 0.8;
+        }
+
+        .news-content {
+            padding: 2rem;
+            position: relative;
+        }
+
+        .news-date {
+            color: var(--red-accent);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .news-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+            line-height: 1.4;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .news-excerpt {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .news-read-more {
+            color: var(--red-accent);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .news-read-more:hover {
+            gap: 0.8rem;
+            color: var(--total-black);
+        }
+
+        /* Enhanced News Button */
+        .news-button-container {
+            text-align: center;
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .btn-read-more-news {
+            display: inline-block;
+            background: var(--gradient-primary);
+            color: var(--bright-white);
+            padding: 1.2rem 3rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(245, 51, 63, 0.3);
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+
+        .btn-read-more-news::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-read-more-news:hover::before {
+            left: 100%;
+        }
+
+        .btn-read-more-news:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(245, 51, 63, 0.4);
+        }
+
+        .btn-read-more-news:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        /* CTA Section - Replacing Contact */
+        .cta-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #fc0000 0%, #220c0c 100%);
+            position: relative;
+            overflow: hidden;
+            margin-top: 3rem;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.08)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.06)"/><circle cx="90" cy="90" r="1.2" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.8" fill="rgba(255,255,255,0.05)"/></svg>') repeat;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+
+        .cta-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 0 2rem;
+        }
+
+        .cta-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--bright-white);
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .cta-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.8s ease-out 0.6s forwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.8s ease-out 0.9s forwards;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1.3rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-btn.primary {
+            background: var(--bright-white);
+            color: var(--red-accent);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-btn.primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .cta-btn.primary:hover {
+            color: var(--bright-white);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.4);
+        }
+
+        .cta-btn.primary:hover::before {
+            left: 0;
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--bright-white);
+            border-color: var(--bright-white);
+        }
+
+        .cta-btn.secondary:hover {
+            background: var(--bright-white);
+            color: var(--red-accent);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Enhanced Gallery Section */
+        .gallery-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+            margin-top: 2rem;
+        }
+
+        .gallery-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-top: 3rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-slide {
+            min-width: 100%;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .gallery-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-slide:hover::before {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            color: var(--bright-white);
+            transform: translateY(100%);
+            transition: all 0.4s ease;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.9), rgba(0, 0, 0, 0.8));
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+        }
+
+        .gallery-slide:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .gallery-caption h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-caption p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--total-black);
+        }
+
+        .gallery-nav:hover {
+            background: var(--red-accent);
+            color: var(--bright-white);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .gallery-prev {
+            left: 1rem;
+        }
+
+        .gallery-next {
+            right: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--total-black);
+            color: var(--bright-white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-description {
+            color: var(--light-grey);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--dark-grey);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bright-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--red-accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.4);
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--bright-white);
+            position: relative;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--red-accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-grey);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--red-accent);
+            padding-left: 10px;
+        }
+
+        .footer-links a::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--red-accent);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--light-grey);
+            font-size: 0.95rem;
+        }
+
+        .contact-info i {
+            color: var(--red-accent);
+            font-size: 1.1rem;
+            width: 20px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--dark-grey);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: var(--light-grey);
+            font-size: 0.9rem;
+        }
+
+        .footer-links-bottom {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links-bottom a {
+            color: var(--light-grey);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links-bottom a:hover {
+            color: var(--red-accent);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--total-black);
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-image {
+                height: 400px;
+                order: -1;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .cta-title {
+                font-size: 2.5rem;
+            }
+
+            .cta-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .cta-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .hero-container {
+                padding: 0 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .cta-title {
+                font-size: 2.2rem;
+            }
+
+            .cta-subtitle {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+
+            .cta-buttons {
+                padding: 0 1rem;
+            }
+
+            /* Responsive untuk semua section */
+            section:not(.hero) {
+                padding: 3rem 0;
+                margin-top: 1.5rem;
+            }
+
+            .services-section,
+            .news-section {
+                margin-top: 1rem;
+            }
+
+            .subsidiaries-section {
+                margin-top: 2rem;
+            }
+
+            .subsidiaries-section .section-title {
+                font-size: 1.8rem;
+            }
+
+            .subsidiaries-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .subsidiary-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bright-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--light-grey);
+            border-top: 3px solid var(--red-accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Global Section Spacing */
+        section:not(.hero) {
+            position: relative;
+        }
+
+        section:not(.hero):not(:first-child) {
+            margin-top: 2rem;
+        }
+
+        /* Ensure proper spacing between sections */
+        .about-section + .services-section {
+            margin-top: 3rem;
+        }
+        
+        .services-section + .subsidiaries-section {
+            margin-top: 5rem;
+        }
+        
+        .subsidiaries-section + .news-section,
+        .news-section + .gallery-section,
+        .gallery-section + .cta-section {
+            margin-top: 3rem;
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .shimmer-effect {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div style="text-align: center;">
+            <img src="logo.png" alt="SILOG" style="height: 80px; margin-bottom: 2rem; animation: pulse 2s infinite;">
+            <div class="loader"></div>
+            <p style="margin-top: 1rem; color: var(--dark-grey); font-size: 0.9rem;">Memuat pengalaman SILOG...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <img src="logo.png" alt="SILOG Logo" class="logo">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">Tentang <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#history">History</a>
+                        <a href="#profile">Profil</a>
+                        <a href="#vision">Visi & Misi</a>
+                        <a href="#policy">Kebijakan Perusahaan</a>
+                        <a href="#governance">Tata Kelola Perusahaan</a>
+                        <a href="#hr">Sumber Daya Manusia</a>
+                        <a href="#management">Direksi & Komisaris</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#business" class="nav-link">Bisnis <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#logistics">Logistik</a>
+                        <a href="#construction">Konstruksi</a>
+                        <a href="#distribution">Distribusi</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#information" class="nav-link">Info<i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#news">Berita</a>
+                        <a href="#gallery">Galeri</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#network" class="nav-link">Jaringan <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#portfolio">Portofolio</a>
+                        <a href="#warehouse">Gudang</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#grub" class="nav-link">Grub</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#karir" class="nav-link">Karir</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Kontak</a>
+                </li>
+            </ul>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title primary-font" id="heroTitle">Solusi Logistik Terdepan</h1>
+                <p class="hero-subtitle secondary-font" id="heroSubtitle">Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia.</p>
+                <a href="#about" class="cta-button secondary-font" id="ctaButton">Jelajahi Layanan Kami</a>
+            </div>
+            <div class="hero-image" id="heroImage">
+                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop" alt="SILOG Logistics" id="heroImg">
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">Tentang SILOG</h2>
+            <p class="section-subtitle fade-in">Membangun Indonesia melalui solusi logistik yang inovatif dan berkelanjutan</p>
+            
+            <div class="about-grid">
+                <div class="about-card fade-in">
+                    <div class="card-icon"><i class="fas fa-history"></i></div>
+                    <h3 class="card-title">Sejarah Panjang</h3>
+                    <p class="card-text">Berdiri sejak tahun 1957, SILOG telah menjadi bagian integral dari pertumbuhan industri Indonesia dengan pengalaman lebih dari 6 dekade dalam layanan logistik.</p>
+                </div>
+                
+                <div class="about-card fade-in">
+                    <div class="card-icon"><i class="fas fa-award"></i></div>
+                    <h3 class="card-title">Standar Kualitas</h3>
+                    <p class="card-text">Berkomitmen memberikan layanan terbaik dengan standar internasional dan teknologi terdepan untuk memenuhi kebutuhan pelanggan.</p>
+                </div>
+                
+                <div class="about-card fade-in">
+                    <div class="card-icon"><i class="fas fa-globe-asia"></i></div>
+                    <h3 class="card-title">Jangkauan Nasional</h3>
+                    <p class="card-text">Melayani seluruh Indonesia dengan jaringan distribusi yang luas dan infrastruktur logistik yang modern dan terintegrasi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <h2 class="section-title fade-in">Layanan Utama</h2>
+            <p class="section-subtitle fade-in">Solusi terintegrasi untuk kebutuhan logistik, konstruksi, dan distribusi</p>
+            
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-image"></div>
+                    <div class="service-content">
+                        <h3 class="service-title">Logistik</h3>
+                        <p class="service-description">Layanan logistik terintegrasi dengan teknologi terdepan untuk memastikan pengiriman yang efisien dan tepat waktu ke seluruh Indonesia.</p>
+                        <a href="#logistics" class="service-link">Pelajari Lebih Lanjut <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-image"></div>
+                    <div class="service-content">
+                        <h3 class="service-title">Konstruksi & Manufaktur</h3>
+                        <p class="service-description">Solusi konstruksi dan manufaktur dengan standar kualitas tinggi untuk mendukung proyek-proyek pembangunan nasional.</p>
+                        <a href="#construction" class="service-link">Pelajari Lebih Lanjut <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-image"></div>
+                    <div class="service-content">
+                        <h3 class="service-title">Distribusi</h3>
+                        <p class="service-description">Jaringan distribusi yang luas dan efisien untuk memastikan produk sampai ke tangan konsumen dengan kondisi terbaik.</p>
+                        <a href="#distribution" class="service-link">Pelajari Lebih Lanjut <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subsidiaries Section -->
+    <section class="subsidiaries-section" id="subsidiaries">
+        <div class="container">
+            <h2 class="section-title fade-in">Anak Perusahaan</h2>
+            <p class="section-subtitle fade-in">Grup SILOG yang terintegrasi untuk melayani berbagai kebutuhan industri</p>
+            
+            <div class="subsidiaries-grid">
+                <div class="subsidiary-card fade-in">
+                    <div class="subsidiary-logo"><i class="fas fa-shipping-fast"></i></div>
+                    <h3 class="card-title">SILOG Transport</h3>
+                    <p class="card-text">Spesialis transportasi dan pengiriman</p>
+                </div>
+                
+                <div class="subsidiary-card fade-in">
+                    <div class="subsidiary-logo"><i class="fas fa-warehouse"></i></div>
+                    <h3 class="card-title">SILOG Warehouse</h3>
+                    <p class="card-text">Manajemen gudang dan penyimpanan</p>
+                </div>
+                
+                <div class="subsidiary-card fade-in">
+                    <div class="subsidiary-logo"><i class="fas fa-tools"></i></div>
+                    <h3 class="card-title">SILOG Construction</h3>
+                    <p class="card-text">Layanan konstruksi dan manufaktur</p>
+                </div>
+                
+                <div class="subsidiary-card fade-in">
+                    <div class="subsidiary-logo"><i class="fas fa-network-wired"></i></div>
+                    <h3 class="card-title">SILOG Solutions</h3>
+                    <p class="card-text">Solusi teknologi dan inovasi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced News Section -->
+    <section class="news-section" id="news">
+        <div class="container">
+            <h2 class="section-title fade-in">Berita Terbaru</h2>
+            <p class="section-subtitle fade-in">Update terkini dari dunia SILOG dan industri logistik</p>
+            
+            <div class="news-grid">
+                <div class="news-card fade-in">
+                    <div class="news-image"></div>
+                    <div class="news-content">
+                        <div class="news-date">28 Agustus 2025</div>
+                        <h3 class="news-title">SILOG Luncurkan Teknologi AI untuk Optimasi Rute Distribusi</h3>
+                        <p class="news-excerpt">Inovasi terbaru SILOG dalam menggunakan artificial intelligence untuk meningkatkan efisiensi distribusi dan mengurangi waktu pengiriman hingga 30% lebih cepat.</p>
+                        <a href="#news-1" class="news-read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="news-card fade-in">
+                    <div class="news-image"></div>
+                    <div class="news-content">
+                        <div class="news-date">25 Agustus 2025</div>
+                        <h3 class="news-title">Ekspansi Gudang Baru di Wilayah Indonesia Timur</h3>
+                        <p class="news-excerpt">SILOG membuka fasilitas gudang modern baru di Papua untuk meningkatkan pelayanan logistik di wilayah Indonesia Timur dengan kapasitas 50.000 ton.</p>
+                        <a href="#news-2" class="news-read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="news-card fade-in">
+                    <div class="news-image"></div>
+                    <div class="news-content">
+                        <div class="news-date">22 Agustus 2025</div>
+                        <h3 class="news-title">Kemitraan Strategis dengan BUMN untuk Proyek IKN</h3>
+                        <p class="news-excerpt">SILOG menjalin kemitraan strategis untuk mendukung pembangunan Ibu Kota Nusantara dengan layanan logistik terintegrasi senilai Rp 2.5 triliun.</p>
+                        <a href="#news-3" class="news-read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="news-button-container">
+                <a href="#all-news" class="btn-read-more-news">
+                    <i class="fas fa-newspaper"></i>
+                    Baca Berita Lainnya
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <h2 class="section-title fade-in">Galeri</h2>
+            <p class="section-subtitle fade-in">Dokumentasi kegiatan dan fasilitas SILOG</p>
+            
+            <div class="gallery-slider">
+                <div class="gallery-track" id="galleryTrack">
+                    <div class="gallery-slide" style="background-image: url('https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1200&h=400&fit=crop');">
+                        <div class="gallery-caption">
+                            <h3>Fasilitas Gudang Modern SILOG</h3>
+                            <p>Gudang berteknologi tinggi dengan sistem otomatis untuk efisiensi maksimal</p>
+                        </div>
+                    </div>
+                    <div class="gallery-slide" style="background-image: url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&h=400&fit=crop');">
+                        <div class="gallery-caption">
+                            <h3>Armada Transportasi Terintegrasi</h3>
+                            <p>Fleet modern dengan tracking real-time untuk pengiriman yang akurat</p>
+                        </div>
+                    </div>
+                    <div class="gallery-slide" style="background-image: url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1200&h=400&fit=crop');">
+                        <div class="gallery-caption">
+                            <h3>Proyek Konstruksi Skala Besar</h3>
+                            <p>Pengalaman dalam menangani proyek infrastruktur dan konstruksi nasional</p>
+                        </div>
+                    </div>
+                    <div class="gallery-slide" style="background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=400&fit=crop');">
+                        <div class="gallery-caption">
+                            <h3>Tim Profesional SILOG</h3>
+                            <p>SDM berpengalaman dan terlatih untuk memberikan layanan terbaik</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="gallery-nav gallery-prev" onclick="changeSlide(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="gallery-nav gallery-next" onclick="changeSlide(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced CTA Section -->
+    <section class="cta-section" id="cta">
+        <div class="cta-content">
+            <h2 class="cta-title">Siap Bermitra dengan SILOG?</h2>
+            <p class="cta-subtitle">Hubungi kami sekarang untuk konsultasi gratis dan dapatkan solusi logistik terbaik untuk bisnis Anda</p>
+            <div class="cta-buttons">
+                <a href="#contact" class="cta-btn primary">
+                    <i class="fas fa-phone"></i>
+                    Hubungi Kami
+                </a>
+                <a href="#about" class="cta-btn secondary">
+                    <i class="fas fa-info-circle"></i>
+                    Pelajari Lebih Lanjut
+                </a>
+            </div>
+        </div>
+    </section>
+
+     <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="SILOG Logo" class="footer-logo">
+                    <p class="footer-description secondary-font">
+                        Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia. Berpengalaman lebih dari 6 dekade dalam melayani industri nasional.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Bisnis</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#logistics">Logistik</a></li>
+                        <li><a href="#construction">Konstruksi</a></li>
+                        <li><a href="#distribution">Distribusi</a></li>
+                        <li><a href="#all-business">Semua Bisnis</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Informasi</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#group">Grup</a></li>
+                        <li><a href="#news">Berita</a></li>
+                        <li><a href="#gallery">Galeri</a></li>
+                        <li><a href="#contact">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Jaringan</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#portfolio">Portofolio</a></li>
+                        <li><a href="#warehouse">Gudang</a></li>
+                        <li><a href="#all-network">Semua Jaringan</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Kontak</h4>
+                    <ul class="contact-info secondary-font">
+                        <li><i class="fas fa-phone"></i> +62 21 1234 5678</li>
+                        <li><i class="fas fa-envelope"></i> info@silog.co.id</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright secondary-font">
+                    © 2025 SILOG - Semen Indonesia Logistik. All rights reserved.
+                </div>
+                <div class="footer-links-bottom secondary-font">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#sitemap">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Hero content data with auto-changing functionality
+        const heroContent = [
+            {
+                title: "Solusi Logistik Terdepan",
+                subtitle: "Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia.",
+                cta: "Jelajahi Layanan Kami",
+                image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop"
+            },
+            {
+                title: "Konstruksi & Manufaktur Berkualitas",
+                subtitle: "Membangun masa depan Indonesia dengan teknologi konstruksi modern dan proses manufaktur yang berkelanjutan.",
+                cta: "Lihat Proyek Kami",
+                image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&h=600&fit=crop"
+            },
+            {
+                title: "Jaringan Distribusi Nasional",
+                subtitle: "Menjangkau seluruh nusantara dengan jaringan distribusi yang luas dan sistem manajemen yang terintegrasi.",
+                cta: "Pelajari Jaringan Kami",
+                image: "https://images.unsplash.com/photo-1494412651409-8963ce7935a7?w=800&h=600&fit=crop"
+            },
+            {
+                title: "Inovasi & Teknologi Digital",
+                subtitle: "Menggunakan teknologi terkini dalam setiap aspek operasional untuk memberikan pelayanan yang efisien dan berkelanjutan.",
+                cta: "Temukan Inovasi Kami",
+                image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&h=600&fit=crop"
+            }
+        ];
+
+        let currentHeroIndex = 0;
+        let isChanging = false;
+
+        // Auto-change hero content with fade animation
+        function changeHeroContent() {
+            if (isChanging) return;
+            isChanging = true;
+
+            const heroTitle = document.getElementById('heroTitle');
+            const heroSubtitle = document.getElementById('heroSubtitle');
+            const ctaButton = document.getElementById('ctaButton');
+            const heroImg = document.getElementById('heroImg');
+
+            // Fade out with smooth animation
+            heroTitle.style.opacity = '0';
+            heroTitle.style.transform = 'translateX(-30px)';
+            heroSubtitle.style.opacity = '0';
+            heroSubtitle.style.transform = 'translateX(-20px)';
+            ctaButton.style.opacity = '0';
+            ctaButton.style.transform = 'translateY(20px)';
+            heroImg.style.opacity = '0';
+            heroImg.style.transform = 'scale(1.1)';
+
+            setTimeout(() => {
+                currentHeroIndex = (currentHeroIndex + 1) % heroContent.length;
+                const content = heroContent[currentHeroIndex];
+
+                // Update content
+                heroTitle.textContent = content.title;
+                heroSubtitle.textContent = content.subtitle;
+                ctaButton.textContent = content.cta;
+                heroImg.src = content.image;
+
+                // Fade in with smooth animation
+                setTimeout(() => {
+                    heroTitle.style.opacity = '1';
+                    heroTitle.style.transform = 'translateX(0)';
+                    heroSubtitle.style.opacity = '1';
+                    heroSubtitle.style.transform = 'translateX(0)';
+                    ctaButton.style.opacity = '1';
+                    ctaButton.style.transform = 'translateY(0)';
+                    heroImg.style.opacity = '1';
+                    heroImg.style.transform = 'scale(1)';
+                    isChanging = false;
+                }, 200);
+            }, 800);
+        }
+
+        // Start auto-change timer
+        setInterval(changeHeroContent, 5000);
+
+        // Initialize hero animations on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('heroTitle').classList.add('visible');
+                document.getElementById('heroSubtitle').classList.add('visible');
+                document.getElementById('ctaButton').classList.add('visible');
+            }, 1200);
+        });
+
+        // Gallery functionality
+        let currentSlide = 0;
+        const totalSlides = 4;
+
+        function changeSlide(direction) {
+            const track = document.getElementById('galleryTrack');
+            currentSlide += direction;
+            
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        // Auto-change gallery
+        setInterval(() => changeSlide(1), 4000);
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animation elements
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Add parallax effect to sections
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const sections = document.querySelectorAll('.about-section, .services-section');
+            sections.forEach((section, index) => {
+                const speed = 0.1 + (index * 0.05);
+                section.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Enhanced hover effects
+        document.querySelectorAll('.about-card, .service-card, .subsidiary-card, .news-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = this.style.transform + ' scale(1.02)';
+                this.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = this.style.transform.replace(' scale(1.02)', '');
+                this.style.zIndex = '1';
+            });
+        });
+
+        // Add dynamic background animation
+        function createFloatingElements() {
+            const hero = document.querySelector('.hero');
+            const floatingContainer = document.createElement('div');
+            floatingContainer.style.position = 'absolute';
+            floatingContainer.style.top = '0';
+            floatingContainer.style.left = '0';
+            floatingContainer.style.width = '100%';
+            floatingContainer.style.height = '100%';
+            floatingContainer.style.pointerEvents = 'none';
+            floatingContainer.style.zIndex = '1';
+            floatingContainer.style.opacity = '0.1';
+
+            for (let i = 0; i < 8; i++) {
+                const element = document.createElement('div');
+                element.innerHTML = ['📦', '🚚', '🏗️', '🏭', '📊', '⚙️', '🌐', '📈'][i];
+                element.style.position = 'absolute';
+                element.style.fontSize = '2rem';
+                element.style.left = Math.random() * 100 + '%';
+                element.style.top = Math.random() * 100 + '%';
+                element.style.animation = `float ${5 + Math.random() * 3}s ease-in-out infinite`;
+                element.style.animationDelay = Math.random() * 5 + 's';
+                floatingContainer.appendChild(element);
+            }
+
+            hero.appendChild(floatingContainer);
+        }
+
+        createFloatingElements();
+
+        // Add smooth reveal animation for footer
+        const footer = document.querySelector('.footer');
+        const footerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideInUp 0.8s ease-out forwards';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        footerObserver.observe(footer);
+
+        // Add staggered animation for footer grid items
+        const footerItems = document.querySelectorAll('.footer-grid > div');
+        footerItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = 'all 0.6s ease';
+            
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, 1500 + (index * 200));
+        });
+
+        // Add interactive elements
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) rotate(5deg)';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) rotate(0deg)';
+            });
+        });
+
+        // Add section titles animation
+        document.querySelectorAll('.section-title').forEach(title => {
+            title.classList.add('primary-font');
+        });
+
+        // Enhanced gallery hover effects
+        document.querySelectorAll('.gallery-slide').forEach(slide => {
+            slide.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+                this.style.transition = 'transform 0.5s ease';
+            });
+            
+            slide.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add interactive cursor
+        const cursor = document.createElement('div');
+        cursor.style.cssText = `
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--red-accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            mix-blend-mode: multiply;
+        `;
+        document.body.appendChild(cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.opacity = '0.8';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        // Add hover effects for interactive elements
+        document.querySelectorAll('a, button, .card').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.opacity = '0.6';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.opacity = '0.8';
+            });
+        });
+
+        // Enhanced news card animations
+        document.querySelectorAll('.news-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px) scale(0.95)';
+            card.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0) scale(1)';
+            }, 200 + (index * 200));
+        });
+
+        // Simple fade-in animation untuk subsidiary cards
+        document.querySelectorAll('.subsidiary-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 200);
+        });
+
+        // Intersection Observer untuk animasi saat scroll
+        const animateOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe sections untuk animasi
+        document.querySelectorAll('.subsidiaries-section, .cta-section').forEach(section => {
+            animateOnScroll.observe(section);
+        });
+
+        // Enhanced CTA section animations
+        const ctaSection = document.querySelector('.cta-section');
+        const ctaObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const elements = entry.target.querySelectorAll('.cta-title, .cta-subtitle, .cta-buttons');
+                    elements.forEach((el, index) => {
+                        setTimeout(() => {
+                            el.style.opacity = '1';
+                            el.style.transform = 'translateY(0)';
+                        }, index * 300);
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        ctaObserver.observe(ctaSection);
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.cta-btn, .btn-read-more-news').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    background-color: rgba(255, 255, 255, 0.3);
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                `;
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple animation
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            .cta-btn, .btn-read-more-news {
+                position: relative;
+                overflow: hidden;
+            }
+        `;
+        document.head.appendChild(rippleStyle);
+
+    </script>
+</body>
+</html>

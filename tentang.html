@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - SILOG</title>
+    <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red-primary: #F5333F;
+            --black: #000000;
+            --gray-dark: #5E5E5F;
+            --gray-light: #DFDEDE;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+            line-height: 1.6;
+            color: var(--black);
+            overflow-x: hidden;
+            background: var(--white);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--red-primary) 0%, #d42834 50%, #b71c1c 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);
+            animation: shine 15s linear infinite;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            z-index: 3;
+            position: relative;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .hero-text {
+            text-align: left;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideInUp 1.2s ease-out;
+            letter-spacing: -2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--white);
+            opacity: 0.95;
+            margin-bottom: 3rem;
+            animation: slideInUp 1.2s ease-out 0.3s both;
+            font-weight: 300;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--white);
+            opacity: 0.85;
+            animation: slideInUp 1.2s ease-out 0.6s both;
+            line-height: 1.8;
+        }
+
+        .hero-image-container {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 30px;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255,255,255,0.2);
+            overflow: hidden;
+            animation: floatImage 6s ease-in-out infinite;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        /* Network Visualization */
+        .network-visualization {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .network-node {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: var(--white);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255,255,255,0.8);
+            animation: nodeGlow 3s ease-in-out infinite;
+        }
+
+        .network-line {
+            position: absolute;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            border-radius: 2px;
+            transform-origin: left center;
+            animation: lineGlow 4s ease-in-out infinite;
+        }
+
+        .central-hub {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--red-primary);
+            box-shadow: 0 0 40px rgba(255,255,255,0.9);
+            animation: hubPulse 3s ease-in-out infinite;
+            z-index: 5;
+        }
+
+        /* Floating Icons */
+        .floating-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .floating-icon {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            animation: floatIcon 8s ease-in-out infinite;
+        }
+
+        .floating-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--white);
+            opacity: 0.9;
+        }
+
+        /* Hero Stats */
+        .hero-stats {
+            position: absolute;
+            bottom: -30px;
+            left: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .hero-stat-label {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 500;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-arrow {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-arrow:hover {
+            background: rgba(255,255,255,0.1);
+            transform: scale(1.1);
+        }
+
+        .scroll-arrow::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border-right: 2px solid var(--white);
+            border-bottom: 2px solid var(--white);
+            transform: rotate(45deg) translateY(-2px);
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 8rem 2rem;
+            background: var(--white);
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--red-primary), #d42834);
+            border-radius: 3px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray-dark);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .content-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(245, 51, 63, 0.1);
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--red-primary), #d42834);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .content-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .content-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(245, 51, 63, 0.15);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--red-primary), #d42834);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: iconShine 3s ease-in-out infinite;
+        }
+
+        .card-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--white);
+            z-index: 2;
+            position: relative;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .content-card:hover .card-title {
+            color: var(--red-primary);
+        }
+
+        .card-description {
+            color: var(--gray-dark);
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--red-primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .card-link:hover {
+            gap: 8px;
+        }
+
+        .card-link::after {
+            content: '→';
+            margin-left: 5px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Company Overview */
+        .company-overview {
+            background: linear-gradient(135deg, var(--gray-light) 0%, rgba(223, 222, 222, 0.5) 100%);
+            padding: 6rem 2rem;
+            margin: 4rem 0;
+            position: relative;
+        }
+
+        .overview-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .overview-text {
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .overview-text h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        .overview-text p {
+            font-size: 1.1rem;
+            color: var(--gray-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .overview-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--red-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray-dark);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .overview-visual {
+            position: relative;
+            animation: slideInRight 1s ease-out;
+        }
+
+        .visual-element {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--red-primary), #d42834);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visual-element::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 60%;
+            height: 60%;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .visual-element::after {
+            content: 'SILOG';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                transform: rotate(45deg) translateX(-100%);
+            }
+            100% {
+                transform: rotate(45deg) translateX(100%);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes iconShine {
+            0%, 100% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            50% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.1;
+            }
+        }
+
+        @keyframes floatImage {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+            50% {
+                transform: translateY(-5px) rotate(0deg);
+            }
+            75% {
+                transform: translateY(-15px) rotate(-1deg);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            50% {
+                transform: translateX(0%) translateY(0%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        @keyframes floatIcon {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-20px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes lineGlow {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scaleX(0);
+                transform-origin: left center;
+            }
+            50% {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+        }
+
+        @keyframes nodeGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255,255,255,0.8);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255,255,255,1);
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes hubPulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 40px rgba(255,255,255,0.9);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                box-shadow: 0 0 60px rgba(255,255,255,1);
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-animation {
+            animation-delay: calc(var(--stagger) * 0.1s);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+            
+            .hero-text {
+                text-align: center;
+            }
+            
+            .hero-image-container {
+                height: 400px;
+            }
+            
+            .overview-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-section {
+                padding: 4rem 1rem;
+            }
+            
+            .company-overview {
+                padding: 4rem 1rem;
+            }
+            
+            .overview-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .content-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .hero-image-container {
+                height: 300px;
+            }
+            
+            .central-hub {
+                width: 60px;
+                height: 60px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Tentang SILOG</h1>
+                <p class="hero-subtitle">Membangun Masa Depan Distribusi Indonesia</p>
+                <p class="hero-description">
+                    PT Sinergi Logistik Nusantara (SILOG) adalah perusahaan distribusi terkemuka yang berkomitmen untuk menghubungkan seluruh nusantara melalui jaringan distribusi yang kuat, teknologi canggih, dan layanan berkualitas tinggi.
+                </p>
+            </div>
+            <div class="hero-image-container">
+                <div class="hero-image">
+                    <div class="network-visualization">
+                        <!-- Network nodes -->
+                        <div class="network-node" style="top: 15%; left: 10%; animation-delay: 0s;"></div>
+                        <div class="network-node" style="top: 25%; left: 75%; animation-delay: 0.5s;"></div>
+                        <div class="network-node" style="top: 35%; left: 15%; animation-delay: 1s;"></div>
+                        <div class="network-node" style="top: 45%; left: 80%; animation-delay: 1.5s;"></div>
+                        <div class="network-node" style="top: 65%; left: 20%; animation-delay: 2s;"></div>
+                        <div class="network-node" style="top: 75%; left: 70%; animation-delay: 2.5s;"></div>
+                        <div class="network-node" style="top: 85%; left: 25%; animation-delay: 3s;"></div>
+                        <div class="network-node" style="top: 20%; left: 85%; animation-delay: 3.5s;"></div>
+                        
+                        <!-- Network connections -->
+                        <div class="network-line" style="top: 20%; left: 15%; width: 35%; transform: rotate(25deg); animation-delay: 0.2s;"></div>
+                        <div class="network-line" style="top: 30%; left: 35%; width: 30%; transform: rotate(-15deg); animation-delay: 0.7s;"></div>
+                        <div class="network-line" style="top: 50%; left: 25%; width: 40%; transform: rotate(35deg); animation-delay: 1.2s;"></div>
+                        <div class="network-line" style="top: 60%; left: 45%; width: 25%; transform: rotate(-25deg); animation-delay: 1.7s;"></div>
+                        <div class="network-line" style="top: 70%; left: 30%; width: 35%; transform: rotate(15deg); animation-delay: 2.2s;"></div>
+                        <div class="network-line" style="top: 40%; left: 55%; width: 20%; transform: rotate(-35deg); animation-delay: 2.7s;"></div>
+                        
+                        <!-- Central hub -->
+                        <div class="central-hub">SILOG</div>
+                    </div>
+                    
+                    <!-- Floating icons representing logistics -->
+                    <div class="floating-icons">
+                        <div class="floating-icon" style="top: 10%; left: 5%; animation-delay: 0s;">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v10z"/>
+                            </svg>
+                        </div>
+                        <div class="floating-icon" style="top: 15%; right: 10%; animation-delay: 2s;">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3 13h8V3H9v6H5V3H3v10zm10-6h8V5h-8v2zm0 4h8V9h-8v2zm0 4h8v-2h-8v2z"/>
+                            </svg>
+                        </div>
+                        <div class="floating-icon" style="bottom: 25%; left: 8%; animation-delay: 4s;">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <div class="floating-icon" style="bottom: 15%; right: 5%; animation-delay: 6s;">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
+                        <div class="floating-icon" style="top: 40%; right: 5%; animation-delay: 1s;">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                            </svg>
+                        </div>
+                        <div class="floating-icon" style="top: 60%; left: 85%; animation-delay: 3s;">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-2 .89-2 2v11c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5S13.5 5.83 13.5 5s.67-1.5 1.5-1.5zM9 3.5c.83 0 1.5.67 1.5 1.5S9.83 6.5 9 6.5 7.5 5.83 7.5 5 8.17 3.5 9 3.5zM20 19H4V8h16v11z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Hero stats overlay -->
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">34</div>
+                            <div class="hero-stat-label">Provinsi</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">500+</div>
+                            <div class="hero-stat-label">Mitra</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">25+</div>
+                            <div class="hero-stat-label">Tahun</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Company Overview -->
+    <section class="company-overview fade-in-up">
+        <div class="overview-content">
+            <div class="overview-text">
+                <h3>Perusahaan Distribusi Terdepan</h3>
+                <p>SILOG telah menjadi tulang punggung distribusi nasional Indonesia dengan pengalaman lebih dari dua dekade dalam industri logistik dan distribusi.</p>
+                <p>Dengan jaringan yang mencakup seluruh Indonesia, kami melayani berbagai sektor industri mulai dari FMCG, farmasi, hingga produk teknologi dengan standar kualitas internasional.</p>
+                <div class="overview-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Mitra Distribusi</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Kota Terjangkau</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">25+</div>
+                        <div class="stat-label">Tahun Pengalaman</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10M+</div>
+                        <div class="stat-label">Produk Terdistribusi</div>
+                    </div>
+                </div>
+            </div>
+            <div class="overview-visual">
+                <div class="visual-element"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <h2 class="section-title">Mengenal SILOG Lebih Dalam</h2>
+                <p class="section-subtitle">Jelajahi berbagai aspek perusahaan kami untuk memahami komitmen dan dedikasi SILOG dalam membangun Indonesia yang lebih maju</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="content-card fade-in-up stagger-animation" style="--stagger: 1">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">History</h3>
+                    <p class="card-description">Perjalanan panjang SILOG dari awal berdiri hingga menjadi perusahaan distribusi terkemuka di Indonesia. Sejarah pencapaian, milestone penting, dan evolusi perusahaan.</p>
+                    <a href="#history" class="card-link">Pelajari Sejarah Kami</a>
+                </div>
+
+                <div class="content-card fade-in-up stagger-animation" style="--stagger: 2">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Profil Perusahaan</h3>
+                    <p class="card-description">Gambaran komprehensif tentang SILOG, termasuk struktur organisasi, bidang usaha, dan komitmen perusahaan terhadap stakeholder dan masyarakat.</p>
+                    <a href="#profil" class="card-link">Lihat Profil Lengkap</a>
+                </div>
+
+                <div class="content-card fade-in-up stagger-animation" style="--stagger: 3">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Visi & Misi</h3>
+                    <p class="card-description">Visi jangka panjang dan misi SILOG dalam membangun ekosistem distribusi Indonesia yang berkelanjutan dan memberikan nilai tambah bagi semua pihak.</p>
+                    <a href="#visi-misi" class="card-link">Baca Visi & Misi</a>
+                </div>
+
+                <div class="content-card fade-in-up stagger-animation" style="--stagger: 4">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Kebijakan Perusahaan</h3>
+                    <p class="card-description">Kebijakan operasional, etika bisnis, dan standar kualitas yang menjadi pedoman dalam setiap aspek kegiatan bisnis SILOG.</p>
+                    <a href="#kebijakan" class="card-link">Pelajari Kebijakan</a>
+                </div>
+
+                <div class="content-card fade-in-up stagger-animation" style="--stagger: 5">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Tata Kelola Perusahaan</h3>
+                    <p class="card-description">Sistem tata kelola yang transparan, akuntabel, dan bertanggung jawab sesuai dengan prinsip Good Corporate Governance (GCG).</p>
+                    <a href="#tata-kelola" class="card-link">Lihat Tata Kelola</a>
+                </div>
+
+                <div class="content-card fade-in-up stagger-animation" style="--stagger: 6">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.999 1.999 0 0 0 18.06 7c-.8 0-1.54.5-1.84 1.25L14.5 12.5l-3.5-1.08c-.86-.26-1.81.21-2.12 1.06-.31.85.21 1.81 1.06 2.12l5.11 1.57c.86.26 1.81-.21 2.12-1.06.31-.85-.21-1.81-1.06-2.12L15 11.5V4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Sumber Daya Manusia</h3>
+                    <p class="card-description">Komitmen terhadap pengembangan SDM berkualitas, program pelatihan, jenjang karir, dan budaya kerja yang mendukung inovasi dan pertumbuhan.</p>
+                    <a href="#sdm" class="card-link">Ketahui Program SDM</a>
+                </div>
+
+                <div class="content-card fade-in-up stagger-animation" style="--stagger: 7">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 6L12 10.5 8.5 8 12 5.5 15.5 8zM8.5 16L12 13.5 15.5 16 12 18.5 8.5 16z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Direksi & Komisaris</h3>
+                    <p class="card-description">Profil lengkap jajaran direksi dan komisaris yang memimpin SILOG dengan pengalaman dan keahlian dalam industri distribusi dan logistik.</p>
+                    <a href="#direksi" class="card-link">Lihat Profil Pimpinan</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Add interactive cursor
+        const cursor = document.createElement('div');
+        cursor.style.cssText = `
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            mix-blend-mode: multiply;
+        `;
+        document.body.appendChild(cursor);
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.opacity = '0.8';
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        // Enhanced network animation initialization
+        function initializeHeroAnimations() {
+            const nodes = document.querySelectorAll('.network-node');
+            const lines = document.querySelectorAll('.network-line');
+            const icons = document.querySelectorAll('.floating-icon');
+            
+            // Animate network nodes with staggered delays
+            nodes.forEach((node, index) => {
+                node.style.animationDelay = `${index * 0.3}s`;
+                node.style.animationDuration = `${3 + (index * 0.2)}s`;
+            });
+            
+            // Animate network lines
+            lines.forEach((line, index) => {
+                line.style.animationDelay = `${index * 0.4}s`;
+                line.style.animationDuration = `${4 + (index * 0.3)}s`;
+            });
+            
+            // Animate floating icons with varied timings
+            icons.forEach((icon, index) => {
+                const delay = index * 1.5;
+                const duration = 8 + (index * 0.8);
+                icon.style.animationDelay = `${delay}s`;
+                icon.style.animationDuration = `${duration}s`;
+            });
+        }
+
+        // Initialize animations on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeHeroAnimations();
+            
+            // Add additional visual enhancements
+            setTimeout(() => {
+                document.querySelectorAll('.network-node').forEach(node => {
+                    node.style.opacity = '1';
+                });
+                document.querySelectorAll('.network-line').forEach(line => {
+                    line.style.opacity = '1';
+                });
+            }, 500);
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter animation for stats
+        function animateCounter(el, target) {
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                el.textContent = Math.floor(current) + (el.textContent.includes('+') ? '+' : '');
+            }, 30);
+        }
+
+        // Animate stats when visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const numberEl = entry.target.querySelector('.stat-number');
+                    if (numberEl) {
+                        const text = numberEl.textContent;
+                        const number = parseInt(text.replace(/\D/g, ''));
+                        animateCounter(numberEl, number);
+                        statsObserver.unobserve(entry.target);
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.stat-item').forEach(item => {
+            statsObserver.observe(item);
+        });
+
+        // Animate hero stats
+        const heroStatsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const numberEls = entry.target.querySelectorAll('.hero-stat-number');
+                    numberEls.forEach(el => {
+                        const text = el.textContent;
+                        const number = parseInt(text.replace(/\D/g, ''));
+                        animateCounter(el, number);
+                    });
+                    heroStatsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        document.querySelectorAll('.hero-stats').forEach(stats => {
+            heroStatsObserver.observe(stats);
+        });
+
+        // Smooth scroll for scroll indicator
+        document.querySelector('.scroll-indicator').addEventListener('click', () => {
+            document.querySelector('.company-overview').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Interactive card effects
+        document.querySelectorAll('.content-card').forEach((card, index) => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+                this.style.boxShadow = '0 25px 60px rgba(245, 51, 63, 0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.boxShadow = '0 15px 40px rgba(0,0,0,0.08)';
+            });
+
+            // Stagger animation on scroll
+            card.style.transitionDelay = `${index * 0.1}s`;
+        });
+
+        // Enhanced parallax effect for hero
+        let ticking = false;
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const hero = document.querySelector('.hero');
+                    const heroContent = document.querySelector('.hero-content');
+                    
+                    if (hero && heroContent) {
+                        const speed = scrolled * 0.2;
+                        heroContent.style.transform = `translateY(${speed}px)`;
+                        hero.style.opacity = Math.max(0, 1 - scrolled / (window.innerHeight * 0.8));
+                    }
+                    
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Card click effects with ripple
+        document.querySelectorAll('.content-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                const ripple = document.createElement('div');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: radial-gradient(circle, rgba(245, 51, 63, 0.3) 0%, transparent 70%);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                    z-index: 1;
+                `;
+
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add ripple and additional animation keyframes
+        const additionalKeyframes = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes cardSlideIn {
+                0% {
+                    opacity: 0;
+                    transform: translateY(30px) scale(0.9);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            @keyframes fadeInScale {
+                0% {
+                    opacity: 0;
+                    transform: scale(0.95);
+                }
+                100% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+            
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: var(--gray-light);
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: var(--red-primary);
+                border-radius: 4px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #d42834;
+            }
+        `;
+
+        const styleElement = document.createElement('style');
+        styleElement.textContent = additionalKeyframes;
+        document.head.appendChild(styleElement);
+
+        // Loading animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.8s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Performance optimization for animations
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        
+        if (prefersReducedMotion.matches) {
+            // Disable animations for users who prefer reduced motion
+            document.querySelectorAll('*').forEach(el => {
+                el.style.animation = 'none';
+                el.style.transition = 'none';
+            });
+        }
+    </script>
+</body>
+</html>

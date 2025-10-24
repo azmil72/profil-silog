@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak - SILOG - Semen Indonesia Logistik</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root {
+            --bright-white: #FFFFFF;
+            --total-black: #000000;
+            --light-grey: #DFDEDE;
+            --dark-grey: #5E5E5F;
+            --red-primary: #F5333F;
+            --gradient-primary: linear-gradient(135deg, #F5333F 0%, #FF6B6B 100%);
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--bright-white);
+            color: var(--total-black);
+            overflow-x: hidden;
+        }
+
+        /* Custom Fonts */
+        .primary-font {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .secondary-font {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--total-black);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--red-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bright-white);
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--total-black);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            margin: 0.25rem;
+        }
+
+        .dropdown a:hover {
+            background: var(--red-primary);
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--total-black);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 60vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.08), rgba(0, 0, 0, 0.02));
+            padding: 120px 0 4rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1920&h=1080&fit=crop') center/cover;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+
+        .breadcrumb a {
+            color: var(--dark-grey);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--red-primary);
+        }
+
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: var(--total-black);
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--dark-grey);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Contact Info Section */
+        .contact-info-section {
+            padding: 5rem 0;
+            background: var(--bright-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--red-primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--dark-grey);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .contact-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--bright-white);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover .contact-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .contact-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--total-black);
+            margin-bottom: 1rem;
+        }
+
+        .contact-details {
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        .contact-details a {
+            color: var(--dark-grey);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details a:hover {
+            color: var(--red-primary);
+        }
+
+        /* Contact Form Section */
+        .contact-form-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--light-grey);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--total-black);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--light-grey);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--bright-white);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--red-primary);
+            box-shadow: 0 0 0 3px rgba(245, 51, 63, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .submit-btn {
+            background: var(--gradient-primary);
+            color: var(--bright-white);
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.3);
+        }
+
+        /* Map Section */
+        .map-section {
+            padding: 5rem 0;
+            background: var(--bright-white);
+        }
+
+        .map-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-heavy);
+            height: 500px;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--bright-white);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            z-index: 1000;
+            max-width: 300px;
+        }
+
+        .map-overlay h4 {
+            color: var(--total-black);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .map-overlay p {
+            color: var(--dark-grey);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Branches Section */
+        .branches-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+        }
+
+        .branches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .branch-card {
+            background: var(--bright-white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-grey);
+        }
+
+        .branch-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .branch-header {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .branch-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bright-white);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .branch-info h3 {
+            color: var(--total-black);
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .branch-info p {
+            color: var(--dark-grey);
+            font-size: 0.9rem;
+        }
+
+        .branch-details {
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        .branch-details div {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+        }
+
+        .branch-details i {
+            color: var(--red-primary);
+            margin-top: 0.2rem;
+            font-size: 0.9rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 5rem 0;
+            background: var(--bright-white);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bright-white);
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--light-grey);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(245, 51, 63, 0.3);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--total-black);
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--red-primary);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+            color: var(--red-primary);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: var(--gradient-primary);
+            margin-top: 4rem;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--bright-white);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--bright-white);
+            color: var(--red-primary);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--bright-white);
+            border: 2px solid var(--bright-white);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--bright-white);
+            color: var(--red-primary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--total-black);
+            color: var(--bright-white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
+
+        .footer-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .footer-description {
+            color: var(--light-grey);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--dark-grey);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bright-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--red-primary);
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.4);
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--bright-white);
+            position: relative;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--red-primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-grey);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--red-primary);
+            padding-left: 10px;
+        }
+
+        .footer-links a::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--light-grey);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info li:hover {
+            color: var(--bright-white);
+            transform: translateX(5px);
+        }
+
+        .contact-info i {
+            color: var(--red-primary);
+            font-size: 1.1rem;
+            width: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info li:hover i {
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--dark-grey);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: var(--light-grey);
+            font-size: 0.9rem;
+        }
+
+        .footer-links-bottom {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links-bottom a {
+            color: var(--light-grey);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links-bottom a:hover {
+            color: var(--red-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .map-overlay {
+                position: static;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .form-container {
+                padding: 2rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bright-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--light-grey);
+            border-top: 3px solid var(--red-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation */
+        .stagger-1 {
+            transition-delay: 0.1s;
+        }
+
+        .stagger-2 {
+            transition-delay: 0.2s;
+        }
+
+        .stagger-3 {
+            transition-delay: 0.3s;
+        }
+
+        .stagger-4 {
+            transition-delay: 0.4s;
+        }
+
+        /* Interactive cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--red-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1999;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            mix-blend-mode: multiply;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #4CAF50;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div style="text-align: center;">
+            <img src="logo.png" alt="SILOG" style="height: 80px; margin-bottom: 2rem; animation: pulse 2s infinite;">
+            <div class="loader"></div>
+            <p style="margin-top: 1rem; color: var(--dark-grey); font-size: 0.9rem;">Memuat pengalaman SILOG...</p>
+        </div>
+    </div>
+
+    <!-- Interactive Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html"><img src="logo.png" alt="SILOG Logo" class="logo"></a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Tentang <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="history.html">History</a>
+                        <a href="profil.html">Profil</a>
+                        <a href="visi-misi.html">Visi & Misi</a>
+                        <a href="kebijakan-perusahaan.html">Kebijakan Perusahaan</a>
+                        <a href="tata-kelola-perusahaan.html">Tata Kelola Perusahaan</a>
+                        <a href="sumber-daya-manusia.html">Sumber Daya Manusia</a>
+                        <a href="direksi-komisaris.html">Direksi & Komisaris</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Bisnis <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#">Logistik</a>
+                        <a href="#">Konstruksi</a>
+                        <a href="#">Distribusi</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="info.html" class="nav-link">Info<i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#berita">Berita</a>
+                        <a href="#galeri">Galeri</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="jaringan.html" class="nav-link">Jaringan <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#portofolio">Portofolio</a>
+                        <a href="#gudang">Gudang</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="grub.html" class="nav-link">Grub</a>
+                </li>
+                <li class="nav-item">
+                    <a href="karir.html" class="nav-link">Karir</a>
+                </li>
+                <li class="nav-item">
+                    <a href="kontak.html" class="nav-link">Kontak</a>
+                </li>
+            </ul>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Beranda</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Kontak</span>
+                </div>
+                <h1 class="hero-title primary-font">Hubungi Kami</h1>
+                <p class="hero-subtitle secondary-font">Kami siap melayani dan menjawab setiap pertanyaan Anda</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Info Section -->
+    <section class="contact-info-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Informasi Kontak</h2>
+            <p class="section-subtitle fade-in">Temukan berbagai cara untuk terhubung dengan tim SILOG</p>
+            
+            <div class="contact-grid">
+                <div class="contact-card fade-in">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3 class="contact-title">Telepon</h3>
+                    <div class="contact-details">
+                        <p><a href="tel:+622112345678">+62 21 1234 5678</a></p>
+                        <p><a href="tel:+622187654321">+62 21 8765 4321</a></p>
+                        <p>Senin - Jumat: 08:00 - 17:00 WIB</p>
+                    </div>
+                </div>
+                
+                <div class="contact-card fade-in stagger-1">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="contact-title">Email</h3>
+                    <div class="contact-details">
+                        <p><a href="mailto:info@silog.co.id">info@silog.co.id</a></p>
+                        <p><a href="mailto:support@silog.co.id">support@silog.co.id</a></p>
+                        <p><a href="mailto:career@silog.co.id">career@silog.co.id</a></p>
+                    </div>
+                </div>
+                
+                <div class="contact-card fade-in stagger-2">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3 class="contact-title">Alamat</h3>
+                    <div class="contact-details">
+                        <p>Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345<br>Indonesia</p>
+                    </div>
+                </div>
+                
+                <div class="contact-card fade-in stagger-3">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="contact-title">Jam Operasional</h3>
+                    <div class="contact-details">
+                        <p>Senin - Jumat: 08:00 - 17:00 WIB</p>
+                        <p>Sabtu: 08:00 - 12:00 WIB</p>
+                        <p>Minggu & Hari Libur: Tutup</p>
+                    </div>
+                </div>
+                
+                <div class="contact-card fade-in">
+                    <div class="contact-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="contact-title">Live Chat</h3>
+                    <div class="contact-details">
+                        <p>Chat langsung dengan tim kami</p>
+                        <p>Senin - Sabtu: 09:00 - 16:00 WIB</p>
+                        <p><a href="#" style="color: var(--red-primary);">Mulai Chat</a></p>
+                    </div>
+                </div>
+                
+                <div class="contact-card fade-in">
+                    <div class="contact-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3 class="contact-title">Media Sosial</h3>
+                    <div class="contact-details">
+                        <p>Ikuti kami di platform media sosial</p>
+                        <p>Untuk update terkini dan informasi</p>
+                        <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem;">
+                            <a href="#" style="color: var(--red-primary); font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
+                            <a href="#" style="color: var(--red-primary); font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+                            <a href="#" style="color: var(--red-primary); font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+                            <a href="#" style="color: var(--red-primary); font-size: 1.2rem;"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Kirim Pesan</h2>
+            <p class="section-subtitle fade-in">Isi formulir di bawah ini dan kami akan segera merespons</p>
+            
+            <div class="form-container fade-in">
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Pesan Anda telah berhasil dikirim. Kami akan segera menghubungi Anda.</span>
+                </div>
+                
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Nama Depan *</label>
+                            <input type="text" id="firstName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Nama Belakang *</label>
+                            <input type="text" id="lastName" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Nomor Telepon *</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subjek *</label>
+                        <select id="subject" class="form-control" required>
+                            <option value="">Pilih Subjek</option>
+                            <option value="informasi">Informasi Umum</option>
+                            <option value="layanan">Informasi Layanan</option>
+                            <option value="kerjasama">Penawaran Kerjasama</option>
+                            <option value="karir">Informasi Karir</option>
+                            <option value="pengaduan">Pengaduan</option>
+                            <option value="lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Pesan *</label>
+                        <textarea id="message" class="form-control" required placeholder="Tulis pesan Anda di sini..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Kirim Pesan
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Lokasi Kantor</h2>
+            <p class="section-subtitle fade-in">Temukan kantor pusat SILOG di Jakarta Selatan</p>
+            
+            <div class="map-container fade-in">
+                <div class="map-overlay">
+                    <h4>Kantor Pusat SILOG</h4>
+                    <p>Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345<br>Indonesia</p>
+                </div>
+                <div id="map"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Branches Section -->
+    <section class="branches-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Kantor Cabang</h2>
+            <p class="section-subtitle fade-in">Jaringan kantor SILOG di seluruh Indonesia</p>
+            
+            <div class="branches-grid">
+                <div class="branch-card fade-in">
+                    <div class="branch-header">
+                        <div class="branch-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="branch-info">
+                            <h3>Kantor Cabang Surabaya</h3>
+                            <p>Jawa Timur</p>
+                        </div>
+                    </div>
+                    <div class="branch-details">
+                        <div>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jl. Raya Darmo No. 45, Surabaya</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone"></i>
+                            <span>+62 31 1234 5678</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-envelope"></i>
+                            <span>surabaya@silog.co.id</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="branch-card fade-in stagger-1">
+                    <div class="branch-header">
+                        <div class="branch-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="branch-info">
+                            <h3>Kantor Cabang Bandung</h3>
+                            <p>Jawa Barat</p>
+                        </div>
+                    </div>
+                    <div class="branch-details">
+                        <div>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jl. Gatot Subroto No. 89, Bandung</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone"></i>
+                            <span>+62 22 1234 5678</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-envelope"></i>
+                            <span>bandung@silog.co.id</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="branch-card fade-in stagger-2">
+                    <div class="branch-header">
+                        <div class="branch-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="branch-info">
+                            <h3>Kantor Cabang Medan</h3>
+                            <p>Sumatera Utara</p>
+                        </div>
+                    </div>
+                    <div class="branch-details">
+                        <div>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jl. Sisingamangaraja No. 123, Medan</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone"></i>
+                            <span>+62 61 1234 5678</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-envelope"></i>
+                            <span>medan@silog.co.id</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="branch-card fade-in stagger-3">
+                    <div class="branch-header">
+                        <div class="branch-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="branch-info">
+                            <h3>Kantor Cabang Makassar</h3>
+                            <p>Sulawesi Selatan</p>
+                        </div>
+                    </div>
+                    <div class="branch-details">
+                        <div>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jl. AP Pettarani No. 67, Makassar</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone"></i>
+                            <span>+62 411 1234 5678</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-envelope"></i>
+                            <span>makassar@silog.co.id</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="branch-card fade-in">
+                    <div class="branch-header">
+                        <div class="branch-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="branch-info">
+                            <h3>Kantor Cabang Semarang</h3>
+                            <p>Jawa Tengah</p>
+                        </div>
+                    </div>
+                    <div class="branch-details">
+                        <div>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jl. Pemuda No. 134, Semarang</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone"></i>
+                            <span>+62 24 1234 5678</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-envelope"></i>
+                            <span>semarang@silog.co.id</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="branch-card fade-in">
+                    <div class="branch-header">
+                        <div class="branch-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="branch-info">
+                            <h3>Kantor Cabang Bali</h3>
+                            <p>Bali</p>
+                        </div>
+                    </div>
+                    <div class="branch-details">
+                        <div>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jl. By Pass Ngurah Rai No. 200, Denpasar</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone"></i>
+                            <span>+62 361 1234 5678</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-envelope"></i>
+                            <span>bali@silog.co.id</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Pertanyaan Umum</h2>
+            <p class="section-subtitle fade-in">Temukan jawaban untuk pertanyaan yang sering ditanyakan</p>
+            
+            <div class="faq-container">
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Bagaimana cara menghubungi layanan pelanggan SILOG?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Anda dapat menghubungi layanan pelanggan SILOG melalui telepon di +62 21 1234 5678, email di support@silog.co.id, atau melalui live chat di website kami. Jam operasional layanan pelanggan adalah Senin - Jumat pukul 08:00 - 17:00 WIB.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in stagger-1">
+                    <div class="faq-question">
+                        <span>Di mana lokasi gudang SILOG terdekat?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            SILOG memiliki jaringan gudang di seluruh Indonesia. Untuk menemukan lokasi gudang terdekat, Anda dapat menghubungi kantor cabang terdekat atau menggunakan fitur pencarian gudang di halaman Jaringan kami.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in stagger-2">
+                    <div class="faq-question">
+                        <span>Bagaimana cara menjadi mitra bisnis SILOG?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Untuk menjadi mitra bisnis SILOG, Anda dapat mengirimkan proposal kerjasama melalui email partnership@silog.co.id atau mengisi formulir kontak dengan subjek "Penawaran Kerjasama". Tim kami akan mengevaluasi proposal dan menghubungi Anda dalam 3-5 hari kerja.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in stagger-3">
+                    <div class="faq-question">
+                        <span>Apa saja layanan logistik yang ditawarkan SILOG?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            SILOG menawarkan berbagai layanan logistik meliputi: pengiriman barang, warehousing, distribusi, freight forwarding, custom clearance, dan solusi logistik terintegrasi. Setiap layanan dapat disesuaikan dengan kebutuhan spesifik klien.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Bagaimana cara melacak status pengiriman?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Anda dapat melacak status pengiriman melalui website SILOG dengan memasukkan nomor resi di halaman tracking. Alternatifnya, Anda dapat menghubungi call center kami di +62 21 1234 5678 untuk bantuan pelacakan manual.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title primary-font">Siap Berkolaborasi?</h2>
+            <p class="cta-description secondary-font">Hubungi kami sekarang dan temukan solusi logistik terbaik untuk bisnis Anda</p>
+            <div class="cta-buttons">
+                <a href="#contactForm" class="cta-button">Kirim Pesan</a>
+                <a href="tel:+622112345678" class="cta-button secondary">Hubungi Kami</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="SILOG Logo" class="footer-logo">
+                    <p class="footer-description secondary-font">
+                        Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia. Berpengalaman lebih dari 6 dekade dalam melayani industri nasional.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Bisnis</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Logistik</a></li>
+                        <li><a href="#">Konstruksi</a></li>
+                        <li><a href="#">Distribusi</a></li>
+                        <li><a href="#">Semua Bisnis</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Informasi</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Grup</a></li>
+                        <li><a href="#">Berita</a></li>
+                        <li><a href="#">Galeri</a></li>
+                        <li><a href="#">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Jaringan</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="#">Portofolio</a></li>
+                        <li><a href="#">Gudang</a></li>
+                        <li><a href="#">Semua Jaringan</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Kontak</h4>
+                    <ul class="contact-info secondary-font">
+                        <li><i class="fas fa-phone"></i> +62 21 1234 5678</li>
+                        <li><i class="fas fa-envelope"></i> info@silog.co.id</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright secondary-font">
+                    © 2025 SILOG - Semen Indonesia Logistik. All rights reserved.
+                </div>
+                <div class="footer-links-bottom secondary-font">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Interactive cursor
+        const cursor = document.getElementById('cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.opacity = '0.8';
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        // Add hover effects for interactive elements
+        document.querySelectorAll('a, button, .contact-card, .branch-card, .faq-item, .social-link, .form-control').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.opacity = '0.6';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.opacity = '0.8';
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animation elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Contact form submission
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Simulate form submission
+            const formData = new FormData(contactForm);
+            console.log('Form submitted with data:', Object.fromEntries(formData));
+            
+            // Show success message
+            successMessage.classList.add('show');
+            
+            // Reset form
+            contactForm.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 5000);
+            
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        // FAQ functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // Close other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+
+        // Initialize map
+        const map = L.map('map').setView([-6.229728, 106.829518], 15);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add marker for SILOG office
+        const siLOGIcon = L.divIcon({
+            html: '<div style="background: var(--red-primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">SILOG</div>',
+            iconSize: [40, 40],
+            className: 'custom-div-icon'
+        });
+
+        L.marker([-6.229728, 106.829518], { icon: siLOGIcon })
+            .addTo(map)
+            .bindPopup('<b>Kantor Pusat SILOG</b><br>Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345')
+            .openPopup();
+
+        // Add branch markers
+        const branches = [
+            { name: 'Surabaya', coords: [-7.2575, 112.7521] },
+            { name: 'Bandung', coords: [-6.9175, 107.6191] },
+            { name: 'Medan', coords: [3.5952, 98.6722] },
+            { name: 'Makassar', coords: [-5.1477, 119.4327] },
+            { name: 'Semarang', coords: [-6.9667, 110.4167] },
+            { name: 'Bali', coords: [-8.3405, 115.0920] }
+        ];
+
+        branches.forEach(branch => {
+            L.circleMarker(branch.coords, {
+                color: '#F5333F',
+                fillColor: '#F5333F',
+                fillOpacity: 0.5,
+                radius: 8
+            }).addTo(map)
+            .bindPopup(`Kantor Cabang ${branch.name}`);
+        });
+    </script>
+</body>
+</html>
