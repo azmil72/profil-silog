@@ -3,11 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BoardMemberController;
 
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/direksi-komisaris', function () {
-    return view('direksi-komisaris');
-})->name('direksi-komisaris');
+Route::get('/direksi-komisaris', [BoardMemberController::class, 'index'])->name('direksi-komisaris');
 Route::get('/sejarah', function () {
     return view('sejarah');
 })->name('sejarah');
@@ -17,6 +16,9 @@ Route::get('/profil', function () {
 Route::get('/visi-misi', function () {
     return view('visi-misi');
 })->name('visi-misi');
+Route::get('/info', function () {
+    return view('info');
+})->name('info');
 
 // Custom Admin Routes
 Route::prefix('admin-panel')->group(function () {

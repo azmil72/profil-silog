@@ -1,1287 +1,45 @@
-@extends(view: 'layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Direksi & Komisaris - SILOG')
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Direksi & Komisaris - SILOG - Semen Indonesia Logistik</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bright-white: #FFFFFF;
-            --total-black: #000000;
-            --light-grey: #DFDEDE;
-            --dark-grey: #5E5E5F;
-            --red-primary: #F5333F;
-            --gradient-primary: linear-gradient(135deg, #F5333F 0%, #FF6B6B 100%);
-            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', Arial, sans-serif;
-            background: var(--bright-white);
-            color: var(--total-black);
-            overflow-x: hidden;
-        }
-
-        /* Custom Fonts */
-        .primary-font {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .secondary-font {
-            font-family: 'Inter', sans-serif;
-        }
-
-        /* Navigation */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            padding: 1rem 0;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
-        }
-
-        .navbar.scrolled {
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            height: 50px;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-item {
-            position: relative;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--total-black);
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            padding: 0.5rem 0;
-            position: relative;
-        }
-
-        .nav-link:hover {
-            color: var(--red-primary);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--red-primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: var(--bright-white);
-            min-width: 200px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            border: 1px solid var(--light-grey);
-        }
-
-        .nav-item:hover .dropdown {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown a {
-            display: block;
-            padding: 0.75rem 1rem;
-            color: var(--total-black);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-radius: 6px;
-            margin: 0.25rem;
-        }
-
-        .dropdown a:hover {
-            background: var(--red-primary);
-            color: var(--bright-white);
-            transform: translateX(5px);
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--total-black);
-            cursor: pointer;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 60vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
-            padding: 120px 0 4rem;
-        }
-
-        .hero-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-content {
-            max-width: 800px;
-        }
-
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            color: var(--dark-grey);
-        }
-
-        .breadcrumb a {
-            color: var(--dark-grey);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .breadcrumb a:hover {
-            color: var(--red-primary);
-        }
-
-        .breadcrumb i {
-            margin: 0 0.5rem;
-            font-size: 0.8rem;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            color: var(--total-black);
-            line-height: 1.1;
-        }
-
-        .hero-subtitle {
-            font-size: 1.3rem;
-            color: var(--dark-grey);
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        /* Leadership Section */
-        .leadership-section {
-            padding: 4rem 0;
-            background: var(--bright-white);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--total-black);
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: var(--red-primary);
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: var(--dark-grey);
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .leadership-content {
-            background: var(--bright-white);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-            border: 1px solid var(--light-grey);
-            margin-bottom: 4rem;
-            transition: all 0.3s ease;
-        }
-
-        .leadership-content:hover {
-            box-shadow: 0 20px 50px rgba(245, 51, 63, 0.12);
-            transform: translateY(-5px);
-        }
-
-        .leadership-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--dark-grey);
-            margin-bottom: 2rem;
-        }
-
-        .leadership-text p {
-            margin-bottom: 1.5rem;
-        }
-
-        .leadership-text strong {
-            color: var(--total-black);
-        }
-
-        /* Board Members Section */
-        .board-section {
-            padding: 4rem 0;
-            background: var(--bright-white);
-        }
-
-        .board-tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 3rem;
-            gap: 1rem;
-        }
-
-        .board-tab {
-            background: var(--bright-white);
-            border: 2px solid var(--light-grey);
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--dark-grey);
-        }
-
-        .board-tab.active {
-            background: var(--red-primary);
-            color: var(--bright-white);
-            border-color: var(--red-primary);
-        }
-
-        .board-tab:hover:not(.active) {
-            border-color: var(--red-primary);
-            color: var(--red-primary);
-        }
-
-        .board-content {
-            display: none;
-        }
-
-        .board-content.active {
-            display: block;
-        }
-
-        .board-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-
-        .board-member {
-            background: var(--bright-white);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            border: 1px solid var(--light-grey);
-            position: relative;
-            cursor: pointer;
-        }
-
-        .board-member:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(245, 51, 63, 0.15);
-            border-color: rgba(245, 51, 63, 0.3);
-        }
-
-        .member-photo {
-            height: 300px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .member-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: all 0.5s ease;
-        }
-
-        .board-member:hover .member-photo img {
-            transform: scale(1.05);
-        }
-
-        .member-photo::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent 50%, rgba(245, 51, 63, 0.7) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .board-member:hover .member-photo::after {
-            opacity: 1;
-        }
-
-        .member-info {
-            padding: 2rem;
-        }
-
-        .member-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--total-black);
-            margin-bottom: 0.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .board-member:hover .member-name {
-            color: var(--red-primary);
-        }
-
-        .member-position {
-            color: var(--red-primary);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-
-        .member-bio {
-            color: var(--dark-grey);
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .view-profile-btn {
-            display: inline-flex;
-            align-items: center;
-            color: var(--red-primary);
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .view-profile-btn:hover {
-            gap: 8px;
-        }
-
-        .view-profile-btn::after {
-            content: '→';
-            margin-left: 5px;
-            transition: margin-left 0.3s ease;
-        }
-
-        /* Structure Section */
-        .structure-section {
-            padding: 4rem 0;
-            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
-        }
-
-        .structure-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .structure-image {
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .structure-image:hover {
-            transform: scale(1.02);
-            box-shadow: 0 25px 60px rgba(245, 51, 63, 0.15);
-        }
-
-        .structure-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .structure-caption {
-            color: var(--dark-grey);
-            font-size: 1rem;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* Sub Navigation Cards Section */
-        .subnav-section {
-            padding: 4rem 0;
-            background: var(--bright-white);
-        }
-
-        /* Cards Grid */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            margin-top: 4rem;
-        }
-
-        .content-card {
-            background: var(--bright-white);
-            border-radius: 20px;
-            padding: 3rem 2.5rem;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            border: 1px solid rgba(245, 51, 63, 0.1);
-        }
-
-        .content-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--red-primary), #d42834);
-            transform: scaleX(0);
-            transition: transform 0.5s ease;
-        }
-
-        .content-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .content-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(245, 51, 63, 0.15);
-            background: linear-gradient(135deg, rgba(245, 51, 63, 0.03), rgba(255, 255, 255, 0.9));
-        }
-
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--red-primary), #d42834);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .content-card:hover .card-icon {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 10px 20px rgba(245, 51, 63, 0.3);
-        }
-
-        .card-icon::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
-            animation: iconShine 3s ease-in-out infinite;
-        }
-
-        @keyframes iconShine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
-        }
-
-        .card-icon i {
-            font-size: 2rem;
-            color: var(--bright-white);
-            z-index: 2;
-            position: relative;
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--total-black);
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .content-card:hover .card-title {
-            color: var(--red-primary);
-        }
-
-        .card-description {
-            color: var(--dark-grey);
-            line-height: 1.7;
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-link {
-            display: inline-flex;
-            align-items: center;
-            color: var(--red-primary);
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-
-        .card-link:hover {
-            gap: 8px;
-            color: var(--red-primary);
-        }
-
-        .card-link::after {
-            content: '→';
-            margin-left: 5px;
-            transition: margin-left 0.3s ease;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background-color: var(--bright-white);
-            margin: 5% auto;
-            padding: 0;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.4s ease;
-            position: relative;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-header {
-            position: relative;
-            height: 250px;
-            overflow: hidden;
-            border-radius: 20px 20px 0 0;
-        }
-
-        .modal-header img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .modal-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-        }
-
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            color: var(--bright-white);
-            font-size: 35px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 3;
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .close:hover {
-            background: var(--red-primary);
-            transform: rotate(90deg);
-        }
-
-        .modal-body {
-            padding: 2.5rem;
-        }
-
-        .modal-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--total-black);
-            margin-bottom: 0.5rem;
-        }
-
-        .modal-position {
-            color: var(--red-primary);
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-        }
-
-        .modal-section {
-            margin-bottom: 2rem;
-        }
-
-        .modal-section h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--total-black);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .modal-section h3 i {
-            color: var(--red-primary);
-        }
-
-        .modal-section p {
-            color: var(--dark-grey);
-            line-height: 1.7;
-            margin-bottom: 1rem;
-        }
-
-        .modal-section ul {
-            list-style: none;
-            margin-left: 1rem;
-        }
-
-        .modal-section li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.8rem;
-            color: var(--dark-grey);
-            line-height: 1.6;
-        }
-
-        .modal-section li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--red-primary);
-            font-weight: bold;
-        }
-
-        .education-item, .experience-item {
-            background: var(--bright-white);
-            border: 1px solid var(--light-grey);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .education-item:hover, .experience-item:hover {
-            border-color: var(--red-primary);
-            box-shadow: 0 5px 15px rgba(245, 51, 63, 0.1);
-        }
-
-        .item-year {
-            font-weight: 600;
-            color: var(--red-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .item-title {
-            font-weight: 600;
-            color: var(--total-black);
-            margin-bottom: 0.3rem;
-        }
-
-        .item-institution {
-            color: var(--dark-grey);
-            font-style: italic;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            padding: 5rem 0;
-            background: var(--gradient-primary);
-            margin-top: 4rem;
-        }
-
-        .cta-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            padding: 0 2rem;
-        }
-
-        .cta-title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--bright-white);
-            margin-bottom: 1.5rem;
-        }
-
-        .cta-description {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 2.5rem;
-            line-height: 1.6;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: var(--bright-white);
-            color: var(--red-primary);
-            padding: 1rem 2.5rem;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
-        }
-
-        .cta-button.secondary {
-            background: transparent;
-            color: var(--bright-white);
-            border: 2px solid var(--bright-white);
-        }
-
-        .cta-button.secondary:hover {
-            background: var(--bright-white);
-            color: var(--red-primary);
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--total-black);
-            color: var(--bright-white);
-            padding: 4rem 0 2rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-brand {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .footer-logo {
-            height: 60px;
-            margin-bottom: 1.5rem;
-            filter: brightness(0) invert(1);
-            transition: transform 0.3s ease;
-        }
-
-        .footer-logo:hover {
-            transform: scale(1.05);
-        }
-
-        .footer-description {
-            color: var(--light-grey);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-link {
-            width: 45px;
-            height: 45px;
-            background: var(--dark-grey);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--bright-white);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .social-link:hover {
-            background: var(--red-primary);
-            transform: translateY(-3px) rotate(5deg);
-            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.4);
-        }
-
-        .footer-section h4 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: var(--bright-white);
-            position: relative;
-        }
-
-        .footer-section h4::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 30px;
-            height: 2px;
-            background: var(--red-primary);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links a {
-            color: var(--light-grey);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .footer-links a:hover {
-            color: var(--red-primary);
-            padding-left: 10px;
-        }
-
-        .footer-links a::before {
-            content: '';
-            width: 4px;
-            height: 4px;
-            background: var(--red-primary);
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .footer-links a:hover::before {
-            opacity: 1;
-        }
-
-        .contact-info {
-            list-style: none;
-        }
-
-        .contact-info li {
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            color: var(--light-grey);
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-
-        .contact-info li:hover {
-            color: var(--bright-white);
-            transform: translateX(5px);
-        }
-
-        .contact-info i {
-            color: var(--red-primary);
-            font-size: 1.1rem;
-            width: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .contact-info li:hover i {
-            transform: scale(1.2);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid var(--dark-grey);
-            padding-top: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .footer-copyright {
-            color: var(--light-grey);
-            font-size: 0.9rem;
-        }
-
-        .footer-links-bottom {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .footer-links-bottom a {
-            color: var(--light-grey);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links-bottom a:hover {
-            color: var(--red-primary);
-        }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 2rem;
-            }
-
-            .footer-brand {
-                grid-column: 1 / -1;
-                text-align: center;
-            }
-
-            .hero-title {
-                font-size: 2.8rem;
-            }
-
-            .board-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            .nav-menu {
-                display: none;
-            }
-
-            .hero-title {
-                font-size: 2.2rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .nav-container {
-                padding: 0 1rem;
-            }
-
-            .container {
-                padding: 0 1rem;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .board-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .leadership-content {
-                padding: 2rem;
-            }
-
-            .board-tabs {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .cta-button {
-                width: 100%;
-                max-width: 300px;
-            }
-
-            .modal-content {
-                width: 95%;
-                margin: 10% auto;
-            }
-
-            .modal-header {
-                height: 200px;
-            }
-
-            .modal-body {
-                padding: 2rem;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bright-white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-
-        .loading.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--light-grey);
-            border-top: 3px solid var(--red-primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Scroll Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Staggered animation */
-        .stagger-1 {
-            transition-delay: 0.1s;
-        }
-
-        .stagger-2 {
-            transition-delay: 0.2s;
-        }
-
-        .stagger-3 {
-            transition-delay: 0.3s;
-        }
-
-        .stagger-4 {
-            transition-delay: 0.4s;
-        }
-
-        /* Interactive cursor */
-        .cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background: var(--red-primary);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1999;
-            opacity: 0;
-            transform: translate(-50%, -50%);
-            transition: all 0.1s ease;
-            mix-blend-mode: multiply;
-        }
-    </style>
-</head>
-<body>
-    <!-- Loading Screen -->
-    <div class="loading" id="loading">
-        <div style="text-align: center;">
-            <img src="logo.png" alt="SILOG" style="height: 80px; margin-bottom: 2rem; animation: pulse 2s infinite;">
-            <div class="loader"></div>
-            <p style="margin-top: 1rem; color: var(--dark-grey); font-size: 0.9rem;">Memuat pengalaman SILOG...</p>
-        </div>
-    </div>
-
-    <!-- Interactive Cursor -->
-    <div class="cursor" id="cursor"></div>
-
-   
+@section('content')
+<div class="min-h-screen bg-white">
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-container">
-                <h1 class="hero-title primary-font">Direksi & Komisaris</h1>
-                <p class="hero-subtitle secondary-font">Tim pemimpin SILOG yang berpengalaman dan berkomitmen untuk mewujudkan visi perusahaan</p>
+    <section class="hero bg-gradient-to-br from-red-50 to-gray-50 py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="hero-content max-w-4xl">
+                <!-- Breadcrumb -->
+                <div class="breadcrumb flex items-center text-gray-600 text-sm mb-8">
+                    <a href="{{ url('/') }}" class="hover:text-red-500 transition-colors duration-300">Beranda</a>
+                    <i class="fas fa-chevron-right mx-2 text-xs"></i>
+                    <a href="#" class="hover:text-red-500 transition-colors duration-300">Tentang</a>
+                    <i class="fas fa-chevron-right mx-2 text-xs"></i>
+                    <span class="text-gray-900 font-medium">Direksi & Komisaris</span>
+                </div>
+                
+                <h1 class="hero-title text-4xl md:text-6xl font-black text-gray-900 mb-6 leading-tight">
+                    Direksi & Komisaris
+                </h1>
+                <p class="hero-subtitle text-xl text-gray-600 leading-relaxed">
+                    Tim pemimpin SILOG yang berpengalaman dan berkomitmen untuk mewujudkan visi perusahaan
+                </p>
             </div>
         </div>
     </section>
 
     <!-- Leadership Section -->
-    <section class="leadership-section">
-        <div class="container">
-            <h2 class="section-title fade-in">Tentang Kepemimpinan SILOG</h2>
-            <p class="section-subtitle fade-in">Struktur kepemimpinan yang solid untuk mendukung pertumbuhan perusahaan</p>
+    <section class="leadership-section py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-4xl md:text-5xl font-bold text-center text-gray-900 mb-4 relative">
+                Tentang Kepemimpinan SILOG
+            </h2>
+            <p class="section-subtitle text-xl text-gray-600 text-center max-w-3xl mx-auto mb-16">
+                Struktur kepemimpinan yang solid untuk mendukung pertumbuhan perusahaan
+            </p>
             
-            <div class="leadership-content fade-in">
-                <div class="leadership-text">
-                    <p>SILOG dipimpin oleh tim <strong>Dewan Komisaris dan Direksi</strong> yang memiliki pengalaman luas di industri logistik dan manufaktur. Dengan komposisi yang seimbang antara pengawas dan pelaksana, SILOG memastikan good corporate governance terimplementasikan dengan baik dalam setiap aspek bisnis.</p>
+            <div class="leadership-content bg-white rounded-2xl p-8 md:p-12 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div class="leadership-text space-y-6 text-lg text-gray-700 leading-relaxed">
+                    <p>SILOG dipimpin oleh tim <strong class="text-gray-900">Dewan Komisaris dan Direksi</strong> yang memiliki pengalaman luas di industri logistik dan manufaktur. Dengan komposisi yang seimbang antara pengawas dan pelaksana, SILOG memastikan good corporate governance terimplementasikan dengan baik dalam setiap aspek bisnis.</p>
                     
                     <p>Dewan Komisaris bertanggung jawab atas pengawasan strategis dan penasihat kepada Direksi dalam menjalankan operasional perusahaan. Sementara itu, Direksi dipimpin oleh Direktur Utama yang didukung oleh para direktur fungsional yang ahli di bidangnya masing-masing.</p>
                     
@@ -1292,159 +50,98 @@
     </section>
 
     <!-- Board Members Section -->
-    <section class="board-section">
-        <div class="container">
-            <h2 class="section-title fade-in">Tim Kepemimpinan SILOG</h2>
-            <p class="section-subtitle fade-in">Dewan Komisaris dan Direksi yang membawa SILOG menuju kesuksesan</p>
+    <section class="board-section py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-4xl md:text-5xl font-bold text-center text-gray-900 mb-4 relative">
+                Tim Kepemimpinan SILOG
+            </h2>
+            <p class="section-subtitle text-xl text-gray-600 text-center max-w-3xl mx-auto mb-16">
+                Dewan Komisaris dan Direksi yang membawa SILOG menuju kesuksesan
+            </p>
             
-            <div class="board-tabs">
-                <div class="board-tab active" onclick="switchTab('komisaris')">Dewan Komisaris</div>
-                <div class="board-tab" onclick="switchTab('direksi')">Direksi</div>
+            <!-- Tabs -->
+            <div class="board-tabs flex flex-wrap justify-center gap-4 mb-12">
+                <button class="board-tab bg-white border-2 border-gray-300 px-6 py-3 rounded-full font-semibold text-gray-600 transition-all duration-300 hover:border-red-500 hover:text-red-500 active:bg-red-500 active:text-white active:border-red-500" onclick="switchTab('komisaris')">
+                    Dewan Komisaris
+                </button>
+                <button class="board-tab bg-white border-2 border-gray-300 px-6 py-3 rounded-full font-semibold text-gray-600 transition-all duration-300 hover:border-red-500 hover:text-red-500 active:bg-red-500 active:text-white active:border-red-500" onclick="switchTab('direksi')">
+                    Direksi
+                </button>
             </div>
             
             <!-- Dewan Komisaris -->
             <div id="komisaris" class="board-content active">
-                <div class="board-grid">
-                    <div class="board-member fade-in stagger-1" onclick="openModal('komisaris1')">
-                        <div class="member-photo">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces" alt="Komisaris Utama">
+                <div class="board-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach($komisaris as $member)
+                    <div class="board-member bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-red-300 cursor-pointer" onclick="openModal('komisaris{{ $member->id }}')">
+                        <div class="member-photo h-80 relative overflow-hidden bg-gray-200">
+                            @if($member->image)
+                                <img src="{{ asset('storage/' . $member->image) }}" alt="{{ $member->name }}" class="w-full h-full object-cover transition-transform duration-500">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                    <i class="fas fa-user text-6xl"></i>
+                                </div>
+                            @endif
                         </div>
-                        <div class="member-info">
-                            <h3 class="member-name">Dr. Ir. Ahmad Cholil, M.M.</h3>
-                            <div class="member-position">Komisaris Utama</div>
-                            <p class="member-bio">Memiliki pengalaman lebih dari 25 tahun di industri semen dan logistik.</p>
-                            <a href="#" class="view-profile-btn">Lihat Profil Lengkap</a>
-                        </div>
-                    </div>
-                    
-                    <div class="board-member fade-in stagger-2" onclick="openModal('komisaris2')">
-                        <div class="member-photo">
-                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=faces" alt="Komisaris Independen">
-                        </div>
-                        <div class="member-info">
-                            <h3 class="member-name">Prof. Dr. Ir. Siti Nurhaliza, M.Sc.</h3>
-                            <div class="member-position">Komisaris Independen</div>
-                            <p class="member-bio">Akademisi dan praktisi di bidang manajemen strategis.</p>
-                            <a href="#" class="view-profile-btn">Lihat Profil Lengkap</a>
+                        <div class="member-info p-6">
+                            <h3 class="member-name text-2xl font-bold text-gray-900 mb-2 transition-colors duration-300">{{ $member->name }}</h3>
+                            <div class="member-position text-red-500 font-semibold mb-4">{{ $member->position }}</div>
+                            <p class="member-bio text-gray-600 leading-relaxed mb-4">{{ Str::limit($member->profile, 100) }}</p>
+                            <a href="#" class="view-profile-btn inline-flex items-center text-red-500 font-semibold text-sm transition-all duration-300 hover:gap-2">
+                                Lihat Profil Lengkap
+                                <span class="ml-1 transition-all duration-300">→</span>
+                            </a>
                         </div>
                     </div>
-                    
-                    <div class="board-member fade-in stagger-3" onclick="openModal('komisaris3')">
-                        <div class="member-photo">
-                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=faces" alt="Komisaris">
-                        </div>
-                        <div class="member-info">
-                            <h3 class="member-name">Ir. Budi Santoso, M.B.A.</h3>
-                            <div class="member-position">Komisaris</div>
-                            <p class="member-bio">Ahli di bidang keuangan dan investasi.</p>
-                            <a href="#" class="view-profile-btn">Lihat Profil Lengkap</a>
-                        </div>
-                    </div>
-                    
-                    <div class="board-member fade-in stagger-4" onclick="openModal('komisaris4')">
-                        <div class="member-photo">
-                            <img src="https://images.unsplash.com/photo-1557862921-37829c790f19?w=400&h=400&fit=crop&crop=faces" alt="Komisaris">
-                        </div>
-                        <div class="member-info">
-                            <h3 class="member-name">Dra. Hj. Endang Sulastri, M.M.</h3>
-                            <div class="member-position">Komisaris</div>
-                            <p class="member-bio">Berpengalaman di bidang sumber daya manusia.</p>
-                            <a href="#" class="view-profile-btn">Lihat Profil Lengkap</a>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
             
             <!-- Direksi -->
-            <div id="direksi" class="board-content">
-                <div class="board-grid">
-                    <div class="board-member fade-in stagger-1" onclick="openModal('direksi1')">
-                        <div class="member-photo">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=faces" alt="Direktur Utama">
+            <div id="direksi" class="board-content hidden">
+                <div class="board-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach($direksi as $member)
+                    <div class="board-member bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-red-300 cursor-pointer" onclick="openModal('direksi{{ $member->id }}')">
+                        <div class="member-photo h-80 relative overflow-hidden bg-gray-200">
+                            @if($member->image)
+                                <img src="{{ asset('storage/' . $member->image) }}" alt="{{ $member->name }}" class="w-full h-full object-cover transition-transform duration-500">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                    <i class="fas fa-user text-6xl"></i>
+                                </div>
+                            @endif
                         </div>
-                        <div class="member-info">
-                            <h3 class="member-name">Ir. Arifin Panigoro, M.M.</h3>
-                            <div class="member-position">Direktur Utama</div>
-                            <p class="member-bio">Memimpin SILOG dengan visi untuk menjadi solusi logistik terdepan.</p>
-                            <a href="#" class="view-profile-btn">Lihat Profil Lengkap</a>
-                        </div>
-                    </div>
-                    
-                    <div class="board-member fade-in stagger-2" onclick="openModal('direksi2')">
-                        <div class="member-photo">
-                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=faces" alt="Direktur Operasional">
-                        </div>
-                        <div class="member-info">
-                            <h3 class="member-name">Ir. Hendra Wijaya, M.T.</h3>
-                            <div class="member-position">Direktur Operasional</div>
-                            <p class="member-bio">Bertanggung jawab atas seluruh operasional bisnis SILOG.</p>
-                            <a href="#" class="view-profile-btn">Lihat Profil Lengkap</a>
+                        <div class="member-info p-6">
+                            <h3 class="member-name text-2xl font-bold text-gray-900 mb-2 transition-colors duration-300">{{ $member->name }}</h3>
+                            <div class="member-position text-red-500 font-semibold mb-4">{{ $member->position }}</div>
+                            <p class="member-bio text-gray-600 leading-relaxed mb-4">{{ Str::limit($member->profile, 100) }}</p>
+                            <a href="#" class="view-profile-btn inline-flex items-center text-red-500 font-semibold text-sm transition-all duration-300 hover:gap-2">
+                                Lihat Profil Lengkap
+                                <span class="ml-1 transition-all duration-300">→</span>
+                            </a>
                         </div>
                     </div>
-                    
-                    <div class="board-member fade-in stagger-3" onclick="openModal('direksi3')">
-                        <div class="member-photo">
-                            <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=400&h=400&fit=crop&crop=faces" alt="Direktur Keuangan">
-                        </div>
-                        <div class="member-info">
-                            <h3 class="member-name">Drs. Bambang Suryanto, Ak., M.M.</h3>
-                            <div class="member-position">Direktur Keuangan</div>
-                            <p class="member-bio">Mengelola keuangan perusahaan dengan fokus pada pertumbuhan.</p>
-                            <a href="#" class="view-profile-btn">Lihat Profil Lengkap</a>
-                        </div>
-                    </div>
-                    
-                    <div class="board-member fade-in stagger-4" onclick="openModal('direksi4')">
-                        <div class="member-photo">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=faces" alt="Direktur SDM">
-                        </div>
-                        <div class="member-info">
-                            <h3 class="member-name">Dra. Ratna Sari Dewi, M.M.</h3>
-                            <div class="member-position">Direktur SDM & Umum</div>
-                            <p class="member-bio">Memimpin pengembangan sumber daya manusia di SILOG.</p>
-                            <a href="#" class="view-profile-btn">Lihat Profil Lengkap</a>
-                        </div>
-                    </div>
-                    
-                    <div class="board-member fade-in" onclick="openModal('direksi5')">
-                        <div class="member-photo">
-                            <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=400&h=400&fit=crop&crop=faces" alt="Direktur Pemasaran">
-                        </div>
-                        <div class="member-info">
-                            <h3 class="member-name">Ir. Rizki Pratama, M.B.A.</h3>
-                            <div class="member-position">Direktur Pemasaran & Pengembangan Bisnis</div>
-                            <p class="member-bio">Mengembangkan strategi pemasaran dan ekspansi bisnis.</p>
-                            <a href="#" class="view-profile-btn">Lihat Profil Lengkap</a>
-                        </div>
-                    </div>
-                    
-                    <div class="board-member fade-in" onclick="openModal('direksi6')">
-                        <div class="member-photo">
-                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces" alt="Direktur Teknik">
-                        </div>
-                        <div class="member-info">
-                            <h3 class="member-name">Ir. Teguh Prakoso, M.T.</h3>
-                            <div class="member-position">Direktur Teknik & Pengembangan Infrastruktur</div>
-                            <p class="member-bio">Bertanggung jawab atas pengembangan infrastruktur dan teknologi.</p>
-                            <a href="#" class="view-profile-btn">Lihat Profil Lengkap</a>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Structure Section -->
-    <section class="structure-section">
-        <div class="container">
-            <h2 class="section-title fade-in">Struktur Organisasi</h2>
-            <p class="section-subtitle fade-in">Struktur organisasi SILOG yang mendukung good corporate governance</p>
+    <section class="structure-section py-20 bg-gradient-to-br from-red-50 to-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-4xl md:text-5xl font-bold text-center text-gray-900 mb-4 relative">
+                Struktur Organisasi
+            </h2>
+            <p class="section-subtitle text-xl text-gray-600 text-center max-w-3xl mx-auto mb-16">
+                Struktur organisasi SILOG yang mendukung good corporate governance
+            </p>
             
-            <div class="structure-container fade-in">
-                <div class="structure-image">
-                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Struktur Organisasi SILOG">
+            <div class="structure-container text-center">
+                <div class="structure-image rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105">
+                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Struktur Organisasi SILOG" class="w-full h-auto">
                 </div>
-                <p class="structure-caption">
+                <p class="structure-caption text-gray-600 mt-8 leading-relaxed max-w-3xl mx-auto">
                     Struktur organisasi SILOG dirancang untuk memastikan pemisahan fungsi yang jelas antara organ pengawas dan pelaksana, serta menciptakan sistem checks and balances yang efektif dalam pengambilan keputusan. Setiap direksi memiliki tanggung jawab fungsional yang jelas untuk mendukung pencapaian visi dan misi perusahaan.
                 </p>
             </div>
@@ -1452,851 +149,365 @@
     </section>
 
     <!-- Sub Navigation Cards Section -->
-    <section class="subnav-section">
-        <div class="container">
-            <h2 class="section-title fade-in">Jelajahi Informasi Perusahaan</h2>
-            <p class="section-subtitle fade-in">Pelajari lebih lanjut tentang berbagai aspek SILOG</p>
+    <section class="subnav-section py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-title text-4xl md:text-5xl font-bold text-center text-gray-900 mb-4 relative">
+                Jelajahi Informasi Perusahaan
+            </h2>
+            <p class="section-subtitle text-xl text-gray-600 text-center max-w-3xl mx-auto mb-16">
+                Pelajari lebih lanjut tentang berbagai aspek SILOG
+            </p>
             
-            <div class="cards-grid">
-                <div class="content-card fade-in">
-                    <div class="card-icon">
-                        <i class="fas fa-history"></i>
+            <div class="cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="content-card bg-white rounded-2xl p-8 shadow-lg border border-gray-200 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:border-red-300 cursor-pointer">
+                    <div class="card-icon w-20 h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mb-6 relative overflow-hidden">
+                        <i class="fas fa-history text-white text-2xl"></i>
                     </div>
-                    <h3 class="card-title">History</h3>
-                    <p class="card-description">Perjalanan panjang SILOG dari masa ke masa dalam menjadi solusi logistik terdepan di Indonesia sejak tahun 1957.</p>
-                    <a href="history.html" class="card-link">Pelajari Lebih Lanjut</a>
+                    <h3 class="card-title text-xl font-bold text-gray-900 mb-4 transition-colors duration-300">History</h3>
+                    <p class="card-description text-gray-600 leading-relaxed mb-6">
+                        Perjalanan panjang SILOG dari masa ke masa dalam menjadi solusi logistik terdepan di Indonesia sejak tahun 1957.
+                    </p>
+                    <a href="#" class="card-link inline-flex items-center text-red-500 font-semibold text-sm transition-all duration-300 hover:gap-2">
+                        Pelajari Lebih Lanjut
+                        <span class="ml-1 transition-all duration-300">→</span>
+                    </a>
                 </div>
                 
-                <div class="content-card fade-in">
-                    <div class="card-icon">
-                        <i class="fas fa-building"></i>
+                <!-- Card 2 -->
+                <div class="content-card bg-white rounded-2xl p-8 shadow-lg border border-gray-200 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:border-red-300 cursor-pointer">
+                    <div class="card-icon w-20 h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mb-6 relative overflow-hidden">
+                        <i class="fas fa-building text-white text-2xl"></i>
                     </div>
-                    <h3 class="card-title">Profil</h3>
-                    <p class="card-description">Mengenal lebih dekat identitas, struktur organisasi, dan bisnis SILOG sebagai bagian dari Semen Indonesia Group.</p>
-                    <a href="profil.html" class="card-link">Pelajari Lebih Lanjut</a>
+                    <h3 class="card-title text-xl font-bold text-gray-900 mb-4 transition-colors duration-300">Profil</h3>
+                    <p class="card-description text-gray-600 leading-relaxed mb-6">
+                        Mengenal lebih dekat identitas, struktur organisasi, dan bisnis SILOG sebagai bagian dari Semen Indonesia Group.
+                    </p>
+                    <a href="#" class="card-link inline-flex items-center text-red-500 font-semibold text-sm transition-all duration-300 hover:gap-2">
+                        Pelajari Lebih Lanjut
+                        <span class="ml-1 transition-all duration-300">→</span>
+                    </a>
                 </div>
                 
-                <div class="content-card fade-in">
-                    <div class="card-icon">
-                        <i class="fas fa-bullseye"></i>
+                <!-- Card 3 -->
+                <div class="content-card bg-white rounded-2xl p-8 shadow-lg border border-gray-200 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:border-red-300 cursor-pointer">
+                    <div class="card-icon w-20 h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mb-6 relative overflow-hidden">
+                        <i class="fas fa-bullseye text-white text-2xl"></i>
                     </div>
-                    <h3 class="card-title">Visi & Misi</h3>
-                    <p class="card-description">Visi dan misi yang menjadi arah strategis SILOG dalam memberikan solusi logistik terbaik untuk Indonesia.</p>
-                    <a href="visi-misi.html" class="card-link">Pelajari Lebih Lanjut</a>
-                </div>
-                
-                <div class="content-card fade-in">
-                    <div class="card-icon">
-                        <i class="fas fa-file-contract"></i>
-                    </div>
-                    <h3 class="card-title">Kebijakan Perusahaan</h3>
-                    <p class="card-description">Kebijakan-kebijakan perusahaan yang menjadi pedoman dalam operasional bisnis dan pengambilan keputusan.</p>
-                    <a href="kebijakan-perusahaan.html" class="card-link">Pelajari Lebih Lanjut</a>
-                </div>
-                
-                <div class="content-card fade-in">
-                    <div class="card-icon">
-                        <i class="fas fa-balance-scale"></i>
-                    </div>
-                    <h3 class="card-title">Tata Kelola Perusahaan</h3>
-                    <p class="card-description">Implementasi prinsip tata kelola perusahaan yang baik untuk menciptakan transparansi dan akuntabilitas.</p>
-                    <a href="tata-kelola-perusahaan.html" class="card-link">Pelajari Lebih Lanjut</a>
-                </div>
-                
-                <div class="content-card fade-in">
-                    <div class="card-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="card-title">Sumber Daya Manusia</h3>
-                    <p class="card-description">Program pengembangan sumber daya manusia untuk menciptakan tim yang kompeten dan berintegritas.</p>
-                    <a href="sumber-daya-manusia.html" class="card-link">Pelajari Lebih Lanjut</a>
-                </div>
-                
-                <div class="content-card fade-in">
-                    <div class="card-icon">
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                    <h3 class="card-title">Direksi & Komisaris</h3>
-                    <p class="card-description">Tim pemimpin SILOG yang berpengalaman dan berkomitmen untuk mewujudkan visi perusahaan.</p>
-                    <a href="direksi-komisaris.html" class="card-link">Pelajari Lebih Lanjut</a>
+                    <h3 class="card-title text-xl font-bold text-gray-900 mb-4 transition-colors duration-300">Visi & Misi</h3>
+                    <p class="card-description text-gray-600 leading-relaxed mb-6">
+                        Visi dan misi yang menjadi arah strategis SILOG dalam memberikan solusi logistik terbaik untuk Indonesia.
+                    </p>
+                    <a href="#" class="card-link inline-flex items-center text-red-500 font-semibold text-sm transition-all duration-300 hover:gap-2">
+                        Pelajari Lebih Lanjut
+                        <span class="ml-1 transition-all duration-300">→</span>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="cta-content">
-            <h2 class="cta-title primary-font">Hubungi Tim Kepemimpinan Kami</h2>
-            <p class="cta-description secondary-font">Kami terbuka untuk masukan dan kolaborasi dalam membangun masa depan logistik Indonesia</p>
-            <div class="cta-buttons">
-                <a href="#" class="cta-button">Kirim Pesan</a>
-                <a href="#" class="cta-button secondary">Laporan Tahunan</a>
+    <section class="cta-section py-20 bg-gradient-to-r from-red-500 to-red-600 mt-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="cta-title text-3xl md:text-4xl font-black text-white mb-6">
+                Hubungi Tim Kepemimpinan Kami
+            </h2>
+            <p class="cta-description text-xl text-white/90 mb-10 leading-relaxed">
+                Kami terbuka untuk masukan dan kolaborasi dalam membangun masa depan logistik Indonesia
+            </p>
+            <div class="cta-buttons flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="#" class="cta-button bg-white text-red-500 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden">
+                    Kirim Pesan
+                </a>
+                <a href="#" class="cta-button bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-white hover:text-red-500">
+                    Laporan Tahunan
+                </a>
             </div>
         </div>
     </section>
+</div>
 
-    <!-- Modal for Profile Details -->
-    <!-- Modal for Komisaris 1 -->
-    <div id="komisaris1Modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop" alt="Dr. Ir. Ahmad Cholil, M.M.">
-                <span class="close" onclick="closeModal('komisaris1Modal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h2 class="modal-title">Dr. Ir. Ahmad Cholil, M.M.</h2>
-                <p class="modal-position">Komisaris Utama</p>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-user"></i> Profil Singkat</h3>
-                    <p>Dr. Ir. Ahmad Cholil, M.M. adalah Komisaris Utama PT Semen Indonesia Logistik (SILOG) dengan pengalaman lebih dari 25 tahun di industri semen dan logistik. Beliau memiliki latar belakang pendidikan yang kuat di bidang teknik industri dan manajemen bisnis.</p>
+<!-- Modal for Profile Details -->
+@foreach($komisaris as $member)
+<div id="komisaris{{ $member->id }}Modal" class="modal fixed inset-0 z-50 hidden">
+    <div class="modal-overlay absolute inset-0 bg-black bg-opacity-70 backdrop-blur-sm"></div>
+    <div class="modal-content relative bg-white rounded-2xl max-w-4xl mx-auto my-12 max-h-[90vh] overflow-y-auto">
+        <div class="modal-header relative h-64 rounded-t-2xl overflow-hidden bg-gray-200">
+            @if($member->image)
+                <img src="{{ asset('storage/' . $member->image) }}" alt="{{ $member->name }}" class="w-full h-full object-cover">
+            @else
+                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                    <i class="fas fa-user text-8xl"></i>
                 </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-briefcase"></i> Pengalaman Kerja</h3>
-                    <div class="experience-item">
-                        <div class="item-year">2018 - Sekarang</div>
-                        <div class="item-title">Komisaris Utama</div>
-                        <div class="item-institution">PT Semen Indonesia Logistik (SILOG)</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2015 - 2018</div>
-                        <div class="item-title">Direktur Operasional</div>
-                        <div class="item-institution">PT Semen Indonesia (Persero) Tbk</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2010 - 2015</div>
-                        <div class="item-title">General Manager</div>
-                        <div class="item-institution">PT Semen Gresik</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Pendidikan</h3>
-                    <div class="education-item">
-                        <div class="item-year">2005</div>
-                        <div class="item-title">Doktor (Dr.)</div>
-                        <div class="item-institution">Institut Teknologi Bandung (ITB)</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">1998</div>
-                        <div class="item-title">Magister Manajemen (M.M.)</div>
-                        <div class="item-institution">Universitas Indonesia</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">1990</div>
-                        <div class="item-title">Sarjana Teknik Industri (Ir.)</div>
-                        <div class="item-institution">Institut Teknologi Sepuluh Nopember (ITS)</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-award"></i> Komite & Penghargaan</h3>
-                    <ul>
-                        <li>Ketua Komite Audit</li>
-                        <li>Anggota Komite Nominasi & Remunerasi</li>
-                        <li>Penghargaan CEO of the Year 2020 di bidang Logistik</li>
-                        <li>Penghargaan Best Corporate Governance 2019</li>
-                    </ul>
-                </div>
-            </div>
+            @endif
+            <span class="close absolute top-6 right-6 text-white text-4xl cursor-pointer bg-black bg-opacity-50 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-red-500 hover:rotate-90" onclick="closeModal('komisaris{{ $member->id }}Modal')">&times;</span>
         </div>
-    </div>
-
-    <!-- Modal for Komisaris 2 -->
-    <div id="komisaris2Modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop" alt="Prof. Dr. Ir. Siti Nurhaliza, M.Sc.">
-                <span class="close" onclick="closeModal('komisaris2Modal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h2 class="modal-title">Prof. Dr. Ir. Siti Nurhaliza, M.Sc.</h2>
-                <p class="modal-position">Komisaris Independen</p>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-user"></i> Profil Singkat</h3>
-                    <p>Prof. Dr. Ir. Siti Nurhaliza, M.Sc. adalah akademisi dan praktisi di bidang manajemen strategis yang aktif sebagai pengajar di universitas ternama dan konsultan untuk berbagai perusahaan. Beliau memiliki keahlian khusus dalam tata kelola perusahaan dan manajemen risiko.</p>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-briefcase"></i> Pengalaman Kerja</h3>
-                    <div class="experience-item">
-                        <div class="item-year">2019 - Sekarang</div>
-                        <div class="item-title">Komisaris Independen</div>
-                        <div class="item-institution">PT Semen Indonesia Logistik (SILOG)</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2015 - 2019</div>
-                        <div class="item-title">Komisaris Independen</div>
-                        <div class="item-institution">PT Bank Rakyat Indonesia (Persero) Tbk</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2010 - 2015</div>
-                        <div class="item-title">Guru Besar</div>
-                        <div class="item-institution">Universitas Gadjah Mada</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Pendidikan</h3>
-                    <div class="education-item">
-                        <div class="item-year">2008</div>
-                        <div class="item-title">Doktor (Dr.)</div>
-                        <div class="item-institution">Universitas Gadjah Mada</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">1995</div>
-                        <div class="item-title">Magister Sains (M.Sc.)</div>
-                        <div class="item-institution">University of Manchester, UK</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">1990</div>
-                        <div class="item-title">Sarjana Teknik Industri (Ir.)</div>
-                        <div class="item-institution">Institut Teknologi Bandung (ITB)</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-award"></i> Komite & Penghargaan</h3>
-                    <ul>
-                        <li>Ketua Komite Nominasi & Remunerasi</li>
-                        <li>Anggota Komite Risiko</li>
-                        <li>Penghargaan Academic Excellence 2018</li>
-                        <li>Best Independent Commissioner 2021</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Komisaris 3 -->
-    <div id="komisaris3Modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&h=400&fit=crop" alt="Ir. Budi Santoso, M.B.A.">
-                <span class="close" onclick="closeModal('komisaris3Modal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h2 class="modal-title">Ir. Budi Santoso, M.B.A.</h2>
-                <p class="modal-position">Komisaris</p>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-user"></i> Profil Singkat</h3>
-                    <p>Ir. Budi Santoso, M.B.A. adalah ahli di bidang keuangan dan investasi dengan pengalaman luas dalam perencanaan strategis dan pengembangan bisnis. Beliau memiliki pemahaman mendalam tentang pasar modal dan corporate finance.</p>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-briefcase"></i> Pengalaman Kerja</h3>
-                    <div class="experience-item">
-                        <div class="item-year">2019 - Sekarang</div>
-                        <div class="item-title">Komisaris</div>
-                        <div class="item-institution">PT Semen Indonesia Logistik (SILOG)</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2016 - 2019</div>
-                        <div class="item-title">Direktur Keuangan</div>
-                        <div class="item-institution">PT Wijaya Karya (Persero) Tbk</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2012 - 2016</div>
-                        <div class="item-title">Senior Vice President</div>
-                        <div class="item-institution">PT Bank Mandiri (Persero) Tbk</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Pendidikan</h3>
-                    <div class="education-item">
-                        <div class="item-year">2010</div>
-                        <div class="item-title">Magister Business Administration (M.B.A.)</div>
-                        <div class="item-institution">University of Chicago, USA</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">2005</div>
-                        <div class="item-title">Sarjana Teknik Mesin (Ir.)</div>
-                        <div class="item-institution">Institut Teknologi Sepuluh Nopember (ITS)</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-award"></i> Komite & Penghargaan</h3>
-                    <ul>
-                        <li>Anggota Komite Audit</li>
-                        <li>Anggota Komite Nominasi & Remunerasi</li>
-                        <li>Certified Risk Manager (CRM)</li>
-                        <li>Penghargaan Best Finance Director 2017</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Komisaris 4 -->
-    <div id="komisaris4Modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <img src="https://images.unsplash.com/photo-1557862921-37829c790f19?w=800&h=400&fit=crop" alt="Dra. Hj. Endang Sulastri, M.M.">
-                <span class="close" onclick="closeModal('komisaris4Modal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h2 class="modal-title">Dra. Hj. Endang Sulastri, M.M.</h2>
-                <p class="modal-position">Komisaris</p>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-user"></i> Profil Singkat</h3>
-                    <p>Dra. Hj. Endang Sulastri, M.M. adalah profesional yang berpengalaman di bidang sumber daya manusia dan pengembangan organisasi. Beliau fokus pada pengembangan budaya perusahaan yang positif dan pemberdayaan sumber daya manusia.</p>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-briefcase"></i> Pengalaman Kerja</h3>
-                    <div class="experience-item">
-                        <div class="item-year">2019 - Sekarang</div>
-                        <div class="item-title">Komisaris</div>
-                        <div class="item-institution">PT Semen Indonesia Logistik (SILOG)</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2015 - 2019</div>
-                        <div class="item-title">Direktur SDM</div>
-                        <div class="item-institution">PT Garuda Indonesia (Persero) Tbk</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2010 - 2015</div>
-                        <div class="item-title">General Manager HR</div>
-                        <div class="item-institution">PT Astra International Tbk</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Pendidikan</h3>
-                    <div class="education-item">
-                        <div class="item-year">2008</div>
-                        <div class="item-title">Magister Manajemen (M.M.)</div>
-                        <div class="item-institution">Universitas Indonesia</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">1995</div>
-                        <div class="item-title">Sarjana Ilmu Administrasi (Dra.)</div>
-                        <div class="item-institution">Universitas Padjadjaran</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-award"></i> Komite & Penghargaan</h3>
-                    <ul>
-                        <li>Anggota Komite Nominasi & Remunerasi</li>
-                        <li>Anggota Komite Tanggung Jawab Sosial</li>
-                        <li>Certified HR Professional (CHRP)</li>
-                        <li>Penghargaan Best HR Director 2018</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Direksi 1 -->
-    <div id="direksi1Modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=400&fit=crop" alt="Ir. Arifin Panigoro, M.M.">
-                <span class="close" onclick="closeModal('direksi1Modal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h2 class="modal-title">Ir. Arifin Panigoro, M.M.</h2>
-                <p class="modal-position">Direktur Utama</p>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-user"></i> Profil Singkat</h3>
-                    <p>Ir. Arifin Panigoro, M.M. adalah Direktur Utama PT Semen Indonesia Logistik (SILOG) dengan visi untuk menjadi solusi logistik terdepan di Indonesia. Memiliki pengalaman lebih dari 20 tahun di industri logistik dengan fokus pada inovasi dan transformasi digital.</p>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-briefcase"></i> Pengalaman Kerja</h3>
-                    <div class="experience-item">
-                        <div class="item-year">2020 - Sekarang</div>
-                        <div class="item-title">Direktur Utama</div>
-                        <div class="item-institution">PT Semen Indonesia Logistik (SILOG)</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2017 - 2020</div>
-                        <div class="item-title">Direktur Operasional</div>
-                        <div class="item-institution">PT Semen Indonesia Logistik (SILOG)</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2014 - 2017</div>
-                        <div class="item-title">General Manager Logistik</div>
-                        <div class="item-institution">PT Semen Indonesia (Persero) Tbk</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Pendidikan</h3>
-                    <div class="education-item">
-                        <div class="item-year">2012</div>
-                        <div class="item-title">Magister Manajemen (M.M.)</div>
-                        <div class="item-institution">Institut Teknologi Bandung (ITB)</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">1998</div>
-                        <div class="item-title">Sarjana Teknik Industri (Ir.)</div>
-                        <div class="item-institution">Universitas Gadjah Mada</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-award"></i> Penghargaan</h3>
-                    <ul>
-                        <li>CEO of the Year 2022 - Logistics Industry</li>
-                        <li>Best Transformation Leader 2021</li>
-                        <li>Digital Innovation Award 2020</li>
-                        <li>Outstanding Logistics Professional 2019</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Direksi 2 -->
-    <div id="direksi2Modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&h=400&fit=crop" alt="Ir. Hendra Wijaya, M.T.">
-                <span class="close" onclick="closeModal('direksi2Modal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h2 class="modal-title">Ir. Hendra Wijaya, M.T.</h2>
-                <p class="modal-position">Direktur Operasional</p>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-user"></i> Profil Singkat</h3>
-                    <p>Ir. Hendra Wijaya, M.T. bertanggung jawab atas seluruh operasional bisnis SILOG. Fokus pada efisiensi operasional dan peningkatan layanan kepada pelanggan melalui implementasi teknologi terkini dan optimalisasi proses bisnis.</p>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-briefcase"></i> Pengalaman Kerja</h3>
-                    <div class="experience-item">
-                        <div class="item-year">2020 - Sekarang</div>
-                        <div class="item-title">Direktur Operasional</div>
-                        <div class="item-institution">PT Semen Indonesia Logistik (SILOG)</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2017 - 2020</div>
-                        <div class="item-title">Senior Manager Operasional</div>
-                        <div class="item-institution">PT Pelabuhan Indonesia III</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2013 - 2017</div>
-                        <div class="item-title">Manager Logistik</div>
-                        <div class="item-institution">PT Jasa Marga (Persero) Tbk</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Pendidikan</h3>
-                    <div class="education-item">
-                        <div class="item-year">2015</div>
-                        <div class="item-title">Magister Teknik (M.T.)</div>
-                        <div class="item-institution">Institut Teknologi Bandung (ITB)</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">2010</div>
-                        <div class="item-title">Sarjana Teknik Mesin (Ir.)</div>
-                        <div class="item-institution">Universitas Indonesia</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-award"></i> Sertifikasi</h3>
-                    <ul>
-                        <li>Certified Supply Chain Professional (CSCP)</li>
-                        <li>Project Management Professional (PMP)</li>
-                        <li>Lean Six Sigma Black Belt</li>
-                        <li>Operational Excellence Certification</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Direksi 3 -->
-    <div id="direksi3Modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=800&h=400&fit=crop" alt="Drs. Bambang Suryanto, Ak., M.M.">
-                <span class="close" onclick="closeModal('direksi3Modal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h2 class="modal-title">Drs. Bambang Suryanto, Ak., M.M.</h2>
-                <p class="modal-position">Direktur Keuangan</p>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-user"></i> Profil Singkat</h3>
-                    <p>Drs. Bambang Suryanto, Ak., M.M. mengelola keuangan perusahaan dengan fokus pada pertumbuhan yang berkelanjutan dan good corporate governance. Beliau memiliki keahlian dalam perencanaan keuangan strategis dan manajemen risiko.</p>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-briefcase"></i> Pengalaman Kerja</h3>
-                    <div class="experience-item">
-                        <div class="item-year">2020 - Sekarang</div>
-                        <div class="item-title">Direktur Keuangan</div>
-                        <div class="item-institution">PT Semen Indonesia Logistik (SILOG)</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2017 - 2020</div>
-                        <div class="item-title">Finance Director</div>
-                        <div class="item-institution">PT Waskita Karya (Persero) Tbk</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2013 - 2017</div>
-                        <div class="item-title">Senior Finance Manager</div>
-                        <div class="item-institution">PT Adhi Karya (Persero) Tbk</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Pendidikan</h3>
-                    <div class="education-item">
-                        <div class="item-year">2015</div>
-                        <div class="item-title">Magister Manajemen (M.M.)</div>
-                        <div class="item-institution">Universitas Gadjah Mada</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">2008</div>
-                        <div class="item-title">Akuntansi (Ak.)</div>
-                        <div class="item-institution">Universitas Indonesia</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-award"></i> Sertifikasi</h3>
-                    <ul>
-                        <li>Chartered Accountant (CA)</li>
-                        <li>Certified Risk Manager (CRM)</li>
-                        <li>Financial Risk Manager (FRM)</li>
-                        <li>Investment Analyst Certification</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Direksi 4 -->
-    <div id="direksi4Modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=800&h=400&fit=crop" alt="Dra. Ratna Sari Dewi, M.M.">
-                <span class="close" onclick="closeModal('direksi4Modal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h2 class="modal-title">Dra. Ratna Sari Dewi, M.M.</h2>
-                <p class="modal-position">Direktur SDM & Umum</p>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-user"></i> Profil Singkat</h3>
-                    <p>Dra. Ratna Sari Dewi, M.M. memimpin pengembangan sumber daya manusia untuk menciptakan tim yang kompeten dan berintegritas di SILOG. Beliau memiliki pengalaman luas dalam pengembangan organisasi dan budaya perusahaan.</p>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-briefcase"></i> Pengalaman Kerja</h3>
-                    <div class="experience-item">
-                        <div class="item-year">2020 - Sekarang</div>
-                        <div class="item-title">Direktur SDM & Umum</div>
-                        <div class="item-institution">PT Semen Indonesia Logistik (SILOG)</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2017 - 2020</div>
-                        <div class="item-title">HR Director</div>
-                        <div class="item-institution">PT Telkom Indonesia (Persero) Tbk</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2013 - 2017</div>
-                        <div class="item-title">Senior HR Manager</div>
-                        <div class="item-institution">PT Unilever Indonesia Tbk</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Pendidikan</h3>
-                    <div class="education-item">
-                        <div class="item-year">2015</div>
-                        <div class="item-title">Magister Manajemen (M.M.)</div>
-                        <div class="item-institution">Universitas Indonesia</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">2008</div>
-                        <div class="item-title">Sarjana Ilmu Administrasi (Dra.)</div>
-                        <div class="item-institution">Universitas Padjadjaran</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-award"></i> Sertifikasi</h3>
-                    <ul>
-                        <li>Certified Human Resource Professional (CHRP)</li>
-                        <li>Organizational Development Certification</li>
-                        <li>Leadership Development Certification</li>
-                        <li>Change Management Specialist</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Direksi 5 -->
-    <div id="direksi5Modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&h=400&fit=crop" alt="Ir. Rizki Pratama, M.B.A.">
-                <span class="close" onclick="closeModal('direksi5Modal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h2 class="modal-title">Ir. Rizki Pratama, M.B.A.</h2>
-                <p class="modal-position">Direktur Pemasaran & Pengembangan Bisnis</p>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-user"></i> Profil Singkat</h3>
-                    <p>Ir. Rizki Pratama, M.B.A. mengembangkan strategi pemasaran dan ekspansi bisnis untuk memperkuat posisi SILOG di pasar logistik Indonesia. Beliau memiliki pengalaman dalam pengembangan pasar dan manajemen merek.</p>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-briefcase"></i> Pengalaman Kerja</h3>
-                    <div class="experience-item">
-                        <div class="item-year">2020 - Sekarang</div>
-                        <div class="item-title">Direktur Pemasaran & Pengembangan Bisnis</div>
-                        <div class="item-institution">PT Semen Indonesia Logistik (SILOG)</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2017 - 2020</div>
-                        <div class="item-title">Marketing Director</div>
-                        <div class="item-institution">PT Kalbe Farma Tbk</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2013 - 2017</div>
-                        <div class="item-title">Senior Marketing Manager</div>
-                        <div class="item-institution">PT Indofood Sukses Makmur Tbk</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Pendidikan</h3>
-                    <div class="education-item">
-                        <div class="item-year">2015</div>
-                        <div class="item-title">Magister Business Administration (M.B.A.)</div>
-                        <div class="item-institution">University of Indonesia</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">2010</div>
-                        <div class="item-title">Sarjana Teknik Industri (Ir.)</div>
-                        <div class="item-institution">Institut Teknologi Sepuluh Nopember (ITS)</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-award"></i> Sertifikasi</h3>
-                    <ul>
-                        <li>Certified Marketing Professional (CMP)</li>
-                        <li>Digital Marketing Certification</li>
-                        <li>Business Development Specialist</li>
-                        <li>Strategic Planning Certification</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Direksi 6 -->
-    <div id="direksi6Modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&h=400&fit=crop" alt="Ir. Teguh Prakoso, M.T.">
-                <span class="close" onclick="closeModal('direksi6Modal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h2 class="modal-title">Ir. Teguh Prakoso, M.T.</h2>
-                <p class="modal-position">Direktur Teknik & Pengembangan Infrastruktur</p>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-user"></i> Profil Singkat</h3>
-                    <p>Ir. Teguh Prakoso, M.T. bertanggung jawab atas pengembangan infrastruktur dan teknologi untuk mendukung operasional logistik yang modern. Beliau memiliki keahlian dalam rekayasa dan manajemen proyek.</p>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-briefcase"></i> Pengalaman Kerja</h3>
-                    <div class="experience-item">
-                        <div class="item-year">2020 - Sekarang</div>
-                        <div class="item-title">Direktur Teknik & Pengembangan Infrastruktur</div>
-                        <div class="item-institution">PT Semen Indonesia Logistik (SILOG)</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2017 - 2020</div>
-                        <div class="item-title">Technical Director</div>
-                        <div class="item-institution">PT Waskita Karya (Persero) Tbk</div>
-                    </div>
-                    <div class="experience-item">
-                        <div class="item-year">2013 - 2017</div>
-                        <div class="item-title">Project Manager</div>
-                        <div class="item-institution">PT Hutama Karya (Persero) Tbk</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Pendidikan</h3>
-                    <div class="education-item">
-                        <div class="item-year">2015</div>
-                        <div class="item-title">Magister Teknik (M.T.)</div>
-                        <div class="item-institution">Institut Teknologi Bandung (ITB)</div>
-                    </div>
-                    <div class="education-item">
-                        <div class="item-year">2010</div>
-                        <div class="item-title">Sarjana Teknik Sipil (Ir.)</div>
-                        <div class="item-institution">Universitas Gadjah Mada</div>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-award"></i> Sertifikasi</h3>
-                    <ul>
-                        <li>Project Management Professional (PMP)</li>
-                        <li>Construction Management Certification</li>
-                        <li>Infrastructure Development Specialist</li>
-                        <li>Engineering Management Certification</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Loading screen
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loading').classList.add('hidden');
-            }, 1000);
-        });
-
-        // Interactive cursor
-        const cursor = document.getElementById('cursor');
-        
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            cursor.style.opacity = '0.8';
-        });
-        
-        document.addEventListener('mouseleave', () => {
-            cursor.style.opacity = '0';
-        });
-
-        // Add hover effects for interactive elements
-        document.querySelectorAll('a, button, .board-member, .structure-image, .social-link, .content-card').forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                cursor.style.opacity = '0.6';
-            });
+        <div class="modal-body p-8">
+            <h2 class="modal-title text-3xl font-bold text-gray-900 mb-2">{{ $member->name }}</h2>
+            <p class="modal-position text-red-500 font-semibold text-xl mb-8">{{ $member->position }}</p>
             
-            element.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                cursor.style.opacity = '0.8';
-            });
+            <div class="modal-section mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-user text-red-500"></i>
+                    Profil Singkat
+                </h3>
+                <p class="text-gray-700 leading-relaxed">{{ $member->profile }}</p>
+            </div>
+            
+            @if($member->experiences)
+            <div class="modal-section mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-briefcase text-red-500"></i>
+                    Pengalaman Kerja
+                </h3>
+                <div class="space-y-4">
+                    @foreach($member->experiences as $experience)
+                    <div class="experience-item bg-gray-50 border border-gray-200 rounded-xl p-6 transition-all duration-300 hover:border-red-300">
+                        <div class="item-year text-red-500 font-semibold mb-2">{{ $experience['year'] }}</div>
+                        <div class="item-title font-semibold text-gray-900 mb-1">{{ $experience['title'] }}</div>
+                        <div class="item-institution text-gray-600 italic">{{ $experience['institution'] }}</div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+            
+            @if($member->educations)
+            <div class="modal-section mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-graduation-cap text-red-500"></i>
+                    Pendidikan
+                </h3>
+                <div class="space-y-4">
+                    @foreach($member->educations as $education)
+                    <div class="education-item bg-gray-50 border border-gray-200 rounded-xl p-6 transition-all duration-300 hover:border-red-300">
+                        <div class="item-year text-red-500 font-semibold mb-2">{{ $education['year'] }}</div>
+                        <div class="item-title font-semibold text-gray-900 mb-1">{{ $education['title'] }}</div>
+                        <div class="item-institution text-gray-600 italic">{{ $education['institution'] }}</div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+        </div>
+    </div>
+</div>
+@endforeach
+
+@foreach($direksi as $member)
+<div id="direksi{{ $member->id }}Modal" class="modal fixed inset-0 z-50 hidden">
+    <div class="modal-overlay absolute inset-0 bg-black bg-opacity-70 backdrop-blur-sm"></div>
+    <div class="modal-content relative bg-white rounded-2xl max-w-4xl mx-auto my-12 max-h-[90vh] overflow-y-auto">
+        <div class="modal-header relative h-64 rounded-t-2xl overflow-hidden bg-gray-200">
+            @if($member->image)
+                <img src="{{ asset('storage/' . $member->image) }}" alt="{{ $member->name }}" class="w-full h-full object-cover">
+            @else
+                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                    <i class="fas fa-user text-8xl"></i>
+                </div>
+            @endif
+            <span class="close absolute top-6 right-6 text-white text-4xl cursor-pointer bg-black bg-opacity-50 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-red-500 hover:rotate-90" onclick="closeModal('direksi{{ $member->id }}Modal')">&times;</span>
+        </div>
+        <div class="modal-body p-8">
+            <h2 class="modal-title text-3xl font-bold text-gray-900 mb-2">{{ $member->name }}</h2>
+            <p class="modal-position text-red-500 font-semibold text-xl mb-8">{{ $member->position }}</p>
+            
+            <div class="modal-section mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-user text-red-500"></i>
+                    Profil Singkat
+                </h3>
+                <p class="text-gray-700 leading-relaxed">{{ $member->profile }}</p>
+            </div>
+            
+            @if($member->experiences)
+            <div class="modal-section mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-briefcase text-red-500"></i>
+                    Pengalaman Kerja
+                </h3>
+                <div class="space-y-4">
+                    @foreach($member->experiences as $experience)
+                    <div class="experience-item bg-gray-50 border border-gray-200 rounded-xl p-6 transition-all duration-300 hover:border-red-300">
+                        <div class="item-year text-red-500 font-semibold mb-2">{{ $experience['year'] }}</div>
+                        <div class="item-title font-semibold text-gray-900 mb-1">{{ $experience['title'] }}</div>
+                        <div class="item-institution text-gray-600 italic">{{ $experience['institution'] }}</div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+            
+            @if($member->educations)
+            <div class="modal-section mb-8">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-graduation-cap text-red-500"></i>
+                    Pendidikan
+                </h3>
+                <div class="space-y-4">
+                    @foreach($member->educations as $education)
+                    <div class="education-item bg-gray-50 border border-gray-200 rounded-xl p-6 transition-all duration-300 hover:border-red-300">
+                        <div class="item-year text-red-500 font-semibold mb-2">{{ $education['year'] }}</div>
+                        <div class="item-title font-semibold text-gray-900 mb-1">{{ $education['title'] }}</div>
+                        <div class="item-institution text-gray-600 italic">{{ $education['institution'] }}</div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+        </div>
+    </div>
+</div>
+@endforeach
+
+<script>
+    // Tab switching function
+    function switchTab(tabName) {
+        // Hide all tab contents
+        document.querySelectorAll('.board-content').forEach(content => {
+            content.classList.add('hidden');
+            content.classList.remove('active');
         });
+        
+        // Remove active class from all tabs
+        document.querySelectorAll('.board-tab').forEach(tab => {
+            tab.classList.remove('active', 'bg-red-500', 'text-white', 'border-red-500');
+            tab.classList.add('bg-white', 'text-gray-600', 'border-gray-300');
+        });
+        
+        // Show selected tab content
+        document.getElementById(tabName).classList.remove('hidden');
+        document.getElementById(tabName).classList.add('active');
+        
+        // Add active class to clicked tab
+        event.target.classList.add('active', 'bg-red-500', 'text-white', 'border-red-500');
+        event.target.classList.remove('bg-white', 'text-gray-600', 'border-gray-300');
+    }
 
-        // Modal functions
-        function openModal(modalId) {
-            document.getElementById(modalId + 'Modal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
+    // Modal functions
+    function openModal(modalId) {
+        document.getElementById(modalId + 'Modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('modal-overlay')) {
+            event.target.closest('.modal').classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
+    });
 
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        // Tab switching function
-        function switchTab(tabName) {
-            // Hide all tab contents
-            document.querySelectorAll('.board-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Remove active class from all tabs
-            document.querySelectorAll('.board-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected tab content
-            document.getElementById(tabName).classList.add('active');
-            
-            // Add active class to clicked tab
-            event.target.classList.add('active');
-            
-            // Re-trigger animations for the newly shown content
-            const newContent = document.getElementById(tabName);
-            const members = newContent.querySelectorAll('.board-member');
-            members.forEach((member, index) => {
-                member.classList.remove('visible');
-                setTimeout(() => {
-                    member.classList.add('visible');
-                }, index * 100);
-            });
-        }
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+    // Add hover effects for board members
+    document.querySelectorAll('.board-member').forEach(member => {
+        member.addEventListener('mouseenter', function() {
+            const img = this.querySelector('img');
+            img.style.transform = 'scale(1.05)';
         });
-
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
+        
+        member.addEventListener('mouseleave', function() {
+            const img = this.querySelector('img');
+            img.style.transform = 'scale(1)';
         });
+    });
 
-        // Scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        // Observe all animation elements
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
+    // Add hover effects for content cards
+    document.querySelectorAll('.content-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('.card-icon');
+            icon.style.transform = 'scale(1.1) rotate(5deg)';
         });
-
-        // Add staggered animation to board members
-        const boardMembers = document.querySelectorAll('.board-member');
-        boardMembers.forEach((member, index) => {
-            observer.observe(member);
+        
+        card.addEventListener('mouseleave', function() {
+            const icon = this.querySelector('.card-icon');
+            icon.style.transform = 'scale(1) rotate(0deg)';
         });
-    </script>
-</body>
-</html>
+    });
+</script>
+
+<style>
+    /* Custom styles for section title underline */
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #F5333F, #d42834);
+        border-radius: 2px;
+    }
+
+    /* Custom styles for hero section */
+    .hero {
+        background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+    }
+
+    /* Custom styles for board member hover effects */
+    .board-member:hover .member-name {
+        color: #F5333F;
+    }
+
+    /* Custom styles for content card top border */
+    .content-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .content-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #F5333F, #d42834);
+        transform: scaleX(0);
+        transition: transform 0.5s ease;
+    }
+
+    .content-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    /* Custom styles for card icon shine effect */
+    .card-icon::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+        animation: iconShine 3s ease-in-out infinite;
+    }
+
+    @keyframes iconShine {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+    }
+
+    /* Custom styles for CTA button shine effect */
+    .cta-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .cta-button:hover::before {
+        left: 100%;
+    }
+</style>
+@endsection

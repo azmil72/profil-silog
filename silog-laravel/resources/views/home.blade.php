@@ -195,7 +195,7 @@
                         </div>
                     </li>
                     <li><a href="#business" class="text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium transition-colors duration-300">Bisnis</a></li>
-                    <li><a href="#news" class="text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium transition-colors duration-300">Info</a></li>
+                    <li><a href="{{ route('info') }}" class="text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium transition-colors duration-300">Info</a></li>
                     <li><a href="#contact" class="text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium transition-colors duration-300">Kontak</a></li>
                 </ul>
                 <button class="md:hidden mobile-menu-button">
@@ -209,7 +209,7 @@
                     <a href="{{ url('/') }}" class="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-300">Beranda</a>
                     <a href="#about" class="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-300">Tentang</a>
                     <a href="#business" class="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-300">Bisnis</a>
-                    <a href="#news" class="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-300">Info</a>
+                    <a href="{{ route('info') }}" class="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-300">Info</a>
                     <a href="#contact" class="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-300">Kontak</a>
                 </div>
             </div>

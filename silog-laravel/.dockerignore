@@ -1,8 +1,5 @@
 node_modules
 npm-debug.log
-Dockerfile*
-docker-compose*
-.dockerignore
 .git
 .gitignore
 README.md
@@ -10,4 +7,13 @@ README.md
 .nyc_output
 coverage
 .cache
+.parcel-cache
+dist
+.DS_Store
+*.log
 vendor
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+bootstrap/cache/*

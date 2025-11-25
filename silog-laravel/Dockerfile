@@ -17,10 +17,22 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /var/www
 
-# Copy semua file project (termasuk vendor)
+# Copy composer files first
+COPY composer.json composer.lock ./
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+# Copy application files
 COPY --chown=www-data:www-data . .
 
-# Pastikan direktori penting Laravel ada dan bisa ditulis
+# Run composer scripts
+RUN composer run-script post-autoload-dump
+
+# Set permissions
 RUN mkdir -p storage/logs bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 755 storage bootstrap/cache
