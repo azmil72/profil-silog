@@ -50,12 +50,9 @@
                 <div class="filter-section flex flex-wrap justify-between items-center mb-8 gap-4">
                     <div class="filter-options flex flex-wrap gap-2">
                         <button class="filter-btn bg-red-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 active" onclick="filterNews('all')">Semua</button>
-                        <button class="filter-btn bg-white border border-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:border-red-500 hover:text-red-500" onclick="filterNews('penghargaan')">Penghargaan</button>
-                        <button class="filter-btn bg-white border border-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:border-red-500 hover:text-red-500" onclick="filterNews('kerjasama')">Kerjasama</button>
-                        <button class="filter-btn bg-white border border-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:border-red-500 hover:text-red-500" onclick="filterNews('inovasi')">Inovasi</button>
-                        <button class="filter-btn bg-white border border-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:border-red-500 hover:text-red-500" onclick="filterNews('ekspansi')">Ekspansi</button>
-                        <button class="filter-btn bg-white border border-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:border-red-500 hover:text-red-500" onclick="filterNews('sosial')">Sosial</button>
-                        <button class="filter-btn bg-white border border-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:border-red-500 hover:text-red-500" onclick="filterNews('teknologi')">Teknologi</button>
+                        @foreach($categories as $key => $label)
+                        <button class="filter-btn bg-white border border-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:border-red-500 hover:text-red-500" onclick="filterNews('{{ $key }}')">{{ $label }}</button>
+                        @endforeach
                     </div>
                     <div class="search-box relative w-full md:w-64">
                         <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
@@ -64,121 +61,63 @@
                 </div>
                 
                 <div class="news-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- News Card 1 -->
-                    <div class="news-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-red-300 cursor-pointer" data-category="penghargaan">
+                    @forelse($news as $article)
+                    <div class="news-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-red-300 cursor-pointer" data-category="{{ $article->category }}">
                         <div class="news-image h-64 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Berita 1" class="w-full h-full object-cover transition-transform duration-500">
-                            <div class="news-date absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">15 November 2024</div>
-                            <div class="news-category absolute top-4 left-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm font-semibold">Penghargaan</div>
+                            <img src="{{ $article->image ?? 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop' }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-500">
+                            <div class="news-date absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                {{ is_object($article->published_at) ? $article->published_at->format('d M Y') : date('d M Y', strtotime($article->published_at)) }}
+                            </div>
+                            <div class="news-category absolute top-4 left-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm font-semibold">{{ $categories[$article->category] ?? ucfirst($article->category) }}</div>
                         </div>
                         <div class="news-content p-6">
-                            <h3 class="news-title text-xl font-bold text-gray-900 mb-3 line-height-tight">SILOG Raih Penghargaan Perusahaan Logistik Terbaik 2024</h3>
-                            <p class="news-excerpt text-gray-600 leading-relaxed mb-4">SILOG berhasil meraih penghargaan sebagai Perusahaan Logistik Terbaik tahun 2024 dalam ajang Indonesia Logistics Awards...</p>
+                            <h3 class="news-title text-xl font-bold text-gray-900 mb-3 line-height-tight">{{ $article->title }}</h3>
+                            <p class="news-excerpt text-gray-600 leading-relaxed mb-4">{{ $article->excerpt }}</p>
                             <div class="news-actions flex justify-between items-center">
                                 <a href="#" class="read-more inline-flex items-center text-red-500 font-semibold text-sm transition-all duration-300 hover:gap-2">
                                     Baca Selengkapnya
                                     <span class="ml-1 transition-all duration-300">→</span>
                                 </a>
+                                @if(isset($article->download_file) && $article->download_file)
                                 <a href="#" class="download-btn inline-flex items-center text-gray-500 font-semibold text-sm transition-all duration-300 hover:text-red-500">
                                     <i class="fas fa-download mr-1"></i> Unduh
                                 </a>
+                                @endif
                             </div>
                         </div>
                     </div>
-
-                    <!-- News Card 2 -->
-                    <div class="news-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-red-300 cursor-pointer" data-category="kerjasama">
-                        <div class="news-image h-64 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop" alt="Berita 2" class="w-full h-full object-cover transition-transform duration-500">
-                            <div class="news-date absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">10 November 2024</div>
-                            <div class="news-category absolute top-4 left-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm font-semibold">Kerjasama</div>
-                        </div>
-                        <div class="news-content p-6">
-                            <h3 class="news-title text-xl font-bold text-gray-900 mb-3 line-height-tight">Kerjasama Strategis dengan Pelabuhan Tanjung Priok</h3>
-                            <p class="news-excerpt text-gray-600 leading-relaxed mb-4">SILOG menandatangani MoU kerjasama strategis dengan Pelabuhan Tanjung Priok untuk meningkatkan efisiensi distribusi...</p>
-                            <div class="news-actions flex justify-between items-center">
-                                <a href="#" class="read-more inline-flex items-center text-red-500 font-semibold text-sm transition-all duration-300 hover:gap-2">
-                                    Baca Selengkapnya
-                                    <span class="ml-1 transition-all duration-300">→</span>
-                                </a>
-                                <a href="#" class="download-btn inline-flex items-center text-gray-500 font-semibold text-sm transition-all duration-300 hover:text-red-500">
-                                    <i class="fas fa-download mr-1"></i> Unduh
-                                </a>
-                            </div>
-                        </div>
+                    @empty
+                    <div class="col-span-full text-center py-12">
+                        <p class="text-gray-500 text-lg">Belum ada berita tersedia.</p>
                     </div>
-
-                    <!-- News Card 3 -->
-                    <div class="news-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-red-300 cursor-pointer" data-category="inovasi">
-                        <div class="news-image h-64 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop" alt="Berita 3" class="w-full h-full object-cover transition-transform duration-500">
-                            <div class="news-date absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">5 November 2024</div>
-                            <div class="news-category absolute top-4 left-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm font-semibold">Inovasi</div>
-                        </div>
-                        <div class="news-content p-6">
-                            <h3 class="news-title text-xl font-bold text-gray-900 mb-3 line-height-tight">Peluncuran Sistem Tracking Digital Terbaru</h3>
-                            <p class="news-excerpt text-gray-600 leading-relaxed mb-4">SILOG memperkenalkan sistem tracking digital terbaru yang memungkinkan pelanggan memantau pengiriman secara real-time...</p>
-                            <div class="news-actions flex justify-between items-center">
-                                <a href="#" class="read-more inline-flex items-center text-red-500 font-semibold text-sm transition-all duration-300 hover:gap-2">
-                                    Baca Selengkapnya
-                                    <span class="ml-1 transition-all duration-300">→</span>
-                                </a>
-                                <a href="#" class="download-btn inline-flex items-center text-gray-500 font-semibold text-sm transition-all duration-300 hover:text-red-500">
-                                    <i class="fas fa-download mr-1"></i> Unduh
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
                 
                 <!-- Pagination -->
-                <div class="pagination flex justify-center items-center mt-12 gap-2">
-                    <button class="page-btn w-10 h-10 flex items-center justify-center bg-white border border-gray-300 rounded-full font-semibold text-gray-600 transition-all duration-300 hover:bg-red-500 hover:text-white hover:border-red-500">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="page-btn w-10 h-10 flex items-center justify-center bg-red-500 text-white border border-red-500 rounded-full font-semibold transition-all duration-300 active">1</button>
-                    <button class="page-btn w-10 h-10 flex items-center justify-center bg-white border border-gray-300 rounded-full font-semibold text-gray-600 transition-all duration-300 hover:bg-red-500 hover:text-white hover:border-red-500">2</button>
-                    <button class="page-btn w-10 h-10 flex items-center justify-center bg-white border border-gray-300 rounded-full font-semibold text-gray-600 transition-all duration-300 hover:bg-red-500 hover:text-white hover:border-red-500">3</button>
-                    <span class="page-btn w-10 h-10 flex items-center justify-center text-gray-400">...</span>
-                    <button class="page-btn w-10 h-10 flex items-center justify-center bg-white border border-gray-300 rounded-full font-semibold text-gray-600 transition-all duration-300 hover:bg-red-500 hover:text-white hover:border-red-500">8</button>
-                    <button class="page-btn w-10 h-10 flex items-center justify-center bg-white border border-gray-300 rounded-full font-semibold text-gray-600 transition-all duration-300 hover:bg-red-500 hover:text-white hover:border-red-500">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+                @if(method_exists($news, 'links'))
+                <div class="pagination flex justify-center items-center mt-12">
+                    {{ $news->links() }}
                 </div>
+                @endif
             </div>
             
             <!-- Galeri Content -->
             <div id="galeri" class="info-content hidden">
                 <div class="gallery-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Gallery Item 1 -->
-                    <div class="gallery-item relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl" onclick="openGalleryModal('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&h=800&fit=crop')">
-                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop" alt="Galeri 1" class="w-full h-64 object-cover transition-transform duration-500">
+                    @forelse($galleries as $gallery)
+                    <div class="gallery-item relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl" onclick="openGalleryModal('{{ $gallery->image }}')">
+                        <img src="{{ $gallery->image }}" alt="{{ $gallery->title }}" class="w-full h-64 object-cover transition-transform duration-500">
                         <div class="gallery-overlay absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                             <div class="gallery-caption text-white font-semibold text-lg transform translate-y-4 hover:translate-y-0 transition-transform duration-300">
-                                Peluncuran Armada Baru SILOG
+                                {{ $gallery->title }}
                             </div>
                         </div>
                     </div>
-
-                    <!-- Gallery Item 2 -->
-                    <div class="gallery-item relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl" onclick="openGalleryModal('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&h=800&fit=crop')">
-                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=300&fit=crop" alt="Galeri 2" class="w-full h-64 object-cover transition-transform duration-500">
-                        <div class="gallery-overlay absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                            <div class="gallery-caption text-white font-semibold text-lg transform translate-y-4 hover:translate-y-0 transition-transform duration-300">
-                                Fasilitas Gudang Modern
-                            </div>
-                        </div>
+                    @empty
+                    <div class="col-span-full text-center py-12">
+                        <p class="text-gray-500 text-lg">Belum ada galeri tersedia.</p>
                     </div>
-
-                    <!-- Gallery Item 3 -->
-                    <div class="gallery-item relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl" onclick="openGalleryModal('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=800&fit=crop')">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop" alt="Galeri 3" class="w-full h-64 object-cover transition-transform duration-500">
-                        <div class="gallery-overlay absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                            <div class="gallery-caption text-white font-semibold text-lg transform translate-y-4 hover:translate-y-0 transition-transform duration-300">
-                                Tim Profesional SILOG
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -337,32 +276,6 @@
             event.target.closest('.modal').classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
-    });
-
-    // Add hover effects for news cards
-    document.querySelectorAll('.news-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            const img = this.querySelector('img');
-            img.style.transform = 'scale(1.05)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            const img = this.querySelector('img');
-            img.style.transform = 'scale(1)';
-        });
-    });
-
-    // Add hover effects for content cards
-    document.querySelectorAll('.content-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            const icon = this.querySelector('.card-icon');
-            icon.style.transform = 'scale(1.1) rotate(5deg)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            const icon = this.querySelector('.card-icon');
-            icon.style.transform = 'scale(1) rotate(0deg)';
-        });
     });
 </script>
 
