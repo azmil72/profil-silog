@@ -6,6 +6,7 @@
     <title>SILOG - Semen Indonesia Logistik</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
@@ -13,19 +14,11 @@
             // Animasi GSAP
             gsap.registerPlugin(ScrollTrigger);
             
-            // Animasi hero section
-            gsap.from('.hero-content', {
+            // Animasi hero section untuk carousel
+            gsap.from('#hero-carousel', {
                 duration: 1,
-                y: 50,
+                y: 30,
                 opacity: 0,
-                ease: "power3.out"
-            });
-            
-            gsap.from('.hero-image', {
-                duration: 1,
-                x: 50,
-                opacity: 0,
-                delay: 0.5,
                 ease: "power3.out"
             });
             
@@ -80,6 +73,8 @@
                     mobileMenu.classList.toggle('hidden');
                 });
             }
+            
+
         });
     </script>
     <style>
@@ -119,7 +114,7 @@
         }
         
         .gradient-bg {
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--accent-orange) 100%);
+            background: linear-gradient(135deg, var(--primary-red) );
         }
         
         .hover-lift {
@@ -132,7 +127,7 @@
         }
         
         .text-gradient {
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--accent-orange) 100%);
+            background: linear-gradient(135deg, var(--primary-red) );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -149,7 +144,7 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, var(--primary-red), var(--accent-orange));
+            background: linear-gradient(90deg, var(--primary-red) );
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.3s ease;
@@ -174,6 +169,27 @@
         
         .news-image {
             transition: transform 0.5s ease;
+        }
+        
+        /* Carousel specific styles */
+        #hero-carousel .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Carousel indicators active state */
+        [data-carousel-slide-to].bg-white {
+            background-color: white !important;
         }
     </style>
 </head>
@@ -216,21 +232,62 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="gradient-bg text-white py-20 mt-16 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="hero-content">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-6">Solusi Logistik <span class="text-yellow-300">Terdepan</span></h1>
-                    <p class="text-xl mb-8">Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia.</p>
-                    <a href="#about" class="bg-white text-red-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition duration-300 pulse-animation">
-                        Jelajahi Layanan Kami <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
+    <!-- Hero Carousel Section -->
+    <section class="mt-16 relative">
+        <div id="hero-carousel" class="relative w-full" data-carousel="slide">
+            <!-- Carousel wrapper -->
+            <div class="relative h-[500px] md:h-[700px] overflow-hidden">
+                <!-- Item 1 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10"></div>
+                    <img src="{{ asset('assets/images/SILOG-Main-Office-Gresik.png') }}" class="absolute block w-full h-full object-cover" alt="SILOG Main Office Gresik">
+                    <div class="absolute inset-0 z-20 flex items-center justify-center">
+                        <div class="text-center text-white px-4 max-w-4xl">
+                            <h1 class="text-4xl md:text-6xl font-bold mb-6 hero-content">Kantor Pusat <span class="text-yellow-300">SILOG Gresik</span></h1>
+                            <p class="text-xl mb-8 hero-content">Pusat operasional SILOG yang modern dan strategis untuk melayani kebutuhan logistik nasional.</p>
+                            <a href="#about" class="bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300 pulse-animation hero-content">
+                                Jelajahi Layanan kantor Kami <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center hero-image floating-animation">
-                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop" alt="SILOG Logistics" class="rounded-lg shadow-2xl">
+                <!-- Item 2 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10"></div>
+                    <img src="{{ asset('assets/images/web-kebijakan-anti-penyuapan.png') }}" class="absolute block w-full h-full object-cover" alt="Kebijakan Anti Penyuapan">
+                    <div class="absolute inset-0 z-20 flex items-center justify-center">
+                        <div class="text-center text-white px-4 max-w-4xl">
+                            <h1 class="text-4xl md:text-6xl font-bold mb-6 hero-content">Komitmen <span class="text-yellow-300">Integritas</span></h1>
+                            <p class="text-xl mb-8 hero-content">SILOG berkomitmen penuh terhadap tata kelola perusahaan yang baik dan bebas dari praktik korupsi.</p>
+                            <a href="#about" class="bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300 pulse-animation hero-content">
+                                Pelajari Kebijakan Kami <i class="fas fa-shield-alt ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- Slider indicators -->
+            <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+                <button type="button" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors duration-300" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+                <button type="button" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors duration-300" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+            </div>
+            <!-- Slider controls -->
+            <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none transition-colors duration-300">
+                    <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                    </svg>
+                    <span class="sr-only">Previous</span>
+                </span>
+            </button>
+            <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none transition-colors duration-300">
+                    <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    </svg>
+                    <span class="sr-only">Next</span>
+                </span>
+            </button>
         </div>
     </section>
     
@@ -448,5 +505,68 @@
             </div>
         </div>
     </footer>
+    
+    <script>
+        // Simple Carousel Implementation
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.querySelector('#hero-carousel');
+            const slides = carousel.querySelectorAll('[data-carousel-item]');
+            const indicators = carousel.querySelectorAll('[data-carousel-slide-to]');
+            const prevBtn = carousel.querySelector('[data-carousel-prev]');
+            const nextBtn = carousel.querySelector('[data-carousel-next]');
+            
+            let currentSlide = 0;
+            
+            function showSlide(index) {
+                // Hide all slides
+                slides.forEach(slide => {
+                    slide.classList.add('hidden');
+                    slide.classList.remove('block');
+                });
+                
+                // Show current slide
+                slides[index].classList.remove('hidden');
+                slides[index].classList.add('block');
+                
+                // Update indicators
+                indicators.forEach((indicator, i) => {
+                    if (i === index) {
+                        indicator.classList.remove('bg-white/50');
+                        indicator.classList.add('bg-white');
+                    } else {
+                        indicator.classList.remove('bg-white');
+                        indicator.classList.add('bg-white/50');
+                    }
+                });
+            }
+            
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+            
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+            
+            // Event listeners
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    currentSlide = index;
+                    showSlide(currentSlide);
+                });
+            });
+            
+            // Auto-slide every 5 seconds
+            setInterval(nextSlide, 5000);
+            
+            // Initialize first slide
+            showSlide(0);
+        });
+    </script>
 </body>
 </html>

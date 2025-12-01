@@ -14,28 +14,29 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
-WORKDIR /var/www
-
-# Copy composer files first
-COPY composer.json composer.lock ./
+# Install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+# Set working directory
+WORKDIR /var/www
 
-# Copy application files
+# Copy application files first
 COPY --chown=www-data:www-data . .
 
-# Run composer scripts
-RUN composer run-script post-autoload-dump
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+# Install Node.js dependencies
+RUN npm install
 
 # Set permissions
 RUN mkdir -p storage/logs bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache vendor node_modules \
     && chmod -R 755 storage bootstrap/cache
 
-EXPOSE 9000
+EXPOSE 9000 5173
 CMD ["php-fpm"]

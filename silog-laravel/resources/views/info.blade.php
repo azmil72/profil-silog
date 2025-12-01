@@ -66,7 +66,7 @@
                         <div class="news-image h-64 relative overflow-hidden">
                             <img src="{{ $article->image ?? 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop' }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-500">
                             <div class="news-date absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                                {{ is_object($article->published_at) ? $article->published_at->format('d M Y') : date('d M Y', strtotime($article->published_at)) }}
+                                {{ $article->published_at ? date('d M Y', strtotime($article->published_at)) : date('d M Y') }}
                             </div>
                             <div class="news-category absolute top-4 left-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm font-semibold">{{ $categories[$article->category] ?? ucfirst($article->category) }}</div>
                         </div>
