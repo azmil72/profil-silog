@@ -5,28 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logistik - SILOG - Semen Indonesia Logistik</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bright-white: #FFFFFF;
-            --total-black: #000000;
-            --light-grey: #DFDEDE;
-            --dark-grey: #5E5E5F;
-            --red-primary: #F5333F;
-            --gradient-primary: linear-gradient(135deg, #F5333F 0%, #FF6B6B 100%);
-            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+        @font-face {
+            font-family: 'SIG Headline';
+            src: url('font/SIGHeadline-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
         }
-
+        @font-face {
+            font-family: 'SIG Headline';
+            src: url('font/SIGHeadline-ExtraBold.ttf') format('truetype');
+            font-weight: 800;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Headline';
+            src: url('font/SIGHeadline-Black.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Text';
+            src: url('font/SIGText-Light.ttf') format('truetype');
+            font-weight: 300;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Text';
+            src: url('font/SIGText-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Text';
+            src: url('font/SIGText-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --bright-white: #FFFFFF;
+            --total-black: #000000;
+            --light-grey: #DFDEDE;
+            --dark-grey: #5E5E5F;
+            --red-accent: #F5333F;
+            --gradient-primary: linear-gradient(135deg, #F5333F 0%, #FF6B6B 100%);
+            --gradient-secondary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
         body {
-            font-family: 'Inter', Arial, sans-serif;
+            font-family: 'SIG Text', Arial, sans-serif;
             background: var(--bright-white);
             color: var(--total-black);
             overflow-x: hidden;
@@ -34,29 +70,108 @@
 
         /* Custom Fonts */
         .primary-font {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'SIG Headline', sans-serif;
+            font-weight: 900;
         }
 
         .secondary-font {
-            font-family: 'Inter', sans-serif;
+            font-family: 'SIG Text', sans-serif;
         }
 
-        /* Navigation */
-        .navbar {
+        /* Top Navigation */
+        .top-navbar {
             position: fixed;
             top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--total-black) 0%, #1a1a1a 100%);
+            z-index: 1001;
+            padding: 0.5rem 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 2px solid var(--red-accent);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .top-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 2rem;
+        }
+
+        .top-nav-logo {
+            height: 30px;
+            transition: transform 0.3s ease;
+            filter: brightness(0) invert(1);
+        }
+
+        .top-nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .top-nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .top-nav-link {
+            text-decoration: none;
+            color: var(--bright-white);
+            font-family: 'SIG Text', sans-serif;
+            font-weight: 500;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+            padding: 0.3rem 0.5rem;
+            position: relative;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+
+        .top-nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--red-accent);
+            border-radius: 20px;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .top-nav-link:hover {
+            color: var(--bright-white);
+            transform: translateY(-2px);
+        }
+
+        .top-nav-link:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Main Navigation */
+        .navbar {
+            position: fixed;
+            top: 32px;
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             z-index: 1000;
             padding: 1rem 0;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 3px solid var(--red-accent);
+            box-shadow: 0 8px 32px rgba(245, 51, 63, 0.1);
         }
 
         .navbar.scrolled {
+            top: 0;
             background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(245, 51, 63, 0.15);
         }
 
         .nav-container {
@@ -69,7 +184,7 @@
         }
 
         .logo {
-            height: 50px;
+            height: 40px;
             transition: transform 0.3s ease;
         }
 
@@ -80,7 +195,7 @@
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.2rem;
             align-items: center;
         }
 
@@ -91,30 +206,39 @@
         .nav-link {
             text-decoration: none;
             color: var(--total-black);
-            font-weight: 500;
-            font-size: 0.95rem;
+            font-family: 'SIG Text', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
             transition: all 0.3s ease;
-            padding: 0.5rem 0;
+            padding: 0.5rem 0.8rem;
             position: relative;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
         }
 
         .nav-link:hover {
-            color: var(--red-primary);
+            color: var(--bright-white);
+            background: var(--red-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.3);
         }
 
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 0;
-            height: 2px;
-            background: var(--red-primary);
+            height: 3px;
+            background: var(--red-accent);
+            border-radius: 2px;
             transition: width 0.3s ease;
         }
 
         .nav-link:hover::after {
-            width: 100%;
+            width: 80%;
         }
 
         .dropdown {
@@ -122,36 +246,60 @@
             top: 100%;
             left: 0;
             background: var(--bright-white);
-            min-width: 200px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            min-width: 250px;
+            box-shadow: 0 15px 40px rgba(245, 51, 63, 0.15);
+            border-radius: 15px;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            border: 1px solid var(--light-grey);
+            transform: translateY(-15px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--red-accent);
+            overflow: hidden;
         }
 
         .nav-item:hover .dropdown {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .dropdown a {
             display: block;
-            padding: 0.75rem 1rem;
+            padding: 1rem 1.5rem;
             color: var(--total-black);
             text-decoration: none;
+            font-family: 'SIG Text', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
-            border-radius: 6px;
-            margin: 0.25rem;
+            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--red-accent), #ff6b6b);
+            transition: left 0.3s ease;
+            z-index: -1;
         }
 
         .dropdown a:hover {
-            background: var(--red-primary);
             color: var(--bright-white);
-            transform: translateX(5px);
+            transform: translateX(8px);
+        }
+
+        .dropdown a:hover::before {
+            left: 0;
         }
 
         /* Mobile Menu */
@@ -172,7 +320,8 @@
             align-items: center;
             overflow: hidden;
             background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
-            padding: 120px 0 4rem;
+            padding: 0;
+            margin-top: 88px;
         }
 
         .hero::before {
@@ -218,7 +367,7 @@
         }
 
         .breadcrumb a:hover {
-            color: var(--red-primary);
+            color: var(--red-accent);
         }
 
         .breadcrumb i {
@@ -250,30 +399,47 @@
 
         .hero-button {
             display: inline-block;
-            background: var(--red-primary);
+            background: var(--red-accent);
             color: var(--bright-white);
-            padding: 1rem 2rem;
+            padding: 1.2rem 3rem;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
             font-size: 1.1rem;
             transition: all 0.3s ease;
             box-shadow: 0 8px 25px rgba(245, 51, 63, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .hero-button:hover::before {
+            left: 100%;
         }
 
         .hero-button:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             box-shadow: 0 12px 35px rgba(245, 51, 63, 0.4);
         }
 
         .hero-button.secondary {
             background: transparent;
-            color: var(--red-primary);
-            border: 2px solid var(--red-primary);
+            color: var(--red-accent);
+            border: 2px solid var(--red-accent);
         }
 
         .hero-button.secondary:hover {
-            background: var(--red-primary);
+            background: var(--red-accent);
             color: var(--bright-white);
         }
 
@@ -326,7 +492,7 @@
             transform: translateX(-50%);
             width: 80px;
             height: 3px;
-            background: var(--red-primary);
+            background: var(--red-accent);
         }
 
         .section-subtitle {
@@ -420,7 +586,7 @@
         .card-icon {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, var(--red-primary), #d42834);
+            background: linear-gradient(135deg, var(--red-accent), #d42834);
             border-radius: 20px;
             display: flex;
             align-items: center;
@@ -468,7 +634,7 @@
         }
 
         .content-card:hover .card-title {
-            color: var(--red-primary);
+            color: var(--red-accent);
         }
 
         .card-description {
@@ -481,7 +647,7 @@
         .card-link {
             display: inline-flex;
             align-items: center;
-            color: var(--red-primary);
+            color: var(--red-accent);
             font-weight: 600;
             text-decoration: none;
             font-size: 0.95rem;
@@ -490,7 +656,7 @@
 
         .card-link:hover {
             gap: 8px;
-            color: var(--red-primary);
+            color: var(--red-accent);
         }
 
         .card-link::after {
@@ -571,7 +737,7 @@
         .service-icon {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--red-primary), #d42834);
+            background: linear-gradient(135deg, var(--red-accent), #d42834);
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -599,7 +765,7 @@
         }
 
         .service-card:hover .service-title {
-            color: var(--red-primary);
+            color: var(--red-accent);
         }
 
         .service-description {
@@ -659,7 +825,7 @@
         .advantage-number {
             font-size: 3rem;
             font-weight: 900;
-            color: var(--red-primary);
+            color: var(--red-accent);
             margin-bottom: 1rem;
             line-height: 1;
             transition: all 0.3s ease;
@@ -678,7 +844,7 @@
         }
 
         .advantage-card:hover .advantage-title {
-            color: var(--red-primary);
+            color: var(--red-accent);
         }
 
         .advantage-description {
@@ -708,7 +874,7 @@
             left: 60px;
             right: 60px;
             height: 3px;
-            background: linear-gradient(90deg, var(--red-primary), var(--light-grey));
+            background: linear-gradient(90deg, var(--red-accent), var(--light-grey));
             z-index: 1;
         }
 
@@ -723,7 +889,7 @@
         .step-number {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, var(--red-primary), #d42834);
+            background: linear-gradient(135deg, var(--red-accent), #d42834);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -749,7 +915,7 @@
         }
 
         .process-step:hover .step-title {
-            color: var(--red-primary);
+            color: var(--red-accent);
         }
 
         .step-description {
@@ -796,7 +962,7 @@
         .cta-button {
             display: inline-block;
             background: var(--bright-white);
-            color: var(--red-primary);
+            color: var(--red-accent);
             padding: 1rem 2.5rem;
             text-decoration: none;
             border-radius: 50px;
@@ -836,7 +1002,7 @@
 
         .cta-button.secondary:hover {
             background: var(--bright-white);
-            color: var(--red-primary);
+            color: var(--red-accent);
         }
 
         /* Footer */
@@ -902,7 +1068,7 @@
         }
 
         .social-link:hover {
-            background: var(--red-primary);
+            background: var(--red-accent);
             transform: translateY(-3px) rotate(5deg);
             box-shadow: 0 8px 20px rgba(245, 51, 63, 0.4);
         }
@@ -922,7 +1088,7 @@
             left: 0;
             width: 30px;
             height: 2px;
-            background: var(--red-primary);
+            background: var(--red-accent);
         }
 
         .footer-links {
@@ -944,7 +1110,7 @@
         }
 
         .footer-links a:hover {
-            color: var(--red-primary);
+            color: var(--red-accent);
             padding-left: 10px;
         }
 
@@ -952,7 +1118,7 @@
             content: '';
             width: 4px;
             height: 4px;
-            background: var(--red-primary);
+            background: var(--red-accent);
             border-radius: 50%;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -982,7 +1148,7 @@
         }
 
         .contact-info i {
-            color: var(--red-primary);
+            color: var(--red-accent);
             font-size: 1.1rem;
             width: 20px;
             transition: all 0.3s ease;
@@ -1020,7 +1186,7 @@
         }
 
         .footer-links-bottom a:hover {
-            color: var(--red-primary);
+            color: var(--red-accent);
         }
 
         /* Responsive */
@@ -1149,7 +1315,7 @@
             width: 50px;
             height: 50px;
             border: 3px solid var(--light-grey);
-            border-top: 3px solid var(--red-primary);
+            border-top: 3px solid var(--red-accent);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -1182,7 +1348,20 @@
         </div>
     </div>
 
-    <!-- Navigation -->
+    <!-- Top Navigation -->
+    <nav class="top-navbar" id="topNavbar">
+        <div class="top-nav-container">
+            <ul class="top-nav-menu">
+                <li><a href="#" class="top-nav-link"><i class="fas fa-shopping-cart"></i> Pengadaan</a></li>
+                <li><a href="keberlanjutan.html" class="top-nav-link"><i class="fas fa-leaf"></i> Keberlanjutan</a></li>
+                <li><a href="karir.html" class="top-nav-link"><i class="fas fa-users"></i> Karir</a></li>
+                <li><a href="jaringan.html" class="top-nav-link"><i class="fas fa-network-wired"></i> Jaringan</a></li>
+                <li><a href="kontak.html" class="top-nav-link"><i class="fas fa-phone"></i> Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html"><img src="logo.png" alt="SILOG Logo" class="logo"></a>
@@ -1191,47 +1370,33 @@
                     <a href="index.html" class="nav-link">Beranda</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Tentang <i class="fas fa-chevron-down"></i></a>
+                    <a href="tentang.html" class="nav-link">Tentang <i class="fas fa-chevron-down"></i></a>
                     <div class="dropdown">
-                        <a href="history.html">History</a>
-                        <a href="profil.html">Profil</a>
+                        <a href="sejarah-profil.html">Profil</a>
                         <a href="visi-misi.html">Visi & Misi</a>
                         <a href="kebijakan-perusahaan.html">Kebijakan Perusahaan</a>
-                        <a href="tata-kelola-perusahaan.html">Tata Kelola Perusahaan</a>
-                        <a href="sumber-daya-manusia.html">Sumber Daya Manusia</a>
+                        <a href="tata-kelola.html">Tata Kelola Perusahaan</a>
+                        <a href="sdm.html">Sumber Daya Manusia</a>
                         <a href="direksi-komisaris.html">Direksi & Komisaris</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Bisnis <i class="fas fa-chevron-down"></i></a>
+                    <a href="bisnis.html" class="nav-link" style="color: var(--red-accent);">Produk dan Layanan <i class="fas fa-chevron-down"></i></a>
                     <div class="dropdown">
                         <a href="logistik.html">Logistik</a>
-                        <a href="#">Konstruksi</a>
-                        <a href="#">Distribusi</a>
+                        <a href="konstruksi.html">Konstruksi</a>
+                        <a href="distribusi.html">Distribusi</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Info<i class="fas fa-chevron-down"></i></a>
+                    <a href="info.html" class="nav-link">Media & Publikasi <i class="fas fa-chevron-down"></i></a>
                     <div class="dropdown">
-                        <a href="#">Berita</a>
-                        <a href="#">Galeri</a>
+                        <a href="info.html#news">Berita</a>
+                        <a href="info.html#gallery">Galeri</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Jaringan <i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown">
-                        <a href="#">Portofolio</a>
-                        <a href="#">Gudang</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Grub</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Karir</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Kontak</a>
+                    <a href="grub.html" class="nav-link">Grup</a>
                 </li>
             </ul>
             <button class="mobile-menu-toggle">
@@ -1247,9 +1412,7 @@
                 <div class="breadcrumb">
                     <a href="index.html">Beranda</a>
                     <i class="fas fa-chevron-right"></i>
-                    <a href="#">Bisnis</a>
-                    <i class="fas fa-chevron-right"></i>
-                    <span>Logistik</span>
+                    <span>Bisnis</span>
                 </div>
                 <h1 class="hero-title primary-font">Logistik</h1>
                 <p class="hero-subtitle secondary-font">Solusi logistik terintegrasi untuk mendukung rantai pasok nasional</p>
@@ -1299,7 +1462,7 @@
                     </div>
                     <h3 class="card-title">Konstruksi</h3>
                     <p class="card-description">Solusi konstruksi dan manufaktur dengan standar kualitas tinggi untuk mendukung pembangunan nasional.</p>
-                    <a href="#" class="card-link">Pelajari Lebih Lanjut</a>
+                    <a href="konstruksi.html" class="card-link">Pelajari Lebih Lanjut</a>
                 </div>
                 
                 <div class="content-card fade-in">
@@ -1308,7 +1471,7 @@
                     </div>
                     <h3 class="card-title">Distribusi</h3>
                     <p class="card-description">Jaringan distribusi yang luas dan efisien untuk memastikan produk sampai ke tangan konsumen dengan kondisi terbaik.</p>
-                    <a href="#" class="card-link">Pelajari Lebih Lanjut</a>
+                    <a href="distribusi.html" class="card-link">Pelajari Lebih Lanjut</a>
                 </div>
             </div>
         </div>
@@ -1440,8 +1603,8 @@
             <h2 class="cta-title primary-font">Siap Bermitra dengan SILOG?</h2>
             <p class="cta-description secondary-font">Dapatkan solusi logistik terbaik untuk bisnis Anda dengan dukungan tim profesional dan teknologi terkini</p>
             <div class="cta-buttons">
-                <a href="#" class="cta-button">Mulai Sekarang</a>
-                <a href="#" class="cta-button secondary">Konsultasi Gratis</a>
+                <a href="kontak.html" class="cta-button">Mulai Sekarang</a>
+                <a href="kontak.html" class="cta-button secondary">Konsultasi Gratis</a>
             </div>
         </div>
     </section>
@@ -1468,28 +1631,28 @@
                     <h4 class="primary-font">Bisnis</h4>
                     <ul class="footer-links secondary-font">
                         <li><a href="logistik.html">Logistik</a></li>
-                        <li><a href="#">Konstruksi</a></li>
-                        <li><a href="#">Distribusi</a></li>
-                        <li><a href="#">Semua Bisnis</a></li>
+                        <li><a href="konstruksi.html">Konstruksi</a></li>
+                        <li><a href="distribusi.html">Distribusi</a></li>
+                        <li><a href="bisnis.html">Semua Bisnis</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-section">
                     <h4 class="primary-font">Informasi</h4>
                     <ul class="footer-links secondary-font">
-                        <li><a href="#">Grup</a></li>
-                        <li><a href="#">Berita</a></li>
-                        <li><a href="#">Galeri</a></li>
-                        <li><a href="#">Kontak</a></li>
+                        <li><a href="grub.html">Grup</a></li>
+                        <li><a href="info.html">Berita</a></li>
+                        <li><a href="info.html#gallery">Galeri</a></li>
+                        <li><a href="kontak.html">Kontak</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-section">
                     <h4 class="primary-font">Jaringan</h4>
                     <ul class="footer-links secondary-font">
-                        <li><a href="#">Portofolio</a></li>
-                        <li><a href="#">Gudang</a></li>
-                        <li><a href="#">Semua Jaringan</a></li>
+                        <li><a href="jaringan.html#portfolio">Portofolio</a></li>
+                        <li><a href="jaringan.html#warehouse">Gudang</a></li>
+                        <li><a href="jaringan.html">Semua Jaringan</a></li>
                     </ul>
                 </div>
 
@@ -1527,10 +1690,18 @@
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
+            const topNavbar = document.getElementById('topNavbar');
+            
             if (window.scrollY > 100) {
                 navbar.classList.add('scrolled');
+                if (topNavbar) {
+                    topNavbar.style.transform = 'translateY(-100%)';
+                }
             } else {
                 navbar.classList.remove('scrolled');
+                if (topNavbar) {
+                    topNavbar.style.transform = 'translateY(0)';
+                }
             }
         });
 

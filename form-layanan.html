@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Penawaran Layanan - SILOG</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'SIG Text';
+            src: url('font/SIGText-Regular.ttf') format('truetype');
+            font-weight: 400;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bright-white: #FFFFFF;
+            --total-black: #000000;
+            --light-grey: #DFDEDE;
+            --dark-grey: #5E5E5F;
+            --red-accent: #F5333F;
+            --red-accent-light: rgba(245, 51, 63, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+        }
+
+        body {
+            font-family: 'SIG Text', Arial, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, var(--bright-white) 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(245, 51, 63, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(245, 51, 63, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(245, 51, 63, 0.03) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-header {
+            background: var(--red-accent);
+            color: var(--bright-white);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-header p {
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wizard-container {
+            padding: 2rem;
+        }
+
+        .wizard-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .wizard-progress::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--light-grey);
+            z-index: 1;
+        }
+
+        .wizard-progress-bar {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            height: 2px;
+            background: var(--red-accent);
+            z-index: 2;
+            transition: width 0.5s ease;
+        }
+
+        .wizard-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-grey);
+            color: var(--dark-grey);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .wizard-step.active .step-circle {
+            background: var(--red-accent);
+            color: var(--bright-white);
+            transform: scale(1.1);
+        }
+
+        .wizard-step.completed .step-circle {
+            background: var(--red-accent);
+            color: var(--bright-white);
+        }
+
+        .step-label {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--dark-grey);
+            text-align: center;
+            max-width: 100px;
+        }
+
+        .wizard-step.active .step-label {
+            color: var(--red-accent);
+            font-weight: 600;
+        }
+
+        .wizard-content {
+            min-height: 400px;
+            position: relative;
+        }
+
+        .wizard-panel {
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .wizard-panel.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--total-black);
+            font-size: 0.95rem;
+        }
+
+        .form-group label .required {
+            color: var(--red-accent);
+            margin-left: 3px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--light-grey);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'SIG Text', Arial, sans-serif;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--red-accent);
+            box-shadow: 0 0 0 3px var(--red-accent-light);
+            background: var(--bright-white);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            color: var(--dark-grey);
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+
+        .form-group input:focus ~ .input-icon,
+        .form-group select:focus ~ .input-icon,
+        .form-group textarea:focus ~ .input-icon {
+            color: var(--red-accent);
+        }
+
+        .wizard-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .wizard-btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .wizard-btn.prev {
+            background: var(--light-grey);
+            color: var(--dark-grey);
+        }
+
+        .wizard-btn.prev:hover {
+            background: #c8c7c7;
+        }
+
+        .wizard-btn.next {
+            background: var(--red-accent);
+            color: var(--bright-white);
+        }
+
+        .wizard-btn.next:hover {
+            background: #d42a36;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 51, 63, 0.3);
+        }
+
+        .wizard-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            color: var(--red-accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+            transform: translateX(-5px);
+        }
+
+        .back-link i {
+            margin-right: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover i {
+            transform: translateX(-3px);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            display: none;
+            border-left: 5px solid #28a745;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.2);
+            animation: slideDown 0.5s ease;
+            text-align: center;
+        }
+
+        .success-message i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #28a745;
+        }
+
+        .success-message h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input-error {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1) !important;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .floating-label {
+            position: relative;
+        }
+
+        .floating-label input,
+        .floating-label textarea {
+            padding-top: 1.2rem;
+        }
+
+        .floating-label label {
+            position: absolute;
+            left: 1rem;
+            top: 0.8rem;
+            color: var(--dark-grey);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            background: var(--bright-white);
+            padding: 0 0.3rem;
+        }
+
+        .floating-label input:focus + label,
+        .floating-label input:not(:placeholder-shown) + label,
+        .floating-label textarea:focus + label,
+        .floating-label textarea:not(:placeholder-shown) + label {
+            top: -0.5rem;
+            left: 0.8rem;
+            font-size: 0.8rem;
+            color: var(--red-accent);
+        }
+
+        .character-count {
+            text-align: right;
+            font-size: 0.8rem;
+            color: var(--dark-grey);
+            margin-top: 0.3rem;
+        }
+
+        .service-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card {
+            border: 2px solid var(--light-grey);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .service-card:hover {
+            border-color: var(--red-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(245, 51, 63, 0.1);
+        }
+
+        .service-card.selected {
+            border-color: var(--red-accent);
+            background: var(--red-accent-light);
+        }
+
+        .service-card i {
+            font-size: 2.5rem;
+            color: var(--red-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .service-card h4 {
+            margin-bottom: 0.3rem;
+            color: var(--total-black);
+        }
+
+        .service-card p {
+            font-size: 0.85rem;
+            color: var(--dark-grey);
+        }
+
+        .timeline-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .timeline-option {
+            border: 2px solid var(--light-grey);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .timeline-option:hover {
+            border-color: var(--red-accent);
+        }
+
+        .timeline-option.selected {
+            border-color: var(--red-accent);
+            background: var(--red-accent-light);
+        }
+
+        .timeline-option i {
+            font-size: 1.5rem;
+            color: var(--red-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 0 1rem;
+                border-radius: 15px;
+            }
+            
+            .form-header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .wizard-container {
+                padding: 1.5rem;
+            }
+            
+            .wizard-progress {
+                margin-bottom: 1.5rem;
+            }
+            
+            .step-label {
+                font-size: 0.75rem;
+            }
+            
+            .service-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Permintaan Penawaran Layanan</h1>
+            <p>Isi form di bawah untuk mendapatkan penawaran terbaik dari SILOG</p>
+        </div>
+        
+        <div class="wizard-container">
+            <a href="javascript:history.back()" class="back-link">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+            
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i>
+                <h3>Permintaan Berhasil Dikirim!</h3>
+                <p>Terima kasih! Permintaan Anda telah dikirim. Tim kami akan menghubungi Anda segera.</p>
+            </div>
+            
+            <div class="wizard-progress">
+                <div class="wizard-progress-bar" id="progressBar"></div>
+                <div class="wizard-step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Layanan</div>
+                </div>
+                <div class="wizard-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Informasi Pribadi</div>
+                </div>
+                <div class="wizard-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Perusahaan</div>
+                </div>
+                <div class="wizard-step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Detail Kebutuhan</div>
+                </div>
+            </div>
+            
+            <form id="serviceForm" novalidate>
+                <div class="wizard-content">
+                    <!-- Step 1: Layanan -->
+                    <div class="wizard-panel active" data-panel="1">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--total-black);">Pilih Layanan yang Anda Butuhkan</h3>
+                        
+                        <div class="service-cards">
+                            <div class="service-card" data-value="logistik">
+                                <i class="fas fa-truck"></i>
+                                <h4>Logistik</h4>
+                                <p>Pengelolaan rantai pasokan</p>
+                            </div>
+                            <div class="service-card" data-value="konstruksi">
+                                <i class="fas fa-hard-hat"></i>
+                                <h4>Konstruksi & Manufaktur</h4>
+                                <p>Pembangunan & produksi</p>
+                            </div>
+                            <div class="service-card" data-value="distribusi">
+                                <i class="fas fa-shipping-fast"></i>
+                                <h4>Distribusi</h4>
+                                <p>Pengiriman barang</p>
+                            </div>
+                            <div class="service-card" data-value="pengadaan">
+                                <i class="fas fa-shopping-cart"></i>
+                                <h4>Pengadaan</h4>
+                                <p>Procurement services</p>
+                            </div>
+                        </div>
+                        
+                        <input type="hidden" id="layanan" name="layanan" required>
+                        <div class="error-message" style="display: none;">Silakan pilih layanan yang Anda minati</div>
+                        
+                        <h3 style="margin: 2rem 0 1rem; color: var(--total-black);">Timeline Proyek</h3>
+                        <div class="timeline-options">
+                            <div class="timeline-option" data-value="segera">
+                                <i class="fas fa-bolt"></i>
+                                <div>Segera</div>
+                                <small>(&lt; 1 bulan)</small>
+                            </div>
+                            <div class="timeline-option" data-value="1-3bulan">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div>1-3 bulan</div>
+                            </div>
+                            <div class="timeline-option" data-value="3-6bulan">
+                                <i class="fas fa-calendar-week"></i>
+                                <div>3-6 bulan</div>
+                            </div>
+                            <div class="timeline-option" data-value="6bulan+">
+                                <i class="fas fa-calendar-plus"></i>
+                                <div>&gt; 6 bulan</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="timeline" name="timeline">
+                    </div>
+                    
+                    <!-- Step 2: Informasi Pribadi -->
+                    <div class="wizard-panel" data-panel="2">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--total-black);">Informasi Kontak</h3>
+                        
+                        <div class="form-group floating-label">
+                            <input type="text" id="nama" name="nama" placeholder=" " required>
+                            <label for="nama">Nama Lengkap <span class="required">*</span></label>
+                            <i class="fas fa-user input-icon"></i>
+                            <div class="error-message">Silakan masukkan nama lengkap Anda</div>
+                        </div>
+                        
+                        <div class="form-group floating-label">
+                            <input type="email" id="email" name="email" placeholder=" " required>
+                            <label for="email">Email <span class="required">*</span></label>
+                            <i class="fas fa-envelope input-icon"></i>
+                            <div class="error-message">Silakan masukkan alamat email yang valid</div>
+                        </div>
+                        
+                        <div class="form-group floating-label">
+                            <input type="tel" id="telepon" name="telepon" placeholder=" " required>
+                            <label for="telepon">Nomor Telepon <span class="required">*</span></label>
+                            <i class="fas fa-phone input-icon"></i>
+                            <div class="error-message">Silakan masukkan nomor telepon yang valid</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Perusahaan -->
+                    <div class="wizard-panel" data-panel="3">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--total-black);">Informasi Perusahaan</h3>
+                        
+                        <div class="form-group floating-label">
+                            <input type="text" id="perusahaan" name="perusahaan" placeholder=" " required>
+                            <label for="perusahaan">Nama Perusahaan <span class="required">*</span></label>
+                            <i class="fas fa-building input-icon"></i>
+                            <div class="error-message">Silakan masukkan nama perusahaan</div>
+                        </div>
+                        
+                        <div class="form-group floating-label">
+                            <input type="text" id="lokasi" name="lokasi" placeholder=" ">
+                            <label for="lokasi">Lokasi Proyek</label>
+                            <i class="fas fa-map-marker-alt input-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Detail Kebutuhan -->
+                    <div class="wizard-panel" data-panel="4">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--total-black);">Detail Kebutuhan</h3>
+                        
+                        <div class="form-group">
+                            <label for="kebutuhan">Jelaskan Kebutuhan Layanan Anda <span class="required">*</span></label>
+                            <textarea id="kebutuhan" name="kebutuhan" placeholder="Jelaskan kebutuhan layanan Anda secara detail..." required maxlength="500"></textarea>
+                            <div class="character-count"><span id="charCount">0</span>/500</div>
+                            <div class="error-message">Silakan jelaskan kebutuhan layanan Anda</div>
+                        </div>
+                        
+                        <div style="background: var(--red-accent-light); padding: 1rem; border-radius: 10px; margin-top: 1.5rem;">
+                            <h4 style="color: var(--red-accent); margin-bottom: 0.5rem;">
+                                <i class="fas fa-info-circle"></i> Informasi Penting
+                            </h4>
+                            <p style="font-size: 0.9rem; color: var(--dark-grey);">
+                                Dengan mengirimkan formulir ini, Anda setuju bahwa tim SILOG akan menghubungi Anda melalui informasi kontak yang telah Anda berikan.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wizard-actions">
+                    <button type="button" class="wizard-btn prev" id="prevBtn" style="display: none;">
+                        <i class="fas fa-arrow-left"></i> Sebelumnya
+                    </button>
+                    <button type="button" class="wizard-btn next" id="nextBtn">
+                        Selanjutnya <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button type="submit" class="wizard-btn next" id="submitBtn" style="display: none;">
+                        <i class="fas fa-paper-plane"></i> Kirim Permintaan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get service from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const service = urlParams.get('service');
+        
+        // Wizard functionality
+        let currentStep = 1;
+        const totalSteps = 4;
+        
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const progressBar = document.getElementById('progressBar');
+        
+        // Service card selection
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('layanan').value = this.dataset.value;
+            });
+        });
+        
+        // Timeline selection
+        document.querySelectorAll('.timeline-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.timeline-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('timeline').value = this.dataset.value;
+            });
+        });
+        
+        // Character count for textarea
+        const kebutuhanTextarea = document.getElementById('kebutuhan');
+        const charCount = document.getElementById('charCount');
+        
+        kebutuhanTextarea.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
+        });
+        
+        // Auto-save to localStorage
+        function saveToLocalStorage() {
+            const formData = new FormData(document.getElementById('serviceForm'));
+            const data = Object.fromEntries(formData);
+            localStorage.setItem('silogFormData', JSON.stringify(data));
+        }
+        
+        function loadFromLocalStorage() {
+            const savedData = localStorage.getItem('silogFormData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                Object.keys(data).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        if (element.type === 'hidden') {
+                            // Handle service cards and timeline
+                            if (key === 'layanan') {
+                                document.querySelector(`.service-card[data-value="${data[key]}"]`)?.click();
+                            } else if (key === 'timeline') {
+                                document.querySelector(`.timeline-option[data-value="${data[key]}"]`)?.click();
+                            }
+                        } else {
+                            element.value = data[key];
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Load saved data on page load
+        loadFromLocalStorage();
+        
+        // Set service from URL if exists
+        if (service) {
+            document.querySelector(`.service-card[data-value="${service}"]`)?.click();
+        }
+        
+        // Form validation
+        function validateStep(step) {
+            let isValid = true;
+            const panel = document.querySelector(`.wizard-panel[data-panel="${step}"]`);
+            
+            if (step === 1) {
+                if (!document.getElementById('layanan').value) {
+                    isValid = false;
+                    panel.querySelector('.error-message').style.display = 'block';
+                } else {
+                    panel.querySelector('.error-message').style.display = 'none';
+                }
+            } else {
+                const requiredFields = panel.querySelectorAll('[required]');
+                requiredFields.forEach(field => {
+                    if (!validateField(field)) {
+                        isValid = false;
+                    }
+                });
+            }
+            
+            return isValid;
+        }
+        
+        function validateField(field) {
+            const formGroup = field.closest('.form-group') || field.closest('.wizard-panel');
+            let isValid = true;
+            
+            if (field.hasAttribute('required') && !field.value.trim()) {
+                isValid = false;
+            } else if (field.type === 'email' && field.value.trim()) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                isValid = emailRegex.test(field.value);
+            } else if (field.type === 'tel' && field.value.trim()) {
+                const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+                isValid = phoneRegex.test(field.value) && field.value.replace(/\D/g, '').length >= 8;
+            }
+            
+            if (isValid) {
+                field.classList.remove('input-error');
+                const errorMsg = formGroup.querySelector('.error-message');
+                if (errorMsg) errorMsg.style.display = 'none';
+            } else {
+                field.classList.add('input-error');
+                const errorMsg = formGroup.querySelector('.error-message');
+                if (errorMsg) errorMsg.style.display = 'block';
+            }
+            
+            return isValid;
+        }
+        
+        // Update wizard UI
+        function updateWizard() {
+            // Update panels
+            document.querySelectorAll('.wizard-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.querySelector(`.wizard-panel[data-panel="${currentStep}"]`).classList.add('active');
+            
+            // Update steps
+            document.querySelectorAll('.wizard-step').forEach(step => {
+                step.classList.remove('active', 'completed');
+                const stepNum = parseInt(step.dataset.step);
+                if (stepNum === currentStep) {
+                    step.classList.add('active');
+                } else if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            // Update buttons
+            prevBtn.style.display = currentStep === 1 ? 'none' : 'flex';
+            nextBtn.style.display = currentStep === totalSteps ? 'none' : 'flex';
+            submitBtn.style.display = currentStep === totalSteps ? 'flex' : 'none';
+            
+            // Save current step
+            localStorage.setItem('silogCurrentStep', currentStep);
+        }
+        
+        // Navigation
+        nextBtn.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                saveToLocalStorage();
+                currentStep++;
+                updateWizard();
+            }
+        });
+        
+        prevBtn.addEventListener('click', () => {
+            currentStep--;
+            updateWizard();
+        });
+        
+        // Form submission
+        document.getElementById('serviceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateStep(currentStep)) {
+                return;
+            }
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Show loading
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+            submitBtn.disabled = true;
+            
+            // Simulate sending
+            setTimeout(() => {
+                // Clear saved data
+                localStorage.removeItem('silogFormData');
+                localStorage.removeItem('silogCurrentStep');
+                
+                // Show success message
+                document.getElementById('successMessage').style.display = 'block';
+                document.querySelector('.wizard-container').style.display = 'none';
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1500);
+        });
+        
+        // Add input event listeners for real-time validation
+        document.querySelectorAll('input, textarea').forEach(input => {
+            input.addEventListener('blur', () => {
+                validateField(input);
+            });
+            
+            input.addEventListener('input', () => {
+                if (input.classList.contains('input-error')) {
+                    validateField(input);
+                }
+                saveToLocalStorage();
+            });
+        });
+        
+        // Load saved step
+        const savedStep = localStorage.getItem('silogCurrentStep');
+        if (savedStep) {
+            currentStep = parseInt(savedStep);
+        }
+        
+        // Initialize wizard
+        updateWizard();
+    </script>
+</body>
+</html>

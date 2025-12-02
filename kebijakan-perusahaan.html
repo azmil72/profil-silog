@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kebijakan Perusahaan - SILOG</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -17,6 +18,7 @@
             --total-black: #000000;
             --light-grey: #DFDEDE;
             --dark-grey: #5E5E5F;
+            --red-accent: #F5333F;
             --merah-sig: #F5333F;
             --hijau-alam: #92C83E;
             --emas: #BFA01B;
@@ -31,282 +33,337 @@
             overflow-x: hidden;
         }
 
-        /* Hero Section */
-        .hero-section {
-            min-height: 100vh;
-            background: linear-gradient(135deg, var(--merah-sig) 0%, var(--total-black) 100%);
-            position: relative;
+        @font-face {
+            font-family: 'SIG Headline';
+            src: url('font/SIGHeadline-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Headline';
+            src: url('font/SIGHeadline-ExtraBold.ttf') format('truetype');
+            font-weight: 800;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Headline';
+            src: url('font/SIGHeadline-Black.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Text';
+            src: url('font/SIGText-Light.ttf') format('truetype');
+            font-weight: 300;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Text';
+            src: url('font/SIGText-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Text';
+            src: url('font/SIGText-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        /* Custom Fonts */
+        .primary-font {
+            font-family: 'SIG Headline', sans-serif;
+            font-weight: 900;
+        }
+
+        .secondary-font {
+            font-family: 'SIG Text', sans-serif;
+        }
+
+        /* Top Navigation */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--total-black) 0%, #1a1a1a 100%);
+            z-index: 1001;
+            padding: 0.5rem 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 2px solid var(--red-accent);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .top-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.3;
-            animation: float 20s linear infinite;
-        }
-
-        .floating-shape {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            animation: float 6s ease-in-out infinite;
-            transition: all 0.3s ease;
-        }
-
-        .floating-shape:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.2);
-        }
-
-        .shape-1 { 
-            top: 20%; 
-            left: 10%; 
-            width: 80px; 
-            height: 80px; 
-            animation-delay: 0s;
-            background: rgba(245, 51, 63, 0.1);
-        }
-        .shape-2 { 
-            top: 60%; 
-            right: 15%; 
-            width: 120px; 
-            height: 120px; 
-            animation-delay: -2s;
-            background: rgba(191, 160, 27, 0.1);
-        }
-        .shape-3 { 
-            bottom: 20%; 
-            left: 20%; 
-            width: 60px; 
-            height: 60px; 
-            animation-delay: -4s;
-            background: rgba(175, 175, 175, 0.1);
-        }
-        .shape-4 { 
-            top: 40%; 
-            left: 70%; 
-            width: 100px; 
-            height: 100px; 
-            animation-delay: -1s;
-            background: rgba(146, 200, 62, 0.1);
-        }
-        .shape-5 {
-            top: 80%;
-            right: 30%;
-            width: 90px;
-            height: 90px;
-            animation-delay: -3s;
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        @keyframes float {
-            0%, 100% { 
-                transform: translateY(0px) rotate(0deg) scale(1); 
-                opacity: 0.8;
-            }
-            25% { 
-                transform: translateY(-15px) rotate(90deg) scale(1.1); 
-                opacity: 0.6;
-            }
-            50% { 
-                transform: translateY(-30px) rotate(180deg) scale(0.9); 
-                opacity: 1;
-            }
-            75% { 
-                transform: translateY(-15px) rotate(270deg) scale(1.05); 
-                opacity: 0.7;
-            }
-        }
-
-        .hero-content {
-            text-align: center;
-            color: var(--bright-white);
-            z-index: 10;
-            position: relative;
-            max-width: 900px;
+            justify-content: flex-end;
             padding: 0 2rem;
         }
 
-        .hero-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
+        .top-nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .top-nav-link {
+            text-decoration: none;
+            color: var(--bright-white);
+            font-family: 'SIG Text', sans-serif;
+            font-weight: 500;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+            padding: 0.3rem 0.5rem;
+            position: relative;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+
+        .top-nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--red-accent);
+            border-radius: 20px;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .top-nav-link:hover {
+            color: var(--bright-white);
+            transform: translateY(-2px);
+        }
+
+        .top-nav-link:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Main Navigation */
+        .navbar {
+            position: fixed;
+            top: 32px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 3px solid var(--red-accent);
+            box-shadow: 0 8px 32px rgba(245, 51, 63, 0.1);
+        }
+
+        .navbar.scrolled {
+            top: 0;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 8px 32px rgba(245, 51, 63, 0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--total-black);
+            font-family: 'SIG Text', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0.8rem;
+            position: relative;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+
+        .nav-link:hover {
+            color: var(--bright-white);
+            background: var(--red-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.3);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--red-accent);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bright-white);
+            min-width: 250px;
+            box-shadow: 0 15px 40px rgba(245, 51, 63, 0.15);
+            border-radius: 15px;
             opacity: 0;
-            transform: translateY(50px) scale(0.9);
-            animation: heroTitleEnter 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.5s;
-            text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
-            background: linear-gradient(135deg, var(--bright-white), rgba(245, 51, 63, 0.9));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            visibility: hidden;
+            transform: translateY(-15px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--red-accent);
+            overflow: hidden;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: var(--total-black);
+            text-decoration: none;
+            font-family: 'SIG Text', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--red-accent), #ff6b6b);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .dropdown a:hover {
+            color: var(--bright-white);
+            transform: translateX(8px);
+        }
+
+        .dropdown a:hover::before {
+            left: 0;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--total-black);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 60vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+            padding: 0;
+            margin-top: 88px;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+
+        .breadcrumb a {
+            color: var(--dark-grey);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--merah-sig);
+        }
+
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: var(--total-black);
+            line-height: 1.1;
         }
 
         .hero-subtitle {
             font-size: 1.3rem;
-            font-weight: 300;
-            margin-bottom: 2rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: heroSubtitleEnter 1s ease-out forwards 0.8s;
-            text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+            color: var(--dark-grey);
+            font-weight: 400;
             line-height: 1.6;
-        }
-
-        @keyframes heroTitleEnter {
-            from {
-                opacity: 0;
-                transform: translateY(50px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes heroSubtitleEnter {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Floating Elements Animation */
-        .floating-elements {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.1;
-        }
-
-        .floating-icon {
-            position: absolute;
-            font-size: 2rem;
-            animation: floatIcon 8s ease-in-out infinite;
-            color: var(--bright-white);
-        }
-
-        .floating-icon:nth-child(1) {
-            top: 15%;
-            left: 5%;
-            animation-delay: 0s;
-        }
-        .floating-icon:nth-child(2) {
-            top: 25%;
-            right: 10%;
-            animation-delay: -2s;
-        }
-        .floating-icon:nth-child(3) {
-            bottom: 30%;
-            left: 15%;
-            animation-delay: -4s;
-        }
-        .floating-icon:nth-child(4) {
-            bottom: 20%;
-            right: 20%;
-            animation-delay: -1s;
-        }
-        .floating-icon:nth-child(5) {
-            top: 50%;
-            left: 8%;
-            animation-delay: -3s;
-        }
-        .floating-icon:nth-child(6) {
-            top: 70%;
-            right: 25%;
-            animation-delay: -5s;
-        }
-
-        @keyframes floatIcon {
-            0%, 100% { 
-                transform: translateY(0px) rotate(0deg) scale(1); 
-            }
-            33% { 
-                transform: translateY(-20px) rotate(120deg) scale(1.2); 
-            }
-            66% { 
-                transform: translateY(10px) rotate(240deg) scale(0.8); 
-            }
-        }
-
-        /* Particle Effect */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: particleFloat 6s linear infinite;
-        }
-
-        @keyframes particleFloat {
-            0% {
-                opacity: 0;
-                transform: translateY(100vh) scale(0);
-            }
-            10% {
-                opacity: 1;
-                transform: translateY(90vh) scale(1);
-            }
-            90% {
-                opacity: 1;
-                transform: translateY(10vh) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(0vh) scale(0);
-            }
-        }
-
-        /* Pulse Background Effect */
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(245, 51, 63, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse 4s ease-in-out infinite;
-            z-index: 1;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.2);
-                opacity: 0.8;
-            }
         }
 
         /* Introduction Section */
@@ -550,7 +607,43 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 968px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+        }
+
         @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .top-nav-menu {
+                display: none;
+            }
+
+            .top-navbar {
+                display: none;
+            }
+
+            .hero {
+                margin-top: 80px;
+            }
+
+            .navbar {
+                top: 0;
+            }
+
             .hero-title {
                 font-size: 2.5rem;
             }
@@ -577,6 +670,20 @@
             .iso-section {
                 padding: 4rem 1rem;
             }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
         }
 
         /* Scroll Animation */
@@ -590,34 +697,273 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Footer */
+        .footer {
+            background: var(--total-black);
+            color: var(--bright-white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-description {
+            color: var(--light-grey);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--dark-grey);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bright-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--merah-sig);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.4);
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--bright-white);
+            position: relative;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--merah-sig);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-grey);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--merah-sig);
+            padding-left: 10px;
+        }
+
+        .footer-links a::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--merah-sig);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--light-grey);
+            font-size: 0.95rem;
+        }
+
+        .contact-info i {
+            color: var(--merah-sig);
+            font-size: 1.1rem;
+            width: 20px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--dark-grey);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: var(--light-grey);
+            font-size: 0.9rem;
+        }
+
+        .footer-links-bottom {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links-bottom a {
+            color: var(--light-grey);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links-bottom a:hover {
+            color: var(--merah-sig);
+        }
+
+        @media (max-width: 968px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-overlay"></div>
-        <div class="floating-shape shape-1"></div>
-        <div class="floating-shape shape-2"></div>
-        <div class="floating-shape shape-3"></div>
-        <div class="floating-shape shape-4"></div>
-        <div class="floating-shape shape-5"></div>
-        
-        <!-- Floating Icons -->
-        <div class="floating-elements">
-            <div class="floating-icon">📋</div>
-            <div class="floating-icon">⚖️</div>
-            <div class="floating-icon">🏭</div>
-            <div class="floating-icon">🛡️</div>
-            <div class="floating-icon">🌱</div>
-            <div class="floating-icon">🤝</div>
+    <!-- Top Navigation -->
+    <nav class="top-navbar" id="topNavbar">
+        <div class="top-nav-container">
+            <ul class="top-nav-menu">
+                <li><a href="#" class="top-nav-link"><i class="fas fa-shopping-cart"></i> Pengadaan</a></li>
+                <li><a href="karir.html" class="top-nav-link"><i class="fas fa-users"></i> Karir</a></li>
+                <li><a href="jaringan.html" class="top-nav-link"><i class="fas fa-network-wired"></i> Jaringan</a></li>
+                <li><a href="kontak.html" class="top-nav-link"><i class="fas fa-phone"></i> Kontak</a></li>
+            </ul>
         </div>
-        
-        <!-- Particles Container -->
-        <div class="particles" id="particles"></div>
-        
-        <div class="hero-content">
-            <h1 class="hero-title" id="heroTitle">Kebijakan Perusahaan</h1>
-            <p class="hero-subtitle" id="heroSubtitle">Komitmen SILOG dalam governance dan compliance untuk mewujudkan visi perusahaan yang terpercaya, terkemuka dan terluas di Indonesia</p>
+    </nav>
+
+    <!-- Main Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html"><img src="logo.png" alt="SILOG Logo" class="logo"></a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="tentang.html" class="nav-link">Tentang <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="sejarah-profil.html">Profil</a>
+                        <a href="visi-misi.html">Visi & Misi</a>
+                        <a href="kebijakan-perusahaan.html">Kebijakan Perusahaan</a>
+                        <a href="tata-kelola.html">Tata Kelola Perusahaan</a>
+                        <a href="sdm.html">Sumber Daya Manusia</a>
+                        <a href="direksi-komisaris.html">Direksi & Komisaris</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="bisnis.html" class="nav-link">Produk dan Layanan <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="logistik.html">Logistik</a>
+                        <a href="konstruksi.html">Konstruksi</a>
+                        <a href="distribusi.html">Distribusi</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="info.html" class="nav-link">Media & Publikasi <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="info.html#news">Berita</a>
+                        <a href="info.html#gallery">Galeri</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="grub.html" class="nav-link">Grup</a>
+                </li>
+            </ul>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Beranda</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <a href="#">Tentang</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Kebijakan Perusahaan</span>
+                </div>
+                <h1 class="hero-title primary-font">Kebijakan Perusahaan</h1>
+                <p class="hero-subtitle secondary-font">
+                    Komitmen SILOG dalam governance dan compliance untuk mewujudkan visi perusahaan yang terpercaya, terkemuka dan terluas di Indonesia
+                </p>
+            </div>
         </div>
     </section>
 
@@ -762,369 +1108,109 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-logo">SILOG</div>
-            <p>Semen Indonesia Logistik - Komitmen untuk Excellence</p>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="SILOG Logo" class="footer-logo">
+                    <p class="footer-description secondary-font">
+                        Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia. Berpengalaman lebih dari 6 dekade dalam melayani industri nasional.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Bisnis</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="logistik.html">Logistik</a></li>
+                        <li><a href="konstruksi.html">Konstruksi</a></li>
+                        <li><a href="distribusi.html">Distribusi</a></li>
+                        <li><a href="bisnis.html">Semua Bisnis</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Informasi</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="grub.html">Grup</a></li>
+                        <li><a href="info.html">Berita</a></li>
+                        <li><a href="info.html#gallery">Galeri</a></li>
+                        <li><a href="kontak.html">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Jaringan</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="jaringan.html#portfolio">Portofolio</a></li>
+                        <li><a href="jaringan.html#warehouse">Gudang</a></li>
+                        <li><a href="jaringan.html">Semua Jaringan</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Kontak</h4>
+                    <ul class="contact-info secondary-font">
+                        <li><i class="fas fa-phone"></i> +62 21 1234 5678</li>
+                        <li><i class="fas fa-envelope"></i> info@silog.co.id</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright secondary-font">
+                    © 2025 SILOG - Semen Indonesia Logistik. All rights reserved.
+                </div>
+                <div class="footer-links-bottom secondary-font">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#sitemap">Sitemap</a>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Hero content rotation data
-        const heroVariations = [
-            {
-                title: "Kebijakan Perusahaan",
-                subtitle: "Komitmen SILOG dalam governance dan compliance untuk mewujudkan visi perusahaan yang terpercaya, terkemuka dan terluas di Indonesia"
-            },
-            {
-                title: "Sistem Manajemen Terpadu", 
-                subtitle: "Implementasi 6 sistem manajemen ISO untuk menjamin kualitas, keselamatan, dan efisiensi operasional yang berkelanjutan"
-            },
-            {
-                title: "Komitmen Berkelanjutan",
-                subtitle: "Menerapkan praktik bisnis yang bertanggung jawab dengan fokus pada keberlanjutan lingkungan dan kesejahteraan stakeholder"
-            },
-            {
-                title: "Tata Kelola Terpercaya",
-                subtitle: "Membangun kepercayaan melalui transparansi, akuntabilitas, dan praktik tata kelola perusahaan yang excellent"
-            }
-        ];
-
-        let currentVariationIndex = 0;
-        let isChangingContent = false;
-
-        // Dynamic content rotation
-        function rotateHeroContent() {
-            if (isChangingContent) return;
-            isChangingContent = true;
-
-            const title = document.getElementById('heroTitle');
-            const subtitle = document.getElementById('heroSubtitle');
-
-            // Fade out animation
-            title.style.opacity = '0';
-            title.style.transform = 'translateY(30px) scale(0.95)';
-            subtitle.style.opacity = '0';
-            subtitle.style.transform = 'translateY(20px)';
-
-            setTimeout(() => {
-                currentVariationIndex = (currentVariationIndex + 1) % heroVariations.length;
-                const variation = heroVariations[currentVariationIndex];
-
-                title.textContent = variation.title;
-                subtitle.textContent = variation.subtitle;
-
-                // Fade in animation
-                setTimeout(() => {
-                    title.style.opacity = '1';
-                    title.style.transform = 'translateY(0) scale(1)';
-                    subtitle.style.opacity = '1';
-                    subtitle.style.transform = 'translateY(0)';
-                    isChangingContent = false;
-                }, 200);
-            }, 600);
-        }
-
-        // Auto-rotate content every 6 seconds
-        setInterval(rotateHeroContent, 6000);
-
-        // Create floating particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 15;
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (4 + Math.random() * 4) + 's';
-                
-                // Different particle colors
-                const colors = [
-                    'rgba(245, 51, 63, 0.6)',
-                    'rgba(255, 255, 255, 0.6)',
-                    'rgba(191, 160, 27, 0.4)',
-                    'rgba(175, 175, 175, 0.5)'
-                ];
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                
-                particlesContainer.appendChild(particle);
-            }
-        }
-
-        // Interactive floating shapes
-        function initFloatingShapes() {
-            const shapes = document.querySelectorAll('.floating-shape');
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const topNavbar = document.getElementById('topNavbar');
             
-            shapes.forEach((shape, index) => {
-                // Add click interaction
-                shape.addEventListener('click', () => {
-                    shape.style.animation = 'none';
-                    setTimeout(() => {
-                        shape.style.animation = '';
-                    }, 100);
-                    
-                    // Create ripple effect
-                    const ripple = document.createElement('div');
-                    ripple.style.cssText = `
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        width: 20px;
-                        height: 20px;
-                        background: rgba(255, 255, 255, 0.3);
-                        border-radius: 50%;
-                        transform: translate(-50%, -50%) scale(0);
-                        animation: shapeRipple 0.8s ease-out forwards;
-                        pointer-events: none;
-                    `;
-                    shape.appendChild(ripple);
-                    
-                    setTimeout(() => ripple.remove(), 800);
-                });
-                
-                // Mouse follow effect
-                shape.addEventListener('mouseenter', () => {
-                    shape.style.transform = 'scale(1.3) rotate(180deg)';
-                    shape.style.background = 'rgba(245, 51, 63, 0.2)';
-                });
-                
-                shape.addEventListener('mouseleave', () => {
-                    shape.style.transform = '';
-                    shape.style.background = '';
-                });
-            });
-        }
-
-        // Mouse parallax effect
-        function initMouseParallax() {
-            const heroSection = document.querySelector('.hero-section');
-            const shapes = document.querySelectorAll('.floating-shape');
-            const icons = document.querySelectorAll('.floating-icon');
-            
-            heroSection.addEventListener('mousemove', (e) => {
-                const rect = heroSection.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const deltaX = (x - centerX) / centerX;
-                const deltaY = (y - centerY) / centerY;
-                
-                shapes.forEach((shape, index) => {
-                    const intensity = (index + 1) * 10;
-                    const translateX = deltaX * intensity;
-                    const translateY = deltaY * intensity;
-                    shape.style.transform += ` translate(${translateX}px, ${translateY}px)`;
-                });
-                
-                icons.forEach((icon, index) => {
-                    const intensity = (index + 1) * 5;
-                    const translateX = deltaX * intensity;
-                    const translateY = deltaY * intensity;
-                    icon.style.transform += ` translate(${translateX}px, ${translateY}px)`;
-                });
-            });
-        }
-
-        // Scroll-based animations
-        function initScrollAnimations() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        
-                        // Staggered animation for policy cards
-                        if (entry.target.classList.contains('policy-card')) {
-                            const cards = document.querySelectorAll('.policy-card');
-                            cards.forEach((card, index) => {
-                                setTimeout(() => {
-                                    card.style.transform = 'translateY(0)';
-                                    card.style.opacity = '1';
-                                }, index * 150);
-                            });
-                        }
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll('.scroll-fade, .policy-card').forEach(el => {
-                observer.observe(el);
-            });
-        }
-
-        // Ripple animation keyframes
-        const rippleKeyframes = `
-            @keyframes shapeRipple {
-                0% {
-                    transform: translate(-50%, -50%) scale(0);
-                    opacity: 1;
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+                if (topNavbar) {
+                    topNavbar.style.transform = 'translateY(-100%)';
                 }
-                100% {
-                    transform: translate(-50%, -50%) scale(10);
-                    opacity: 0;
+            } else {
+                navbar.classList.remove('scrolled');
+                if (topNavbar) {
+                    topNavbar.style.transform = 'translateY(0)';
                 }
             }
-            
-            @keyframes cardSlideUp {
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-        `;
-        
-        // Add keyframes to document
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = rippleKeyframes;
-        document.head.appendChild(styleSheet);
-
-        // Enhanced ISO badges interaction
-        function initISOBadgesAnimation() {
-            const badges = document.querySelectorAll('.iso-badge');
-            
-            badges.forEach((badge, index) => {
-                // Staggered entrance animation
-                badge.style.opacity = '0';
-                badge.style.transform = 'translateY(30px) rotateY(90deg)';
-                badge.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-                
-                setTimeout(() => {
-                    badge.style.opacity = '1';
-                    badge.style.transform = 'translateY(0) rotateY(0)';
-                }, 200 + (index * 150));
-                
-                // Interactive hover effects
-                badge.addEventListener('mouseenter', function() {
-                    this.style.transform = 'scale(1.05) rotateY(10deg)';
-                    this.style.boxShadow = '0 20px 50px rgba(245, 51, 63, 0.3)';
-                });
-                
-                badge.addEventListener('mouseleave', function() {
-                    this.style.transform = 'scale(1) rotateY(0)';
-                    this.style.boxShadow = '';
-                });
-            });
-        }
-
-        // Enhanced policy cards interaction
-        function initPolicyCardsAnimation() {
-            const cards = document.querySelectorAll('.policy-card');
-            
-            cards.forEach((card, index) => {
-                // Hover sound simulation with visual feedback
-                card.addEventListener('mouseenter', function() {
-                    // Create a subtle pulse effect
-                    const pulse = document.createElement('div');
-                    pulse.style.cssText = `
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        background: radial-gradient(circle, rgba(245, 51, 63, 0.1) 0%, transparent 70%);
-                        border-radius: 16px;
-                        animation: cardPulse 0.6s ease-out;
-                        pointer-events: none;
-                        z-index: -1;
-                    `;
-                    this.appendChild(pulse);
-                    
-                    setTimeout(() => pulse.remove(), 600);
-                });
-                
-                // Click interaction for policy cards
-                card.addEventListener('click', function() {
-                    // Temporary highlight effect
-                    const originalBg = this.style.background;
-                    this.style.background = 'linear-gradient(135deg, rgba(245, 51, 63, 0.05), var(--bright-white))';
-                    
-                    setTimeout(() => {
-                        this.style.background = originalBg;
-                    }, 300);
-                });
-            });
-        }
-
-        // Add card pulse animation
-        const cardPulseKeyframes = `
-            @keyframes cardPulse {
-                0% {
-                    opacity: 0;
-                    transform: scale(0.8);
-                }
-                50% {
-                    opacity: 0.8;
-                    transform: scale(1.1);
-                }
-                100% {
-                    opacity: 0;
-                    transform: scale(1.3);
-                }
-            }
-        `;
-        
-        const cardStyleSheet = document.createElement('style');
-        cardStyleSheet.textContent = cardPulseKeyframes;
-        document.head.appendChild(cardStyleSheet);
-
-        // Initialize all interactions
-        document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
-            initFloatingShapes();
-            initMouseParallax();
-            initScrollAnimations();
-            
-            // Delay initialization of complex animations
-            setTimeout(() => {
-                initISOBadgesAnimation();
-                initPolicyCardsAnimation();
-            }, 1000);
         });
 
-        // Performance optimization: Throttle mouse events
-        function throttle(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
+        // Scroll-based animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-        // Apply throttling to mouse events
-        window.addEventListener('resize', throttle(() => {
-            // Recalculate positions if needed
-            location.reload();
-        }, 500));
-
-        // Smooth scrolling enhancement
-        document.documentElement.style.scrollBehavior = 'smooth';
-        
-        // Add loading completion trigger
-        window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
-            
-            // Trigger hero animations after load
-            setTimeout(() => {
-                const heroTitle = document.getElementById('heroTitle');
-                const heroSubtitle = document.getElementById('heroSubtitle');
-                
-                if (heroTitle && heroSubtitle) {
-                    heroTitle.style.opacity = '1';
-                    heroTitle.style.transform = 'translateY(0) scale(1)';
-                    heroSubtitle.style.opacity = '1';
-                    heroSubtitle.style.transform = 'translateY(0)';
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
-            }, 500);
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-fade').forEach(el => {
+            observer.observe(el);
         });
     </script>
 </body>

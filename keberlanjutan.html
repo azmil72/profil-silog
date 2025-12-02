@@ -1,0 +1,2322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keberlanjutan - SILOG - Semen Indonesia Logistik</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'SIG Headline';
+            src: url('font/SIGHeadline-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Headline';
+            src: url('font/SIGHeadline-ExtraBold.ttf') format('truetype');
+            font-weight: 800;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Headline';
+            src: url('font/SIGHeadline-Black.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Text';
+            src: url('font/SIGText-Light.ttf') format('truetype');
+            font-weight: 300;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Text';
+            src: url('font/SIGText-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SIG Text';
+            src: url('font/SIGText-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bright-white: #FFFFFF;
+            --total-black: #000000;
+            --light-grey: #DFDEDE;
+            --dark-grey: #5E5E5F;
+            --red-accent: #F5333F;
+            --green-accent: #2E8B57;
+            --gradient-primary: linear-gradient(135deg, #F5333F 0%, #FF6B6B 100%);
+            --gradient-green: linear-gradient(135deg, #2E8B57 0%, #3CB371 100%);
+            --gradient-secondary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'SIG Text', Arial, sans-serif;
+            background: var(--bright-white);
+            color: var(--total-black);
+            overflow-x: hidden;
+        }
+
+        /* Custom Fonts */
+        .primary-font {
+            font-family: 'SIG Headline', sans-serif;
+            font-weight: 900;
+        }
+
+        .secondary-font {
+            font-family: 'SIG Text', sans-serif;
+        }
+
+        /* Top Navigation */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--total-black) 0%, #1a1a1a 100%);
+            z-index: 1001;
+            padding: 0.5rem 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 2px solid var(--red-accent);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .top-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 2rem;
+        }
+
+        .top-nav-logo {
+            height: 30px;
+            transition: transform 0.3s ease;
+            filter: brightness(0) invert(1);
+        }
+
+        .top-nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .top-nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .top-nav-link {
+            text-decoration: none;
+            color: var(--bright-white);
+            font-family: 'SIG Text', sans-serif;
+            font-weight: 500;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+            padding: 0.3rem 0.5rem;
+            position: relative;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+
+        .top-nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--red-accent);
+            border-radius: 20px;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .top-nav-link:hover {
+            color: var(--bright-white);
+            transform: translateY(-2px);
+        }
+
+        .top-nav-link:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Main Navigation */
+        .navbar {
+            position: fixed;
+            top: 32px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 3px solid var(--red-accent);
+            box-shadow: 0 8px 32px rgba(245, 51, 63, 0.1);
+        }
+
+        .navbar.scrolled {
+            top: 0;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 8px 32px rgba(245, 51, 63, 0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--total-black);
+            font-family: 'SIG Text', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0.8rem;
+            position: relative;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+
+        .nav-link:hover {
+            color: var(--bright-white);
+            background: var(--red-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 51, 63, 0.3);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--red-accent);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bright-white);
+            min-width: 250px;
+            box-shadow: 0 15px 40px rgba(245, 51, 63, 0.15);
+            border-radius: 15px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-15px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--red-accent);
+            overflow: hidden;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: var(--total-black);
+            text-decoration: none;
+            font-family: 'SIG Text', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(223, 222, 222, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--red-accent), #ff6b6b);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .dropdown a:hover {
+            color: var(--bright-white);
+            transform: translateX(8px);
+        }
+
+        .dropdown a:hover::before {
+            left: 0;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--total-black);
+            cursor: pointer;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--dark-grey);
+        }
+
+        .breadcrumb a {
+            color: var(--dark-grey);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--red-accent);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 0.8rem;
+            color: var(--dark-grey);
+            font-weight: 400;
+        }
+
+        .breadcrumb span:last-child {
+            color: var(--green-accent);
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 70vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(46, 139, 87, 0.05), rgba(0, 0, 0, 0.02));
+            padding: 0;
+            margin-top: 88px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(46, 139, 87, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 4rem;
+            padding: 0 2rem;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            padding: 3rem 0;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .hero-image {
+            height: 450px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(46, 139, 87, 0.2);
+            animation: slideInRight 1s ease-out;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .hero-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(46, 139, 87, 0.1), rgba(0, 0, 0, 0.1));
+            z-index: 1;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: var(--total-black);
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--total-black), var(--green-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            color: var(--dark-grey);
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: var(--gradient-green);
+            color: var(--bright-white);
+            padding: 1.3rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(46, 139, 87, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(46, 139, 87, 0.4);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--green-accent);
+            border: 2px solid var(--green-accent);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--green-accent);
+            color: var(--bright-white);
+        }
+
+        /* Vision Mission Section */
+        .vision-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--green-accent);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--dark-grey);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .vision-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .vision-card {
+            background: linear-gradient(135deg, rgba(46, 139, 87, 0.05), rgba(255, 255, 255, 0.8));
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-left: 4px solid var(--green-accent);
+        }
+
+        .vision-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .vision-icon {
+            font-size: 3rem;
+            color: var(--green-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .vision-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+        }
+
+        .vision-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* Programs Section */
+        .programs-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--light-grey) 0%, var(--bright-white) 100%);
+            margin-top: 2rem;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .program-card {
+            background: var(--bright-white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .program-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .program-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .program-card:hover .program-image img {
+            transform: scale(1.05);
+        }
+
+        .program-content {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .program-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+        }
+
+        .program-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .program-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-grey);
+        }
+
+        .program-stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--green-accent);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--dark-grey);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 4rem 0;
+            background: var(--gradient-green);
+            color: var(--bright-white);
+            margin-top: 2rem;
+        }
+
+        .stats-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--bright-white);
+        }
+
+        .stats-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Environmental Initiatives Section */
+        .environment-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+            margin-top: 2rem;
+        }
+
+        .initiatives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .initiative-card {
+            background: var(--bright-white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 1px solid var(--light-grey);
+        }
+
+        .initiative-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .initiative-header {
+            background: var(--gradient-green);
+            padding: 1.5rem;
+            color: var(--bright-white);
+            text-align: center;
+        }
+
+        .initiative-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .initiative-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .initiative-content {
+            padding: 2rem;
+        }
+
+        .initiative-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .initiative-features {
+            list-style: none;
+        }
+
+        .initiative-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--light-grey);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .initiative-features li:last-child {
+            border-bottom: none;
+        }
+
+        .initiative-features li i {
+            color: var(--green-accent);
+        }
+
+        /* Social Impact Section */
+        .social-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(245, 51, 63, 0.05), rgba(0, 0, 0, 0.02));
+            margin-top: 2rem;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .social-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .social-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--total-black);
+        }
+
+        .social-description {
+            color: var(--dark-grey);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .social-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .social-list li {
+            padding: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .social-list li i {
+            color: var(--red-accent);
+            font-size: 1.2rem;
+        }
+
+        .social-image {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-heavy);
+            height: 400px;
+        }
+
+        .social-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .social-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Partnership Section */
+        .partnership-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+            margin-top: 2rem;
+        }
+
+        .partnership-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .partner-card {
+            background: var(--bright-white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid var(--light-grey);
+        }
+
+        .partner-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .partner-logo {
+            height: 80px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .partner-logo img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            filter: grayscale(100%);
+            transition: all 0.3s ease;
+        }
+
+        .partner-card:hover .partner-logo img {
+            filter: grayscale(0%);
+        }
+
+        .partner-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--total-black);
+        }
+
+        .partner-description {
+            color: var(--dark-grey);
+            font-size: 0.9rem;
+        }
+
+        /* Form Section */
+        .form-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(46, 139, 87, 0.05), rgba(0, 0, 0, 0.02));
+            margin-top: 2rem;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bright-white);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--total-black);
+            text-align: center;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            color: var(--dark-grey);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--total-black);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--light-grey);
+            border-radius: 10px;
+            font-family: 'SIG Text', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--green-accent);
+            box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-button {
+            background: var(--gradient-green);
+            color: var(--bright-white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 2rem auto 0;
+            box-shadow: 0 8px 25px rgba(46, 139, 87, 0.3);
+        }
+
+        .form-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(46, 139, 87, 0.4);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 0;
+            background: var(--bright-white);
+            margin-top: 2rem;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+
+        .faq-question {
+            background: var(--bright-white);
+            padding: 1.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--total-black);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(46, 139, 87, 0.05);
+        }
+
+        .faq-question.active {
+            background: var(--gradient-green);
+            color: var(--bright-white);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: var(--bright-white);
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem;
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-item.active .faq-answer-content {
+            padding: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--total-black);
+            color: var(--bright-white);
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-description {
+            color: var(--light-grey);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--dark-grey);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bright-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--green-accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 139, 87, 0.4);
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--bright-white);
+            position: relative;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--green-accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-grey);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--green-accent);
+            padding-left: 10px;
+        }
+
+        .footer-links a::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--green-accent);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--light-grey);
+            font-size: 0.95rem;
+        }
+
+        .contact-info i {
+            color: var(--green-accent);
+            font-size: 1.1rem;
+            width: 20px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--dark-grey);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: var(--light-grey);
+            font-size: 0.9rem;
+        }
+
+        .footer-links-bottom {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links-bottom a {
+            color: var(--light-grey);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links-bottom a:hover {
+            color: var(--green-accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container {
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-image {
+                height: 300px;
+            }
+
+            .vision-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .top-nav-menu {
+                display: none;
+            }
+
+            .top-navbar {
+                display: none;
+            }
+
+            .hero {
+                margin-top: 80px;
+            }
+
+            .navbar {
+                top: 0;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .hero-container {
+                padding: 0 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bright-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--light-grey);
+            border-top: 3px solid var(--green-accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--total-black);
+            color: var(--bright-white);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow-heavy);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            max-width: 300px;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            color: var(--light-grey);
+        }
+
+        .notification-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--light-grey);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div style="text-align: center;">
+            <img src="logo.png" alt="SILOG" style="height: 80px; margin-bottom: 2rem;">
+            <div class="loader"></div>
+            <p style="margin-top: 1rem; color: var(--dark-grey); font-size: 0.9rem;">Memuat halaman keberlanjutan...</p>
+        </div>
+    </div>
+
+    <!-- Top Navigation -->
+    <nav class="top-navbar" id="topNavbar">
+        <div class="top-nav-container">
+            <ul class="top-nav-menu">
+                <li><a href="pengadaan.html" class="top-nav-link"><i class="fas fa-shopping-cart"></i> Pengadaan</a></li>
+                <li><a href="#" class="top-nav-link"><i class="fas fa-leaf"></i> Keberlanjutan</a></li>
+                <li><a href="karir.html" class="top-nav-link"><i class="fas fa-users"></i> Karir</a></li>
+                <li><a href="jaringan.html" class="top-nav-link"><i class="fas fa-network-wired"></i> Jaringan</a></li>
+                <li><a href="kontak.html" class="top-nav-link"><i class="fas fa-phone"></i> Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <img src="logo.png" alt="SILOG Logo" class="logo">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a href="tentang.html" class="nav-link">Tentang <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="sejarah-profil.html">Profil</a>
+                        <a href="visi-misi.html">Visi & Misi</a>
+                        <a href="kebijakan-perusahaan.html">Kebijakan Perusahaan</a>
+                        <a href="tata-kelola.html">Tata Kelola Perusahaan</a>
+                        <a href="sdm.html">Sumber Daya Manusia</a>
+                        <a href="direksi-komisaris.html">Direksi & Komisaris</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="bisnis.html" class="nav-link">Produk dan Layanan <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="logistik.html">Logistik</a>
+                        <a href="konstruksi.html">Konstruksi</a>
+                        <a href="distribusi.html">Distribusi</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="info.html" class="nav-link">Media & Publikasi <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="info.html#news">Berita</a>
+                        <a href="info.html#gallery">Galeri</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="grub.html" class="nav-link">Grup</a>
+                </li>
+            </ul>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Beranda</a>
+                    <span class="breadcrumb-separator">></span>
+                    <span>Keberlanjutan</span>
+                </div>
+                <h1 class="hero-title primary-font">Keberlanjutan SILOG</h1>
+                <p class="hero-subtitle secondary-font">Komitmen kami untuk menciptakan dampak positif bagi lingkungan, sosial, dan ekonomi melalui praktik bisnis yang bertanggung jawab.</p>
+                <div class="hero-buttons">
+                    <a href="#programs" class="cta-button secondary-font">
+                        <i class="fas fa-seedling"></i>
+                        Program Kami
+                    </a>
+                    <a href="#form" class="cta-button secondary secondary-font">
+                        <i class="fas fa-handshake"></i>
+                        Jadi Mitra
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=600&fit=crop" alt="Keberlanjutan SILOG">
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision Mission Section -->
+    <section class="vision-section" id="vision">
+        <div class="container">
+            <h2 class="section-title fade-in">Visi & Misi Keberlanjutan</h2>
+            <p class="section-subtitle fade-in">Pandangan dan komitmen kami dalam menciptakan masa depan yang berkelanjutan</p>
+            
+            <div class="vision-grid">
+                <div class="vision-card fade-in">
+                    <div class="vision-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="vision-title">Visi Kami</h3>
+                    <p class="vision-description">Menjadi perusahaan logistik terdepan yang mengintegrasikan keberlanjutan dalam setiap aspek operasional, menciptakan nilai bagi pemangku kepentingan dan memberikan kontribusi positif bagi masyarakat dan lingkungan.</p>
+                </div>
+                
+                <div class="vision-card fade-in">
+                    <div class="vision-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="vision-title">Misi Kami</h3>
+                    <p class="vision-description">Mengurangi jejak karbon melalui inovasi teknologi dan operasional yang efisien, memberdayakan komunitas lokal melalui program pemberdayaan UMKM, dan menciptakan ekosistem bisnis yang inklusif dan berkelanjutan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="programs-section" id="programs">
+        <div class="container">
+            <h2 class="section-title fade-in">Program Keberlanjutan</h2>
+            <p class="section-subtitle fade-in">Berbagai program yang kami jalankan untuk mewujudkan komitmen keberlanjutan</p>
+            
+            <div class="programs-grid">
+                <div class="program-card fade-in">
+                    <div class="program-image">
+                        <img src="https://images.unsplash.com/photo-1593941707882-a523ba983b21?w=800&h=400&fit=crop" alt="Program Energi Terbarukan">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">Energi Terbarukan</h3>
+                        <p class="program-description">Implementasi panel surya di fasilitas kami dan penggunaan kendaraan listrik untuk operasional logistik guna mengurangi emisi karbon.</p>
+                        <div class="program-stats">
+                            <div class="program-stat">
+                                <div class="stat-number">40%</div>
+                                <div class="stat-label">Pengurangan Emisi</div>
+                            </div>
+                            <div class="program-stat">
+                                <div class="stat-number">25</div>
+                                <div class="stat-label">Lokasi Panel Surya</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="program-card fade-in">
+                    <div class="program-image">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=400&fit=crop" alt="Program Pengelolaan Limbah">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">Pengelolaan Limbah</h3>
+                        <p class="program-description">Program daur ulang dan pengelolaan limbah yang bertanggung jawab untuk meminimalkan dampak negatif terhadap lingkungan.</p>
+                        <div class="program-stats">
+                            <div class="program-stat">
+                                <div class="stat-number">85%</div>
+                                <div class="stat-label">Tingkat Daur Ulang</div>
+                            </div>
+                            <div class="program-stat">
+                                <div class="stat-number">12</div>
+                                <div class="stat-label">Pusat Daur Ulang</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="program-card fade-in">
+                    <div class="program-image">
+                        <img src="https://images.unsplash.com/photo-1559027615-cd781b0100e5?w=800&h=400&fit=crop" alt="Program Pemberdayaan UMKM">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">Pemberdayaan UMKM</h3>
+                        <p class="program-description">Program kemitraan dengan UMKM lokal untuk menciptakan rantai pasok yang inklusif dan berkelanjutan.</p>
+                        <div class="program-stats">
+                            <div class="program-stat">
+                                <div class="stat-number">500+</div>
+                                <div class="stat-label">UMMK Mitra</div>
+                            </div>
+                            <div class="program-stat">
+                                <div class="stat-number">24</div>
+                                <div class="stat-label">Kota Terjangkau</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section" id="stats">
+        <div class="container">
+            <h2 class="stats-title fade-in">Dampak Keberlanjutan Kami</h2>
+            <p class="stats-subtitle fade-in">Pencapaian kami dalam menciptakan perubahan positif bagi lingkungan dan masyarakat</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="stat-number">12K</div>
+                    <div class="stat-label">Ton CO2 Terhindar</div>
+                </div>
+                
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <div class="stat-number">85%</div>
+                    <div class="stat-label">Material Daur Ulang</div>
+                </div>
+                
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number">5K+</div>
+                    <div class="stat-label">Masyarakat Terbantu</div>
+                </div>
+                
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Mitra UMKM</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Environmental Initiatives Section -->
+    <section class="environment-section" id="environment">
+        <div class="container">
+            <h2 class="section-title fade-in">Inisiatif Lingkungan</h2>
+            <p class="section-subtitle fade-in">Langkah konkret kami dalam menjaga kelestarian lingkungan</p>
+            
+            <div class="initiatives-grid">
+                <div class="initiative-card fade-in">
+                    <div class="initiative-header">
+                        <div class="initiative-icon">
+                            <i class="fas fa-solar-panel"></i>
+                        </div>
+                        <h3 class="initiative-title">Energi Bersih</h3>
+                    </div>
+                    <div class="initiative-content">
+                        <p class="initiative-description">Pemanfaatan energi terbarukan untuk operasional perusahaan dan rantai pasok.</p>
+                        <ul class="initiative-features">
+                            <li><i class="fas fa-check"></i> Panel surya di gudang dan kantor</li>
+                            <li><i class="fas fa-check"></i> Kendaraan listrik untuk distribusi</li>
+                            <li><i class="fas fa-check"></i> Audit energi secara berkala</li>
+                            <li><i class="fas fa-check"></i> Sistem manajemen energi ISO 50001</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="initiative-card fade-in">
+                    <div class="initiative-header">
+                        <div class="initiative-icon">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <h3 class="initiative-title">Konservasi Air</h3>
+                    </div>
+                    <div class="initiative-content">
+                        <p class="initiative-description">Program penghematan dan pengelolaan air yang berkelanjutan.</p>
+                        <ul class="initiative-features">
+                            <li><i class="fas fa-check"></i> Sistem daur ulang air hujan</li>
+                            <li><i class="fas fa-check"></i> Teknologi hemat air di fasilitas</li>
+                            <li><i class="fas fa-check"></i> Program edukasi konservasi air</li>
+                            <li><i class="fas fa-check"></i> Pemantauan konsumsi air real-time</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="initiative-card fade-in">
+                    <div class="initiative-header">
+                        <div class="initiative-icon">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <h3 class="initiative-title">Reboisasi</h3>
+                    </div>
+                    <div class="initiative-content">
+                        <p class="initiative-description">Program penanaman pohon untuk meningkatkan biodiversitas dan menyerap karbon.</p>
+                        <ul class="initiative-features">
+                            <li><i class="fas fa-check"></i> 10.000 pohon ditanam setiap tahun</li>
+                            <li><i class="fas fa-check"></i> Kebun bibit di 15 lokasi</li>
+                            <li><i class="fas fa-check"></i> Program adopsi hutan</li>
+                            <li><i class="fas fa-check"></i> Keterlibatan komunitas lokal</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Impact Section -->
+    <section class="social-section" id="social">
+        <div class="container">
+            <h2 class="section-title fade-in">Dampak Sosial</h2>
+            <p class="section-subtitle fade-in">Kontribusi kami dalam pembangunan masyarakat yang berkelanjutan</p>
+            
+            <div class="social-grid">
+                <div class="social-content fade-in">
+                    <h3 class="social-title">Pemberdayaan Komunitas</h3>
+                    <p class="social-description">Kami berkomitmen untuk menciptakan dampak sosial yang positif melalui berbagai program pemberdayaan masyarakat di sekitar area operasional kami.</p>
+                    
+                    <ul class="social-list">
+                        <li><i class="fas fa-graduation-cap"></i> Program beasiswa untuk 1.000 siswa</li>
+                        <li><i class="fas fa-hands-helping"></i> Pelatihan keterampilan untuk 500 orang</li>
+                        <li><i class="fas fa-heartbeat"></i> Layanan kesehatan untuk 25 desa</li>
+                        <li><i class="fas fa-home"></i> Pembangunan fasilitas umum</li>
+                        <li><i class="fas fa-utensils"></i> Program penanganan gizi buruk</li>
+                    </ul>
+                    
+                    <a href="#form" class="cta-button secondary-font">
+                        <i class="fas fa-handshake"></i>
+                        Jadi Relawan
+                    </a>
+                </div>
+                
+                <div class="social-image fade-in">
+                    <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&h=600&fit=crop" alt="Dampak Sosial SILOG">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partnership Section -->
+    <section class="partnership-section" id="partnership">
+        <div class="container">
+            <h2 class="section-title fade-in">Kemitraan Keberlanjutan</h2>
+            <p class="section-subtitle fade-in">Kolaborasi dengan berbagai pihak untuk menciptakan dampak yang lebih besar</p>
+            
+            <div class="partnership-grid">
+                <div class="partner-card fade-in">
+                    <div class="partner-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/WWF_logo.svg/1200px-WWF_logo.svg.png" alt="WWF">
+                    </div>
+                    <h3 class="partner-name">WWF Indonesia</h3>
+                    <p class="partner-description">Kolaborasi dalam program konservasi alam dan pelestarian biodiversitas.</p>
+                </div>
+                
+                <div class="partner-card fade-in">
+                    <div class="partner-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/UN_Logo.png/1200px-UN_Logo.png" alt="UNDP">
+                    </div>
+                    <h3 class="partner-name">UNDP Indonesia</h3>
+                    <p class="partner-description">Program pengembangan masyarakat dan pencapaian SDGs.</p>
+                </div>
+                
+                <div class="partner-card fade-in">
+                    <div class="partner-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/TNC_logo.svg/1200px-TNC_logo.svg.png" alt="The Nature Conservancy">
+                    </div>
+                    <h3 class="partner-name">The Nature Conservancy</h3>
+                    <p class="partner-description">Inisiatif perlindungan ekosistem dan pengelolaan sumber daya alam.</p>
+                </div>
+                
+                <div class="partner-card fade-in">
+                    <div class="partner-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Greenpeace_logo.svg/1200px-Greenpeace_logo.svg.png" alt="Greenpeace">
+                    </div>
+                    <h3 class="partner-name">Greenpeace Indonesia</h3>
+                    <p class="partner-description">Kampanye lingkungan dan advokasi kebijakan berkelanjutan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section" id="form">
+        <div class="container">
+            <div class="form-container">
+                <h2 class="form-title primary-font">Formulir Kemitraan Keberlanjutan</h2>
+                <p class="form-subtitle secondary-font">Isi formulir berikut untuk menjadi mitra dalam program keberlanjutan SILOG</p>
+                
+                <form id="partnershipForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="organizationName">Nama Organisasi</label>
+                            <input type="text" id="organizationName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="contactPerson">Nama Kontak</label>
+                            <input type="text" id="contactPerson" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" id="email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Nomor Telepon</label>
+                            <input type="tel" id="phone" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="partnershipType">Jenis Kemitraan</label>
+                        <select id="partnershipType" class="form-select" required>
+                            <option value="">Pilih Jenis Kemitraan</option>
+                            <option value="environmental">Inisiatif Lingkungan</option>
+                            <option value="social">Program Sosial</option>
+                            <option value="education">Pendidikan & Pelatihan</option>
+                            <option value="research">Penelitian & Inovasi</option>
+                            <option value="funding">Pendanaan</option>
+                            <option value="other">Lainnya</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="proposal">Ringkasan Proposal</label>
+                        <textarea id="proposal" class="form-textarea" placeholder="Jelaskan secara singkat proposal kemitraan yang Anda tawarkan" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="expectedImpact">Dampak yang Diharapkan</label>
+                        <textarea id="expectedImpact" class="form-textarea" placeholder="Jelaskan dampak positif yang diharapkan dari kemitraan ini" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="form-button">Kirim Proposal</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section-title fade-in">Pertanyaan Umum</h2>
+            <p class="section-subtitle fade-in">Temukan jawaban untuk pertanyaan yang sering diajukan tentang program keberlanjutan SILOG</p>
+            
+            <div class="faq-container">
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Apa fokus utama program keberlanjutan SILOG?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Fokus utama program keberlanjutan SILOG meliputi tiga pilar utama: lingkungan (pengurangan emisi karbon, pengelolaan limbah, dan konservasi sumber daya), sosial (pemberdayaan masyarakat dan UMKM), serta tata kelola (praktik bisnis yang etis dan transparan).
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Bagaimana cara berpartisipasi dalam program keberlanjutan SILOG?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Anda dapat berpartisipasi dalam program keberlanjutan SILOG dengan mengisi formulir kemitraan yang tersedia di halaman ini. Kami terbuka untuk berbagai bentuk kolaborasi, baik sebagai mitra UMKM, relawan, maupun lembaga yang ingin menjalin kemitraan strategis.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Apa pencapaian terbesar SILOG dalam program keberlanjutan?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Pencapaian terbesar kami adalah pengurangan emisi karbon sebesar 40% melalui implementasi energi terbarukan dan efisiensi operasional, serta pemberdayaan lebih dari 500 UMKM lokal yang kini menjadi bagian dari rantai pasok kami.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Bagaimana SILOG mengukur dampak program keberlanjutan?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Kami menggunakan berbagai metrik untuk mengukur dampak program keberlanjutan, termasuk pengukuran emisi karbon, tingkat daur ulang material, jumlah UMKM yang diberdayakan, serta indeks kepuasan masyarakat. Semua metrik ini dilaporkan secara transparan dalam laporan keberlanjutan tahunan kami.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Apakah SILOG memiliki sertifikasi keberlanjutan?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Ya, SILOG telah memiliki beberapa sertifikasi keberlanjutan internasional, antara lain ISO 14001 untuk sistem manajemen lingkungan, ISO 50001 untuk sistem manajemen energi, serta sertifikasi PROPER Hijau dari Kementerian Lingkungan Hidup dan Kehutanan.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="SILOG Logo" class="footer-logo">
+                    <p class="footer-description secondary-font">
+                        Solusi terpercaya untuk kebutuhan logistik, konstruksi, dan distribusi di seluruh Indonesia. Berpengalaman lebih dari 6 dekade dalam melayani industri nasional dengan komitmen keberlanjutan.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Bisnis</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="logistik.html">Logistik</a></li>
+                        <li><a href="konstruksi.html">Konstruksi</a></li>
+                        <li><a href="distribusi.html">Distribusi</a></li>
+                        <li><a href="bisnis.html">Semua Bisnis</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Informasi</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="grub.html">Grup</a></li>
+                        <li><a href="info.html">Berita</a></li>
+                        <li><a href="info.html#gallery">Galeri</a></li>
+                        <li><a href="kontak.html">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Jaringan</h4>
+                    <ul class="footer-links secondary-font">
+                        <li><a href="jaringan.html#portfolio">Portofolio</a></li>
+                        <li><a href="jaringan.html#warehouse">Gudang</a></li>
+                        <li><a href="jaringan.html">Semua Jaringan</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="primary-font">Kontak</h4>
+                    <ul class="contact-info secondary-font">
+                        <li><i class="fas fa-phone"></i> +62 21 1234 5678</li>
+                        <li><i class="fas fa-envelope"></i> info@silog.co.id</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Raya Logistik No. 123<br>Jakarta Selatan 12345</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright secondary-font">
+                    © 2025 SILOG - Semen Indonesia Logistik. All rights reserved.
+                </div>
+                <div class="footer-links-bottom secondary-font">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#sitemap">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <button class="notification-close" onclick="closeNotification()">&times;</button>
+        <div class="notification-title">Proposal Terkirim!</div>
+        <div class="notification-message">Terima kasih telah mengirim proposal kemitraan. Tim kami akan menghubungi Anda segera.</div>
+    </div>
+
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const topNavbar = document.getElementById('topNavbar');
+            
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+                topNavbar.style.transform = 'translateY(-100%)';
+            } else {
+                navbar.classList.remove('scrolled');
+                topNavbar.style.transform = 'translateY(0)';
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('partnershipForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show notification
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            
+            // Reset form
+            this.reset();
+            
+            // Hide notification after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        });
+
+        // Close notification
+        function closeNotification() {
+            document.getElementById('notification').classList.remove('show');
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animation elements
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add staggered animation for program cards
+        document.querySelectorAll('.program-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 200 + (index * 150));
+        });
+
+        // Add staggered animation for stat cards
+        document.querySelectorAll('.stat-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 200 + (index * 150));
+        });
+
+        // Add staggered animation for initiative cards
+        document.querySelectorAll('.initiative-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 200 + (index * 150));
+        });
+
+        // Add staggered animation for partner cards
+        document.querySelectorAll('.partner-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 200 + (index * 150));
+        });
+
+        // Add hover effects for cards
+        document.querySelectorAll('.program-card, .initiative-card, .partner-card, .vision-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = this.style.transform + ' scale(1.02)';
+                this.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = this.style.transform.replace(' scale(1.02)', '');
+                this.style.zIndex = '1';
+            });
+        });
+
+        // Add interactive cursor
+        const cursor = document.createElement('div');
+        cursor.style.cssText = `
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--green-accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            mix-blend-mode: multiply;
+        `;
+        document.body.appendChild(cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.opacity = '0.8';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        // Add hover effects for interactive elements
+        document.querySelectorAll('a, button, .card').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.opacity = '0.6';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.opacity = '0.8';
+            });
+        });
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.form-button, .cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    background-color: rgba(255, 255, 255, 0.3);
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                `;
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple animation
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            .form-button, .cta-button {
+                position: relative;
+                overflow: hidden;
+            }
+        `;
+        document.head.appendChild(rippleStyle);
+    </script>
+</body>
+</html>
